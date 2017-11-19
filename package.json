@@ -19,6 +19,7 @@
     "mocha": "^4.0.1"
   },
   "dependencies": {
-    "moment-timezone": "^0.5.14"
+    "moment-timezone": "^0.5.14",
+    "yargs": "^10.0.3"
   }
 }
