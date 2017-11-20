@@ -4,12 +4,24 @@
   "description": "Plan get-togethers with chatops",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "lint": "standard",
+    "test": "npm run lint && mocha"
   },
   "keywords": [
     "hubot",
     "events"
   ],
   "author": "Ash Wilson <smashwilson@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "hubot-test-helper": "^1.8.1",
+    "mocha": "^4.0.1",
+    "standard": "^10.0.3"
+  },
+  "dependencies": {
+    "moment-timezone": "^0.5.14",
+    "yargs": "^10.0.3"
+  }
 }
