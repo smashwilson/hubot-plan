@@ -181,4 +181,21 @@ describe('Event', function () {
       })
     })
   })
+
+  describe('asAttachment', function () {
+    let evt
+
+    beforeEach(function () {
+      evt = new Event('BBB', "Party at Frey's House")
+    })
+
+    it('always includes the title and proposed dates', function () {
+      const a = evt.asAttachment()
+
+      assert.equal(a.fallback, "BBB: Party at Frey's House")
+      assert.equal(a.title, "BBB :calendar: Party at Frey's House")
+      assert.deepEqual(a.fields, [{title: 'Proposed Dates', value: '_none yet_'}])
+      assert.deepEqual(a.mrkdwn_in, ['fields'])
+    })
+  })
 })
