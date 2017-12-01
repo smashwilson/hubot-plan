@@ -14,7 +14,7 @@ describe('Event', function () {
     let evt
 
     beforeEach(function () {
-      evt = new Event("Party at Frey's House")
+      evt = new Event('AAA', "Party at Frey's House")
       evt.proposeDate(tomorrow)
     })
 
@@ -120,7 +120,7 @@ describe('Event', function () {
     let evt
 
     beforeEach(function () {
-      evt = new Event("Party at Frey's House")
+      evt = new Event('BBB', "Party at Frey's House")
       evt.proposeDate(tomorrow)
       evt.proposeDate(nextWeek)
       evt.proposeDate(nextMonth)

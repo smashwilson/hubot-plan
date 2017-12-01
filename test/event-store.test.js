@@ -3,7 +3,6 @@
 const assert = require('chai').assert
 
 const {EventStore} = require('../lib/event-store')
-const {Event} = require('../lib/event')
 
 describe('EventStore', function () {
   let store
@@ -13,16 +12,14 @@ describe('EventStore', function () {
   })
 
   it('assigns each event a unique ID on insertion', function () {
-    const e = new Event('A')
-    const id = store.insert(e)
-    assert.isDefined(id)
-    assert.match(id, /[A-Z0-9]{8}/)
+    const e = store.create('A')
+    assert.equal(e.getName(), 'A')
+    assert.match(e.getID(), /[A-Z0-9]{8}/)
   })
 
   it('accesses events by ID', function () {
-    const e = new Event('B')
-    const id = store.insert(e)
-    const out = store.lookup(id)
+    const e = store.create('B')
+    const out = store.lookup(e.getID())
     assert.equal(out.getName(), 'B')
   })
 
