@@ -15,15 +15,14 @@ describe('event create', function () {
   })
 
   it('creates an event with a name', async function () {
-    await bot.say('me', 'event create --name "Wizard People" --id ABC')
+    await bot.say('me', 'hubot: event create --name "Wizard People" --id ABC')
     assert.deepEqual(bot.response(), {
       text: 'The event "Wizard People" has been created with id *ABC*.',
       attachments: [{
         fallback: 'ABC: Wizard People',
-        title: 'Wizard People _ABC_',
-        fields: [
-          { title: 'Proposed Dates', value: '_none yet_' }
-        ]
+        title: 'ABC :calendar: Wizard People',
+        fields: [{title: 'Proposed Dates', value: '_none yet_'}],
+        mrkdwn_in: ['fields']
       }]
     })
   })
