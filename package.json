@@ -2,7 +2,7 @@
   "name": "hubot-events",
   "version": "1.0.0",
   "description": "Plan get-togethers with chatops",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "lint": "standard",
     "test": "npm run lint && mocha"
