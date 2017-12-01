@@ -12,13 +12,18 @@ describe('EventStore', function () {
   })
 
   it('assigns each event a unique ID on insertion', function () {
-    const e = store.create('A')
+    const e = store.create(null, 'A')
     assert.equal(e.getName(), 'A')
     assert.match(e.getID(), /[A-Z0-9]{8}/)
   })
 
+  it('optionally specifies a fixed ID', function () {
+    const e = store.create('123', 'A')
+    assert.equal(e.getID(), '123')
+  })
+
   it('accesses events by ID', function () {
-    const e = store.create('B')
+    const e = store.create(null, 'B')
     const out = store.lookup(e.getID())
     assert.equal(out.getName(), 'B')
   })
