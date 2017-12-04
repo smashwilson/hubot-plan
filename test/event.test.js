@@ -6,6 +6,8 @@ const moment = require('moment-timezone')
 const {Event} = require('../lib/event')
 
 describe('Event', function () {
+  const now = moment.tz('2017-11-18', moment.ISO_8601, 'America/New_York')
+
   const tomorrow = moment.tz('2017-11-19', moment.ISO_8601, 'America/New_York')
   const nextWeek = moment.tz('2017-11-25', moment.ISO_8601, 'America/New_York')
   const nextMonth = moment.tz('2017-12-16', moment.ISO_8601, 'America/New_York')
@@ -189,13 +191,24 @@ describe('Event', function () {
       evt = new Event('BBB', "Party at Frey's House")
     })
 
-    it('always includes the title and proposed dates', function () {
-      const a = evt.asAttachment()
+    it('always includes the title and empty proposed dates field', function () {
+      const a = evt.asAttachment(now)
 
       assert.equal(a.fallback, "BBB: Party at Frey's House")
       assert.equal(a.title, "BBB :calendar: Party at Frey's House")
       assert.deepEqual(a.fields, [{title: 'Proposed Dates', value: '_none yet_'}])
       assert.deepEqual(a.mrkdwn_in, ['fields'])
+    })
+
+    it('lists proposed dates', function () {
+      evt.proposeDate(tomorrow)
+      evt.proposeDate(nextWeek)
+
+      const a = evt.asAttachment(now)
+      assert.deepEqual(a.fields, [{
+        title: 'Proposed Dates',
+        value: '[0] 19 November 2017 _in a day_\n[1] 25 November 2017 _in 7 days_'
+      }])
     })
   })
 })
