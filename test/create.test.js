@@ -74,6 +74,27 @@ describe('event create', function () {
     })
   })
 
-  it('adds initial invitees')
+  it('adds initial invitees', async function () {
+    bot.createUser('U111', 'me')
+    bot.createUser('U222', 'you')
+
+    await bot.say('me',
+      'hubot: event create --name "Foo" --id CBA --invite @you --invite me --invite unknown'
+    )
+
+    assert.deepEqual(bot.response(), {
+      text: 'The event "Foo" has been created with id *CBA*.',
+      attachments: [{
+        fallback: 'CBA: Foo',
+        title: 'CBA :calendar: Foo',
+        fields: [
+          {title: 'Proposed Dates', value: '_none yet_'},
+          {title: 'Invited', value: ':white_square: <@U222> | :white_square: <@U111> | :white_square: unknown'}
+        ],
+        mrkdwn_in: ['fields']
+      }]
+    })
+  })
+
   it('creates an immediately finalized event')
 })
