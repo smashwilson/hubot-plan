@@ -239,7 +239,7 @@ describe('Event', function () {
             '[1] 25 November 2017 _in 7 days_ :medal: x1'
         },
         {
-          title: 'Invited',
+          title: 'Who',
           value:
             ':white_square: <@U123> | :white_square_button: <@U456> | ' +
             ':white_square_button: <@U789> | :white_square_button: <@U111>'
