@@ -10,6 +10,10 @@ class BotContext {
     this.room.robot[nowFn] = userTz => moment.tz('2017-11-18', moment.ISO_8601, true, userTz)
   }
 
+  createUser (uid, username) {
+    this.room.robot.brain.userForId(uid, {name: username})
+  }
+
   say (uid, message) {
     return this.room.user.say(uid, message)
   }
