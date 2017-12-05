@@ -210,5 +210,41 @@ describe('Event', function () {
         value: '[0] 19 November 2017 _in a day_\n[1] 25 November 2017 _in 7 days_'
       }])
     })
+
+    it('lists attendees and current response status', function () {
+      evt.proposeDate(tomorrow)
+      evt.proposeDate(nextWeek)
+
+      // U123 has not responded yet
+      evt.invite('<@U123>')
+
+      // U456 can make tomorrow
+      evt.invite('<@U456>')
+      evt.acceptProposal('<@U456>', 0)
+
+      // U789 can't make it
+      evt.invite('<@U789>')
+      evt.rejectProposal('<@U789>', 0)
+      evt.rejectProposal('<@U789>', 1)
+
+      // U111 can make it, but wasn't on the initial invite list
+      evt.acceptProposal('<@U111>', 1)
+
+      const a = evt.asAttachment(now)
+      assert.deepEqual(a.fields, [
+        {
+          title: 'Proposed Dates',
+          value:
+            '[0] 19 November 2017 _in a day_ :medal: x1\n' +
+            '[1] 25 November 2017 _in 7 days_ :medal: x1'
+        },
+        {
+          title: 'Invited',
+          value:
+            ':white_square: <@U123> | :white_square_button: <@U456> | ' +
+            ':white_square_button: <@U789> | :white_square_button: <@U111>'
+        }
+      ])
+    })
   })
 })
