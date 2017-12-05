@@ -36,7 +36,7 @@ describe('event create', function () {
         title: 'ABC :calendar: Wizard People',
         fields: [{
           title: 'Proposed Dates',
-          value: '[0] 10 December 2017 _in 5 days_\n[1] 11 December 2017 _in 6 days_'
+          value: '[0] 10 December 2017 _in 22 days_\n[1] 11 December 2017 _in 23 days_'
         }],
         mrkdwn_in: ['fields']
       }]
