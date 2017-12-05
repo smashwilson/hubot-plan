@@ -89,12 +89,28 @@ describe('event create', function () {
         title: 'CBA :calendar: Foo',
         fields: [
           {title: 'Proposed Dates', value: '_none yet_'},
-          {title: 'Invited', value: ':white_square: <@U222> | :white_square: <@U111> | :white_square: unknown'}
+          {title: 'Who', value: ':white_square: <@U222> | :white_square: <@U111> | :white_square: unknown'}
         ],
         mrkdwn_in: ['fields']
       }]
     })
   })
 
-  it('creates an immediately finalized event')
+  it('creates an immediately finalized event', async function () {
+    bot.createUser('U1', 'you')
+
+    await bot.say('me', 'hubot: event create --name "Bar" --id XYZ --at 2017-11-19 --invite you')
+    assert.deepEqual(bot.response(), {
+      text: 'The event "Bar" has been created with id *XYZ*.',
+      attachments: [{
+        fallback: 'XYZ: Bar',
+        title: 'XYZ :calendar: Bar',
+        fields: [
+          {title: 'When', value: '19 November 2017 _in a day_'},
+          {title: 'Who', value: ':grey_question: <@U1>'}
+        ],
+        mrkdwn_in: ['fields']
+      }]
+    })
+  })
 })
