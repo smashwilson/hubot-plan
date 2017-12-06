@@ -4,10 +4,16 @@ const moment = require('moment-timezone')
 const helper = new Helper('../lib/index.js')
 const {nowFn} = require('../lib/symbols')
 
+const now = moment.tz('2017-11-18', moment.ISO_8601, 'America/New_York')
+
+const tomorrow = moment.tz('2017-11-19', moment.ISO_8601, 'America/New_York')
+const nextWeek = moment.tz('2017-11-25', moment.ISO_8601, 'America/New_York')
+const nextMonth = moment.tz('2017-12-16', moment.ISO_8601, 'America/New_York')
+
 class BotContext {
   constructor () {
     this.room = helper.createRoom({httpd: false})
-    this.room.robot[nowFn] = userTz => moment.tz('2017-11-18', moment.ISO_8601, true, userTz)
+    this.room.robot[nowFn] = userTz => now.clone().tz(userTz)
   }
 
   createUser (uid, username) {
@@ -29,4 +35,7 @@ class BotContext {
   }
 }
 
-module.exports = {BotContext}
+module.exports = {
+  BotContext,
+  ts: {now, tomorrow, nextWeek, nextMonth}
+}

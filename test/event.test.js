@@ -1,40 +1,34 @@
 /* eslint-env mocha */
 
 const assert = require('chai').assert
-const moment = require('moment-timezone')
 
+const {ts} = require('./bot-context')
 const {Event} = require('../lib/event')
 
 describe('Event', function () {
-  const now = moment.tz('2017-11-18', moment.ISO_8601, 'America/New_York')
-
-  const tomorrow = moment.tz('2017-11-19', moment.ISO_8601, 'America/New_York')
-  const nextWeek = moment.tz('2017-11-25', moment.ISO_8601, 'America/New_York')
-  const nextMonth = moment.tz('2017-12-16', moment.ISO_8601, 'America/New_York')
-
   describe('in the proposed state', function () {
     let evt
 
     beforeEach(function () {
       evt = new Event('AAA', "Party at Frey's House")
-      evt.proposeDate(tomorrow)
+      evt.proposeDate(ts.tomorrow)
     })
 
     it('adds proposed dates', function () {
-      evt.proposeDate(nextWeek)
+      evt.proposeDate(ts.nextWeek)
 
       assert.deepEqual(evt.proposalKeys(), [0, 1])
-      assert.equal(evt.proposal(0).date(), tomorrow)
-      assert.equal(evt.proposal(1).date(), nextWeek)
+      assert.equal(evt.proposal(0).date(), ts.tomorrow)
+      assert.equal(evt.proposal(1).date(), ts.nextWeek)
     })
 
     it('removes proposed dates', function () {
-      evt.proposeDate(nextMonth)
+      evt.proposeDate(ts.nextMonth)
 
       evt.unpropose(0)
 
       assert.deepEqual(evt.proposalKeys(), [1])
-      assert.equal(evt.proposal(1).date(), nextMonth)
+      assert.equal(evt.proposal(1).date(), ts.nextMonth)
       assert.throws(() => evt.proposal(0), 'Invalid proposed date')
     })
 
@@ -60,16 +54,16 @@ describe('Event', function () {
       evt.invite('fenris')
       evt.invite('reostra')
 
-      evt.proposeDate(nextWeek)
-      evt.proposeDate(nextMonth)
+      evt.proposeDate(ts.nextWeek)
+      evt.proposeDate(ts.nextMonth)
 
-      assert.equal(evt.proposal(0).date(), tomorrow)
+      assert.equal(evt.proposal(0).date(), ts.tomorrow)
       assert.equal(evt.proposal(0).yesCount(), 0)
       assert.isFalse(evt.proposal(0).isLeading())
-      assert.equal(evt.proposal(1).date(), nextWeek)
+      assert.equal(evt.proposal(1).date(), ts.nextWeek)
       assert.equal(evt.proposal(1).yesCount(), 0)
       assert.isFalse(evt.proposal(1).isLeading())
-      assert.equal(evt.proposal(2).date(), nextMonth)
+      assert.equal(evt.proposal(2).date(), ts.nextMonth)
       assert.equal(evt.proposal(2).yesCount(), 0)
       assert.isFalse(evt.proposal(2).isLeading())
 
@@ -80,13 +74,13 @@ describe('Event', function () {
       evt.acceptProposal('reostra', 1)
       evt.acceptProposal('reostra', 2)
 
-      assert.equal(evt.proposal(0).date(), tomorrow)
+      assert.equal(evt.proposal(0).date(), ts.tomorrow)
       assert.equal(evt.proposal(0).yesCount(), 3)
       assert.isTrue(evt.proposal(0).isLeading())
-      assert.equal(evt.proposal(1).date(), nextWeek)
+      assert.equal(evt.proposal(1).date(), ts.nextWeek)
       assert.equal(evt.proposal(1).yesCount(), 2)
       assert.isFalse(evt.proposal(1).isLeading())
-      assert.equal(evt.proposal(2).date(), nextMonth)
+      assert.equal(evt.proposal(2).date(), ts.nextMonth)
       assert.equal(evt.proposal(2).yesCount(), 1)
       assert.isFalse(evt.proposal(2).isLeading())
     })
@@ -97,8 +91,8 @@ describe('Event', function () {
         evt.invite('fenris')
         evt.invite('reostra')
 
-        evt.proposeDate(nextWeek)
-        evt.proposeDate(nextMonth)
+        evt.proposeDate(ts.nextWeek)
+        evt.proposeDate(ts.nextMonth)
 
         evt.acceptProposal('frey', 0)
         evt.acceptProposal('fenris', 0)
@@ -123,9 +117,9 @@ describe('Event', function () {
 
     beforeEach(function () {
       evt = new Event('BBB', "Party at Frey's House")
-      evt.proposeDate(tomorrow)
-      evt.proposeDate(nextWeek)
-      evt.proposeDate(nextMonth)
+      evt.proposeDate(ts.tomorrow)
+      evt.proposeDate(ts.nextWeek)
+      evt.proposeDate(ts.nextMonth)
       evt.invite('frey')
       evt.invite('fenris')
 
@@ -192,7 +186,7 @@ describe('Event', function () {
     })
 
     it('always includes the title and empty proposed dates field', function () {
-      const a = evt.asAttachment(now)
+      const a = evt.asAttachment(ts.now)
 
       assert.equal(a.fallback, "BBB: Party at Frey's House")
       assert.equal(a.title, "BBB :calendar: Party at Frey's House")
@@ -201,10 +195,10 @@ describe('Event', function () {
     })
 
     it('lists proposed dates', function () {
-      evt.proposeDate(tomorrow)
-      evt.proposeDate(nextWeek)
+      evt.proposeDate(ts.tomorrow)
+      evt.proposeDate(ts.nextWeek)
 
-      const a = evt.asAttachment(now)
+      const a = evt.asAttachment(ts.now)
       assert.deepEqual(a.fields, [{
         title: 'Proposed Dates',
         value: '[0] 19 November 2017 _in a day_\n[1] 25 November 2017 _in 7 days_'
@@ -212,8 +206,8 @@ describe('Event', function () {
     })
 
     it('lists attendees and current response status', function () {
-      evt.proposeDate(tomorrow)
-      evt.proposeDate(nextWeek)
+      evt.proposeDate(ts.tomorrow)
+      evt.proposeDate(ts.nextWeek)
 
       // U123 has not responded yet
       evt.invite('<@U123>')
@@ -230,7 +224,7 @@ describe('Event', function () {
       // U111 can make it, but wasn't on the initial invite list
       evt.acceptProposal('<@U111>', 1)
 
-      const a = evt.asAttachment(now)
+      const a = evt.asAttachment(ts.now)
       assert.deepEqual(a.fields, [
         {
           title: 'Proposed Dates',
@@ -251,8 +245,8 @@ describe('Event', function () {
   it('serializes and deserializes itself', function () {
     const evt0 = new Event('BBB', "Party at Frey's House")
 
-    evt0.proposeDate(tomorrow)
-    evt0.proposeDate(nextWeek)
+    evt0.proposeDate(ts.tomorrow)
+    evt0.proposeDate(ts.nextWeek)
     evt0.invite('<@U123>')
     evt0.invite('<@U456>')
     evt0.acceptProposal('<@U456>', 0)
@@ -266,8 +260,8 @@ describe('Event', function () {
 
     assert.equal(evt1.getName(), "Party at Frey's House")
     assert.deepEqual(evt1.proposalKeys(), [0, 1])
-    assert.equal(evt1.proposal(0).date().valueOf(), tomorrow.valueOf())
-    assert.equal(evt1.proposal(1).date().valueOf(), nextWeek.valueOf())
+    assert.equal(evt1.proposal(0).date().valueOf(), ts.tomorrow.valueOf())
+    assert.equal(evt1.proposal(1).date().valueOf(), ts.nextWeek.valueOf())
     assert.deepEqual(evt1.getInvitees(), ['<@U123>', '<@U456>', '<@U789>', '<@U111>'])
   })
 })
