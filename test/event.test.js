@@ -247,4 +247,27 @@ describe('Event', function () {
       ])
     })
   })
+
+  it('serializes and deserializes itself', function () {
+    const evt0 = new Event('BBB', "Party at Frey's House")
+
+    evt0.proposeDate(tomorrow)
+    evt0.proposeDate(nextWeek)
+    evt0.invite('<@U123>')
+    evt0.invite('<@U456>')
+    evt0.acceptProposal('<@U456>', 0)
+    evt0.invite('<@U789>')
+    evt0.rejectProposal('<@U789>', 0)
+    evt0.rejectProposal('<@U789>', 1)
+    evt0.acceptProposal('<@U111>', 1)
+
+    const payload = evt0.serialize()
+    const evt1 = Event.deserialize(payload)
+
+    assert.equal(evt1.getName(), "Party at Frey's House")
+    assert.deepEqual(evt1.proposalKeys(), [0, 1])
+    assert.equal(evt1.proposal(0).date().valueOf(), tomorrow.valueOf())
+    assert.equal(evt1.proposal(1).date().valueOf(), nextWeek.valueOf())
+    assert.deepEqual(evt1.getInvitees(), ['<@U123>', '<@U456>', '<@U789>', '<@U111>'])
+  })
 })
