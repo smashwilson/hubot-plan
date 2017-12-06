@@ -31,4 +31,21 @@ describe('EventStore', function () {
   it('throws an error for invalid IDs', function () {
     assert.throws(() => store.lookup('NOPENO00'), 'Invalid event ID')
   })
+
+  it('serializes and deserializes itself', function () {
+    store.create('111', 'A')
+    store.create('222', 'B')
+    store.create('333', 'C')
+
+    const payload = store.serialize()
+    const store1 = EventStore.deserialize(payload)
+
+    const a1 = store1.lookup('111')
+    const b1 = store1.lookup('222')
+    const c1 = store1.lookup('333')
+
+    assert.equal(a1.getName(), 'A')
+    assert.equal(b1.getName(), 'B')
+    assert.equal(c1.getName(), 'C')
+  })
 })
