@@ -8,6 +8,9 @@ describe('event edit', function () {
 
   beforeEach(async function () {
     bot = new BotContext()
+    bot.createUser('U0', 'me')
+    bot.createUser('U1', 'you')
+    bot.createUser('U2', 'fakey')
 
     await bot.withStore(store => {
       const e = store.create('AAA111', 'Something Cool')
@@ -68,7 +71,7 @@ describe('event edit', function () {
   })
 
   it('invites someone new', async function () {
-    await bot.say('me', 'hubot: event AAA111 --invite <@U2>')
+    await bot.say('me', 'hubot: event AAA111 --invite @fakey')
     assert.deepEqual(bot.response(), {
       attachments: [{
         fallback: 'AAA111: Something Cool',
@@ -89,7 +92,7 @@ describe('event edit', function () {
   })
 
   it('uninvites someone', async function () {
-    await bot.say('me', 'hubot: event AAA111 --uninvite <@U0>')
+    await bot.say('me', 'hubot: event AAA111 --uninvite @me')
     assert.deepEqual(bot.response(), {
       attachments: [{
         fallback: 'AAA111: Something Cool',
@@ -134,11 +137,35 @@ describe('event edit', function () {
     })
   })
 
-  it('confirms proposed dates')
+  it('confirms proposed dates', async function () {
+    await bot.say('me', 'hubot: event AAA111 --yes 0')
+    assert.equal(
+      bot.response(),
+      'You have confirmed that you would be able to attend "Something Cool" on *19 November 2017*.'
+    )
+  })
 
-  it('rejects proposed dates')
+  it('rejects proposed dates', async function () {
+    await bot.say('me', 'hubot: event AAA111 --no 1')
+    assert.equal(
+      bot.response(),
+      'You have confirmed that you would not be able to attend "Something Cool" on *25 November 2017*.'
+    )
+  })
 
-  it('confirms proposed dates on behalf of someone else')
+  it('confirms proposed dates on behalf of someone else', async function () {
+    await bot.say('me', 'hubot: event AAA111 --for @you --yes 1')
+    assert.equal(
+      bot.response(),
+      'You have confirmed that <@U1> would be able to attend "Something Cool" on *25 November 2017*.'
+    )
+  })
 
-  it('rejects proposed dates on behalf of someone else')
+  it('rejects proposed dates on behalf of someone else', async function () {
+    await bot.say('me', 'hubot: event AAA111 --for @you --no 1')
+    assert.equal(
+      bot.response(),
+      'You have confirmed that <@U1> would not be able to attend "Something Cool" on *25 November 2017*.'
+    )
+  })
 })
