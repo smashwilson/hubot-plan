@@ -46,11 +46,70 @@ describe('event edit', function () {
     })
   })
 
-  it('removes a proposed date from an event')
+  it('removes a proposed date from an event', async function () {
+    await bot.say('me', 'hubot: event AAA111 --unpropose 0')
+    assert.deepEqual(bot.response(), {
+      attachments: [{
+        fallback: 'AAA111: Something Cool',
+        title: 'AAA111 :calendar: Something Cool',
+        fields: [
+          {
+            title: 'Proposed Dates',
+            value: '[1] 25 November 2017 _in 7 days_'
+          },
+          {
+            title: 'Who',
+            value: ':white_square: <@U0> | :white_square: <@U1>'
+          }
+        ],
+        mrkdwn_in: ['fields']
+      }]
+    })
+  })
 
-  it('invites someone new')
+  it('invites someone new', async function () {
+    await bot.say('me', 'hubot: event AAA111 --invite <@U2>')
+    assert.deepEqual(bot.response(), {
+      attachments: [{
+        fallback: 'AAA111: Something Cool',
+        title: 'AAA111 :calendar: Something Cool',
+        fields: [
+          {
+            title: 'Proposed Dates',
+            value: '[0] 19 November 2017 _in a day_\n[1] 25 November 2017 _in 7 days_'
+          },
+          {
+            title: 'Who',
+            value: ':white_square: <@U0> | :white_square: <@U1> | :white_square: <@U2>'
+          }
+        ],
+        mrkdwn_in: ['fields']
+      }]
+    })
+  })
 
-  it('uninvites someone')
+  it('uninvites someone', async function () {
+    await bot.say('me', 'hubot: event AAA111 --uninvite <@U0>')
+    assert.deepEqual(bot.response(), {
+      attachments: [{
+        fallback: 'AAA111: Something Cool',
+        title: 'AAA111 :calendar: Something Cool',
+        fields: [
+          {
+            title: 'Proposed Dates',
+            value:
+              '[0] 19 November 2017 _in a day_\n' +
+              '[1] 25 November 2017 _in 7 days_'
+          },
+          {
+            title: 'Who',
+            value: ':white_square: <@U1>'
+          }
+        ],
+        mrkdwn_in: ['fields']
+      }]
+    })
+  })
 
   it('changes its name')
 
