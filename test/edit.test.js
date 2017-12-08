@@ -111,7 +111,28 @@ describe('event edit', function () {
     })
   })
 
-  it('changes its name')
+  it('changes its name', async function () {
+    await bot.say('me', 'hubot: event AAA111 --name "Something Less Cool"')
+    assert.deepEqual(bot.response(), {
+      attachments: [{
+        fallback: 'AAA111: Something Less Cool',
+        title: 'AAA111 :calendar: Something Less Cool',
+        fields: [
+          {
+            title: 'Proposed Dates',
+            value:
+              '[0] 19 November 2017 _in a day_\n' +
+              '[1] 25 November 2017 _in 7 days_'
+          },
+          {
+            title: 'Who',
+            value: ':white_square: <@U0> | :white_square: <@U1>'
+          }
+        ],
+        mrkdwn_in: ['fields']
+      }]
+    })
+  })
 
   it('confirms proposed dates')
 
