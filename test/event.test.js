@@ -153,28 +153,12 @@ describe('Event', function () {
       assert.isTrue(evt.finalProposal().isAttending('reostra'))
     })
 
-    describe('changing the finalized date', function () {
-      it('resets invitee confirmation', function () {
-        evt.finalProposal().yes('fenris')
-        evt.finalProposal().yes('reostra')
+    it('cannot be re-finalized', function () {
+      assert.throws(() => evt.finalize(1), /Event already finalized/)
+    })
 
-        evt.finalize(1)
-
-        assert.isFalse(evt.finalProposal().isAttending('frey'))
-        assert.isFalse(evt.finalProposal().isAttending('fenris'))
-        assert.isFalse(evt.finalProposal().isAttending('reostra'))
-      })
-
-      it('respects original proposal responses', function () {
-        evt.finalProposal().yes('reostra')
-        evt.finalProposal().yes('frey')
-
-        evt.finalize(2)
-
-        assert.isFalse(evt.finalProposal().isAttending('frey'))
-        assert.isTrue(evt.finalProposal().isAttending('fenris'))
-        assert.isFalse(evt.finalProposal().isAttending('reostra'))
-      })
+    it('cannot have additional dates proposed', function () {
+      assert.throws(() => evt.proposeDate(ts.nextWeek), /Event already finalized/)
     })
   })
 
