@@ -205,4 +205,95 @@ describe('event edit', function () {
       'You have confirmed that <@U1> would not be able to attend "Something Cool" on *25 November 2017*.'
     )
   })
+
+  it('finalizes an unfinalized event', async function () {
+    await bot.say('me', 'hubot: event AAA111 --finalize 0')
+    assert.deepEqual(bot.response(), {
+      attachments: [{
+        fallback: 'AAA111: Something Cool',
+        title: 'AAA111 :calendar: Something Cool',
+        fields: [
+          {
+            title: 'When',
+            value: '19 November 2017 _in a day_'
+          },
+          {
+            title: 'Who',
+            value: ':grey_question: <@U0> | :grey_question: <@U1>'
+          }
+        ],
+        mrkdwn_in: ['fields']
+      }]
+    })
+  })
+
+  describe('on a finalized event', function () {
+    beforeEach(async function () {
+      await bot.withStore(store => {
+        const e = store.lookup('AAA111')
+        e.finalize(1)
+      })
+    })
+
+    it('confirms attendance', async function () {
+      await bot.say('me', 'hubot: event AAA111 --yes')
+      assert.equal(
+        bot.response(),
+        'You have confirmed that you will be able to attend "Something Cool" on *25 November 2017*.'
+      )
+    })
+
+    it('rejects attendance', async function () {
+      await bot.say('me', 'hubot: event AAA111 --no')
+      assert.equal(
+        bot.response(),
+        'You have confirmed that you will not be able to attend "Something Cool" on *25 November 2017*.'
+      )
+    })
+
+    it('confirms on behalf of someone else', async function () {
+      await bot.say('me', 'hubot: event AAA111 --for you --yes')
+      assert.equal(
+        bot.response(),
+        'You have confirmed that <@U1> will be able to attend "Something Cool" on *25 November 2017*.'
+      )
+    })
+
+    it('rejects on behalf of someone else', async function () {
+      await bot.say('me', 'hubot: event AAA111 --for you --no')
+      assert.equal(
+        bot.response(),
+        'You have confirmed that <@U1> will not be able to attend "Something Cool" on *25 November 2017*.'
+      )
+    })
+
+    it('cannot be re-finalized without being unfinalized first', async function () {
+      await bot.say('me', 'hubot: event AAA111 --finalize 0')
+      assert.equal(bot.response(), ':rotating_light: Event AAA111 has already had a final date chosen.')
+    })
+
+    it('may be unfinalized', async function () {
+      await bot.say('me', 'hubot: event AAA111 --unfinalize')
+      assert.deepEqual(bot.response(), {
+        text: 'The event "Something Cool" may now have its final date reassigned.',
+        attachments: [{
+          fallback: 'AAA111: Something Cool',
+          title: 'AAA111 :calendar: Something Cool',
+          fields: [
+            {
+              title: 'Proposed Dates',
+              value:
+                '[0] 19 November 2017 _in a day_\n' +
+                '[1] 25 November 2017 _in 7 days_'
+            },
+            {
+              title: 'Who',
+              value: ':white_square: <@U0> | :white_square: <@U1>'
+            }
+          ],
+          mrkdwn_in: ['fields']
+        }]
+      })
+    })
+  })
 })
