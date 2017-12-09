@@ -168,11 +168,25 @@ describe('event edit', function () {
     )
   })
 
+  it('complains if the proposed date index is omitted', async function () {
+    await bot.say('me', 'hubot: event AAA111 --yes')
+    assert.equal(bot.response(), ':rotating_light: Event AAA111 has not had a final date chosen yet.')
+  })
+
   it('rejects proposed dates', async function () {
     await bot.say('me', 'hubot: event AAA111 --no 1')
     assert.equal(
       bot.response(),
       'You have confirmed that you would not be able to attend "Something Cool" on *25 November 2017*.'
+    )
+  })
+
+  it('rejects all proposed dates at once', async function () {
+    await bot.say('me', 'hubot: event AAA111 --no')
+    assert.equal(
+      bot.response(),
+      'You have confirmed that you would not be able to attend "Something Cool"' +
+      ' on *19 November 2017* or *25 November 2017*.'
     )
   })
 
