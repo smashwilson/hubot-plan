@@ -25,6 +25,29 @@ describe('event edit', function () {
     bot.cleanup()
   })
 
+  it('shows the current state of the event', async function () {
+    await bot.say('me', 'hubot: event AAA111')
+    assert.deepEqual(bot.response(), {
+      attachments: [{
+        fallback: 'AAA111: Something Cool',
+        title: 'AAA111 :calendar: Something Cool',
+        fields: [
+          {
+            title: 'Proposed Dates',
+            value:
+              '[0] 19 November 2017 _in a day_\n' +
+              '[1] 25 November 2017 _in 7 days_'
+          },
+          {
+            title: 'Who',
+            value: ':white_square: <@U0> | :white_square: <@U1>'
+          }
+        ],
+        mrkdwn_in: ['fields']
+      }]
+    })
+  })
+
   it('adds a new proposed date to an event', async function () {
     await bot.say('me', 'hubot: event AAA111 --propose 2017-11-20')
     assert.deepEqual(bot.response(), {
