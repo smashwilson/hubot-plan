@@ -32,6 +32,19 @@ describe('EventStore', function () {
     assert.throws(() => store.lookup('NOPENO00'), 'Invalid event ID')
   })
 
+  it('deletes events by ID', function () {
+    const e1 = store.create('111', 'A')
+    const e2 = store.create('222', 'B')
+
+    assert.equal(store.lookup('111'), e1)
+    assert.equal(store.lookup('222'), e2)
+
+    store.delete('222')
+
+    assert.equal(store.lookup('111'), e1)
+    assert.throws(() => store.lookup('222'), 'Invalid event ID')
+  })
+
   it('serializes and deserializes itself', function () {
     store.create('111', 'A')
     store.create('222', 'B')
