@@ -173,7 +173,7 @@ describe('Event', function () {
       const a = evt.asAttachment(ts.now)
 
       assert.equal(a.fallback, "BBB: Party at Frey's House")
-      assert.equal(a.title, "BBB :calendar: Party at Frey's House")
+      assert.equal(a.title, "`BBB` :calendar: Party at Frey's House")
       assert.deepEqual(a.fields, [{title: 'Proposed Dates', value: '_none yet_'}])
       assert.deepEqual(a.mrkdwn_in, ['fields'])
     })
@@ -196,14 +196,16 @@ describe('Event', function () {
       // U123 has not responded yet
       evt.invite('<@U123>')
 
-      // U456 can make tomorrow
+      // U456 and U789 can make tomorrow
       evt.invite('<@U456>')
       evt.acceptProposal('<@U456>', 0)
-
-      // U789 can't make it
       evt.invite('<@U789>')
-      evt.rejectProposal('<@U789>', 0)
-      evt.rejectProposal('<@U789>', 1)
+      evt.acceptProposal('<@U789>', 0)
+
+      // U000 can't make it
+      evt.invite('<@U000>')
+      evt.rejectProposal('<@U000>', 0)
+      evt.rejectProposal('<@U000>', 1)
 
       // U111 can make it, but wasn't on the initial invite list
       evt.acceptProposal('<@U111>', 1)
@@ -213,14 +215,16 @@ describe('Event', function () {
         {
           title: 'Proposed Dates',
           value:
-            '[0] 19 November 2017 _in a day_ :medal: x1\n' +
-            '[1] 25 November 2017 _in 7 days_ :medal: x1'
+            '[0] 19 November 2017 _in a day_ :medal: x2\n' +
+            '[1] 25 November 2017 _in 7 days_ x1'
         },
         {
           title: 'Who',
           value:
+            '_Responses_\n' +
             ':white_square: <@U123> | :white_square_button: <@U456> | ' +
-            ':white_square_button: <@U789> | :white_square_button: <@U111>'
+            ':white_square_button: <@U789> | :white_square_button: <@U000> | ' +
+            ':white_square_button: <@U111>'
         }
       ])
     })

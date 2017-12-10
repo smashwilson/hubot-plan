@@ -219,7 +219,7 @@ describe('event edit', function () {
           },
           {
             title: 'Who',
-            value: '_Attending_\n:grey_question: <@U0> | :grey_question: <@U1>'
+            value: '_Attendees_\n:grey_question: <@U0> | :grey_question: <@U1>'
           }
         ],
         mrkdwn_in: ['fields']
