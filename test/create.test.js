@@ -8,6 +8,9 @@ describe('event create', function () {
 
   beforeEach(function () {
     bot = new BotContext()
+    bot.createUser('U1', 'user1')
+    bot.createUser('U2', 'user2')
+    bot.createUser('U3', 'user3')
   })
 
   afterEach(function () {
@@ -15,7 +18,7 @@ describe('event create', function () {
   })
 
   it('creates an event with a name', async function () {
-    await bot.say('me', 'hubot: event create --name "Wizard People" --id ABC')
+    await bot.say('user1', 'hubot: event create --name "Wizard People" --id ABC')
     assert.deepEqual(bot.response(), {
       text: 'The event "Wizard People" has been created with id *ABC*.',
       attachments: [{
@@ -28,7 +31,7 @@ describe('event create', function () {
   })
 
   it('proposes initial dates', async function () {
-    await bot.say('me', 'hubot: event create --name "Wizard People" --id ABC --propose 2017-12-10 --propose 2017-12-11')
+    await bot.say('user1', 'hubot: event create --name "Wizard People" --id ABC --propose 2017-12-10 --propose 2017-12-11')
     assert.deepEqual(bot.response(), {
       text: 'The event "Wizard People" has been created with id *ABC*.',
       attachments: [{
@@ -44,7 +47,8 @@ describe('event create', function () {
   })
 
   it('reports unparsed dates', async function () {
-    await bot.say('me',
+    await bot.say(
+      'user1',
       'hubot: event create --name "Wizard People" --id ABC ' +
       '--propose 2017-12-36 --propose february --propose 2017-12-12'
     )
@@ -75,11 +79,9 @@ describe('event create', function () {
   })
 
   it('adds initial invitees', async function () {
-    bot.createUser('U111', 'me')
-    bot.createUser('U222', 'you')
-
-    await bot.say('me',
-      'hubot: event create --name "Foo" --id CBA --invite @you --invite me --invite unknown'
+    await bot.say(
+      'user1',
+      'hubot: event create --name "Foo" --id CBA --invite @user2 --invite user3 --invite unknown'
     )
 
     assert.deepEqual(bot.response(), {
@@ -88,8 +90,16 @@ describe('event create', function () {
         fallback: 'CBA: Foo',
         title: '`CBA` :calendar: Foo',
         fields: [
-          {title: 'Proposed Dates', value: '_none yet_'},
-          {title: 'Who', value: ':white_square: <@U222> | :white_square: <@U111> | :white_square: unknown'}
+          {
+            title: 'Proposed Dates',
+            value: '_none yet_'
+          },
+          {
+            title: 'Who',
+            value:
+              '_Responses_\n' +
+              ':white_square_button: <@U1> | :white_square: <@U2> | :white_square: <@U3> | :white_square: unknown'
+          }
         ],
         mrkdwn_in: ['fields']
       }]
@@ -97,9 +107,7 @@ describe('event create', function () {
   })
 
   it('creates an immediately finalized event', async function () {
-    bot.createUser('U1', 'you')
-
-    await bot.say('me', 'hubot: event create --name "Bar" --id XYZ --at 2017-11-19 --invite you')
+    await bot.say('user1', 'hubot: event create --name "Bar" --id XYZ --at 2017-11-19 --invite user2')
     assert.deepEqual(bot.response(), {
       text: 'The event "Bar" has been created with id *XYZ*.',
       attachments: [{
@@ -107,7 +115,7 @@ describe('event create', function () {
         title: '`XYZ` :calendar: Bar',
         fields: [
           {title: 'When', value: '19 November 2017 _in a day_'},
-          {title: 'Who', value: ':grey_question: <@U1>'}
+          {title: 'Who', value: '_Attendees_\n:white_check_mark: <@U1> | :grey_question: <@U2>'}
         ],
         mrkdwn_in: ['fields']
       }]

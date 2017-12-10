@@ -8,9 +8,9 @@ describe('event edit', function () {
 
   beforeEach(async function () {
     bot = new BotContext()
-    bot.createUser('U0', 'me')
-    bot.createUser('U1', 'you')
-    bot.createUser('U2', 'fakey')
+    bot.createUser('U0', 'user0')
+    bot.createUser('U1', 'user1')
+    bot.createUser('U2', 'user2')
 
     await bot.withStore(store => {
       const e = store.create('AAA111', 'Something Cool')
@@ -26,7 +26,7 @@ describe('event edit', function () {
   })
 
   it('shows the current state of the event', async function () {
-    await bot.say('me', 'hubot: event AAA111')
+    await bot.say('user0', 'hubot: event AAA111')
     assert.deepEqual(bot.response(), {
       attachments: [{
         fallback: 'AAA111: Something Cool',
@@ -49,7 +49,7 @@ describe('event edit', function () {
   })
 
   it('adds a new proposed date to an event', async function () {
-    await bot.say('me', 'hubot: event AAA111 --propose 2017-11-20')
+    await bot.say('user0', 'hubot: event AAA111 --propose 2017-11-20')
     assert.deepEqual(bot.response(), {
       attachments: [{
         fallback: 'AAA111: Something Cool',
@@ -73,7 +73,7 @@ describe('event edit', function () {
   })
 
   it('removes a proposed date from an event', async function () {
-    await bot.say('me', 'hubot: event AAA111 --unpropose 0')
+    await bot.say('user0', 'hubot: event AAA111 --unpropose 0')
     assert.deepEqual(bot.response(), {
       attachments: [{
         fallback: 'AAA111: Something Cool',
@@ -85,7 +85,7 @@ describe('event edit', function () {
           },
           {
             title: 'Who',
-            value: ':white_square: <@U0> | :white_square: <@U1>'
+            value: '_Responses_\n:white_square: <@U0> | :white_square: <@U1>'
           }
         ],
         mrkdwn_in: ['fields']
@@ -94,7 +94,7 @@ describe('event edit', function () {
   })
 
   it('invites someone new', async function () {
-    await bot.say('me', 'hubot: event AAA111 --invite @fakey')
+    await bot.say('user0', 'hubot: event AAA111 --invite @user2')
     assert.deepEqual(bot.response(), {
       attachments: [{
         fallback: 'AAA111: Something Cool',
@@ -115,7 +115,7 @@ describe('event edit', function () {
   })
 
   it('uninvites someone', async function () {
-    await bot.say('me', 'hubot: event AAA111 --uninvite @me')
+    await bot.say('user0', 'hubot: event AAA111 --uninvite @user1')
     assert.deepEqual(bot.response(), {
       attachments: [{
         fallback: 'AAA111: Something Cool',
@@ -138,7 +138,7 @@ describe('event edit', function () {
   })
 
   it('changes its name', async function () {
-    await bot.say('me', 'hubot: event AAA111 --name "Something Less Cool"')
+    await bot.say('user0', 'hubot: event AAA111 --name "Something Less Cool"')
     assert.deepEqual(bot.response(), {
       attachments: [{
         fallback: 'AAA111: Something Less Cool',
@@ -161,7 +161,7 @@ describe('event edit', function () {
   })
 
   it('confirms proposed dates', async function () {
-    await bot.say('me', 'hubot: event AAA111 --yes 0')
+    await bot.say('user0', 'hubot: event AAA111 --yes 0')
     assert.equal(
       bot.response(),
       'You have confirmed that you would be able to attend "Something Cool" on *19 November 2017*.'
@@ -169,12 +169,12 @@ describe('event edit', function () {
   })
 
   it('complains if the proposed date index is omitted', async function () {
-    await bot.say('me', 'hubot: event AAA111 --yes')
+    await bot.say('user0', 'hubot: event AAA111 --yes')
     assert.equal(bot.response(), ':rotating_light: Event AAA111 has not had a final date chosen yet.')
   })
 
   it('rejects proposed dates', async function () {
-    await bot.say('me', 'hubot: event AAA111 --no 1')
+    await bot.say('user0', 'hubot: event AAA111 --no 1')
     assert.equal(
       bot.response(),
       'You have confirmed that you would not be able to attend "Something Cool" on *25 November 2017*.'
@@ -182,7 +182,7 @@ describe('event edit', function () {
   })
 
   it('rejects all proposed dates at once', async function () {
-    await bot.say('me', 'hubot: event AAA111 --no')
+    await bot.say('user0', 'hubot: event AAA111 --no')
     assert.equal(
       bot.response(),
       'You have confirmed that you would not be able to attend "Something Cool"' +
@@ -191,7 +191,7 @@ describe('event edit', function () {
   })
 
   it('confirms proposed dates on behalf of someone else', async function () {
-    await bot.say('me', 'hubot: event AAA111 --for @you --yes 1')
+    await bot.say('user0', 'hubot: event AAA111 --for @user1 --yes 1')
     assert.equal(
       bot.response(),
       'You have confirmed that <@U1> would be able to attend "Something Cool" on *25 November 2017*.'
@@ -199,7 +199,7 @@ describe('event edit', function () {
   })
 
   it('rejects proposed dates on behalf of someone else', async function () {
-    await bot.say('me', 'hubot: event AAA111 --for @you --no 1')
+    await bot.say('user0', 'hubot: event AAA111 --for @user1 --no 1')
     assert.equal(
       bot.response(),
       'You have confirmed that <@U1> would not be able to attend "Something Cool" on *25 November 2017*.'
@@ -207,7 +207,7 @@ describe('event edit', function () {
   })
 
   it('finalizes an unfinalized event', async function () {
-    await bot.say('me', 'hubot: event AAA111 --finalize 0')
+    await bot.say('user0', 'hubot: event AAA111 --finalize 0')
     assert.deepEqual(bot.response(), {
       attachments: [{
         fallback: 'AAA111: Something Cool',
@@ -236,7 +236,7 @@ describe('event edit', function () {
     })
 
     it('confirms attendance', async function () {
-      await bot.say('me', 'hubot: event AAA111 --yes')
+      await bot.say('user0', 'hubot: event AAA111 --yes')
       assert.equal(
         bot.response(),
         'You have confirmed that you will be able to attend "Something Cool" on *25 November 2017*.'
@@ -244,7 +244,7 @@ describe('event edit', function () {
     })
 
     it('rejects attendance', async function () {
-      await bot.say('me', 'hubot: event AAA111 --no')
+      await bot.say('user0', 'hubot: event AAA111 --no')
       assert.equal(
         bot.response(),
         'You have confirmed that you will not be able to attend "Something Cool" on *25 November 2017*.'
@@ -252,7 +252,7 @@ describe('event edit', function () {
     })
 
     it('confirms on behalf of someone else', async function () {
-      await bot.say('me', 'hubot: event AAA111 --for you --yes')
+      await bot.say('user0', 'hubot: event AAA111 --for user1 --yes')
       assert.equal(
         bot.response(),
         'You have confirmed that <@U1> will be able to attend "Something Cool" on *25 November 2017*.'
@@ -260,7 +260,7 @@ describe('event edit', function () {
     })
 
     it('rejects on behalf of someone else', async function () {
-      await bot.say('me', 'hubot: event AAA111 --for you --no')
+      await bot.say('user0', 'hubot: event AAA111 --for user1 --no')
       assert.equal(
         bot.response(),
         'You have confirmed that <@U1> will not be able to attend "Something Cool" on *25 November 2017*.'
@@ -268,12 +268,12 @@ describe('event edit', function () {
     })
 
     it('cannot be re-finalized without being unfinalized first', async function () {
-      await bot.say('me', 'hubot: event AAA111 --finalize 0')
-      assert.equal(bot.response(), ':rotating_light: Event AAA111 has already had a final date chosen.')
+      await bot.say('user0', 'hubot: event AAA111 --finalize 0')
+      assert.equal(bot.response(), ':rotating_light: Event "Something Cool" has already had a final date chosen.')
     })
 
     it('may be unfinalized', async function () {
-      await bot.say('me', 'hubot: event AAA111 --unfinalize')
+      await bot.say('user0', 'hubot: event AAA111 --unfinalize')
       assert.deepEqual(bot.response(), {
         text: 'The event "Something Cool" may now have its final date reassigned.',
         attachments: [{
