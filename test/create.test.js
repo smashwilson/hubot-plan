@@ -20,8 +20,8 @@ describe('event create', function () {
       text: 'The event "Wizard People" has been created with id *ABC*.',
       attachments: [{
         fallback: 'ABC: Wizard People',
-        title: 'ABC :calendar: Wizard People',
         fields: [{title: 'Proposed Dates', value: '_none yet_'}],
+        title: '`ABC` :calendar: Wizard People',
         mrkdwn_in: ['fields']
       }]
     })
@@ -33,11 +33,11 @@ describe('event create', function () {
       text: 'The event "Wizard People" has been created with id *ABC*.',
       attachments: [{
         fallback: 'ABC: Wizard People',
-        title: 'ABC :calendar: Wizard People',
         fields: [{
           title: 'Proposed Dates',
           value: '[0] 10 December 2017 _in 22 days_\n[1] 11 December 2017 _in 23 days_'
         }],
+        title: '`ABC` :calendar: Wizard People',
         mrkdwn_in: ['fields']
       }]
     })
@@ -53,11 +53,11 @@ describe('event create', function () {
       attachments: [
         {
           fallback: 'ABC: Wizard People',
-          title: 'ABC :calendar: Wizard People',
           fields: [{
             title: 'Proposed Dates',
             value: '[0] 12 December 2017 _in 24 days_'
           }],
+          title: '`ABC` :calendar: Wizard People',
           mrkdwn_in: ['fields']
         },
         {
@@ -86,7 +86,7 @@ describe('event create', function () {
       text: 'The event "Foo" has been created with id *CBA*.',
       attachments: [{
         fallback: 'CBA: Foo',
-        title: 'CBA :calendar: Foo',
+        title: '`CBA` :calendar: Foo',
         fields: [
           {title: 'Proposed Dates', value: '_none yet_'},
           {title: 'Who', value: ':white_square: <@U222> | :white_square: <@U111> | :white_square: unknown'}
@@ -104,7 +104,7 @@ describe('event create', function () {
       text: 'The event "Bar" has been created with id *XYZ*.',
       attachments: [{
         fallback: 'XYZ: Bar',
-        title: 'XYZ :calendar: Bar',
+        title: '`XYZ` :calendar: Bar',
         fields: [
           {title: 'When', value: '19 November 2017 _in a day_'},
           {title: 'Who', value: ':grey_question: <@U1>'}
