@@ -170,7 +170,7 @@ describe('event edit', function () {
 
   it('complains if the proposed date index is omitted', async function () {
     await bot.say('user0', 'hubot: event AAA111 --yes')
-    assert.equal(bot.response(), ':rotating_light: Event AAA111 has not had a final date chosen yet.')
+    assert.equal(bot.response(), ':rotating_light: Event "Something Cool" has not had a final date chosen yet.')
   })
 
   it('rejects proposed dates', async function () {
