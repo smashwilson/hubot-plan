@@ -40,7 +40,7 @@ describe('event edit', function () {
           },
           {
             title: 'Who',
-            value: ':white_square: <@U0> | :white_square: <@U1>'
+            value: '_Responses_\n:white_square: <@U0> | :white_square: <@U1>'
           }
         ],
         mrkdwn_in: ['fields']
@@ -64,7 +64,7 @@ describe('event edit', function () {
           },
           {
             title: 'Who',
-            value: ':white_square: <@U0> | :white_square: <@U1>'
+            value: '_Responses_\n:white_square_button: <@U0> | :white_square: <@U1>'
           }
         ],
         mrkdwn_in: ['fields']
@@ -106,7 +106,7 @@ describe('event edit', function () {
           },
           {
             title: 'Who',
-            value: ':white_square: <@U0> | :white_square: <@U1> | :white_square: <@U2>'
+            value: '_Responses_\n:white_square: <@U0> | :white_square: <@U1> | :white_square: <@U2>'
           }
         ],
         mrkdwn_in: ['fields']
@@ -129,7 +129,7 @@ describe('event edit', function () {
           },
           {
             title: 'Who',
-            value: ':white_square: <@U1>'
+            value: '_Responses_\n:white_square: <@U0>'
           }
         ],
         mrkdwn_in: ['fields']
@@ -152,7 +152,7 @@ describe('event edit', function () {
           },
           {
             title: 'Who',
-            value: ':white_square: <@U0> | :white_square: <@U1>'
+            value: '_Responses_\n:white_square: <@U0> | :white_square: <@U1>'
           }
         ],
         mrkdwn_in: ['fields']
@@ -219,7 +219,7 @@ describe('event edit', function () {
           },
           {
             title: 'Who',
-            value: ':grey_question: <@U0> | :grey_question: <@U1>'
+            value: '_Attending_\n:grey_question: <@U0> | :grey_question: <@U1>'
           }
         ],
         mrkdwn_in: ['fields']
@@ -288,7 +288,7 @@ describe('event edit', function () {
             },
             {
               title: 'Who',
-              value: ':white_square: <@U0> | :white_square: <@U1>'
+              value: '_Responses_\n:white_square: <@U0> | :white_square: <@U1>'
             }
           ],
           mrkdwn_in: ['fields']
