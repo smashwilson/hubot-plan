@@ -60,7 +60,7 @@ describe('event edit', function () {
             value:
               '[0] 19 November 2017 _in a day_\n' +
               '[1] 25 November 2017 _in 7 days_\n' +
-              '[2] 20 November 2017 _in 2 days_'
+              '[2] 20 November 2017 _in 2 days_ x1'
           },
           {
             title: 'Who',

@@ -23,8 +23,11 @@ describe('event create', function () {
       text: 'The event "Wizard People" has been created with id *ABC*.',
       attachments: [{
         fallback: 'ABC: Wizard People',
-        fields: [{title: 'Proposed Dates', value: '_none yet_'}],
         title: '`ABC` :calendar: Wizard People',
+        fields: [
+          {title: 'Proposed Dates', value: '_none yet_'},
+          {title: 'Who', value: '_Responses_\n:white_square_button: <@U1>'}
+        ],
         mrkdwn_in: ['fields']
       }]
     })
@@ -36,11 +39,17 @@ describe('event create', function () {
       text: 'The event "Wizard People" has been created with id *ABC*.',
       attachments: [{
         fallback: 'ABC: Wizard People',
-        fields: [{
-          title: 'Proposed Dates',
-          value: '[0] 10 December 2017 _in 22 days_\n[1] 11 December 2017 _in 23 days_'
-        }],
         title: '`ABC` :calendar: Wizard People',
+        fields: [
+          {
+            title: 'Proposed Dates',
+            value: '[0] 10 December 2017 _in 22 days_ x1\n[1] 11 December 2017 _in 23 days_ x1'
+          },
+          {
+            title: 'Who',
+            value: '_Responses_\n:white_square_button: <@U1>'
+          }
+        ],
         mrkdwn_in: ['fields']
       }]
     })
@@ -57,11 +66,17 @@ describe('event create', function () {
       attachments: [
         {
           fallback: 'ABC: Wizard People',
-          fields: [{
-            title: 'Proposed Dates',
-            value: '[0] 12 December 2017 _in 24 days_'
-          }],
           title: '`ABC` :calendar: Wizard People',
+          fields: [
+            {
+              title: 'Proposed Dates',
+              value: '[0] 12 December 2017 _in 24 days_ x1'
+            },
+            {
+              title: 'Who',
+              value: '_Responses_\n:white_square_button: <@U1>'
+            }
+          ],
           mrkdwn_in: ['fields']
         },
         {
