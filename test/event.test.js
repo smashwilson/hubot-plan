@@ -317,4 +317,104 @@ describe('Event', function () {
       assert.equal(evt.compareTo(equal), 0)
     })
   })
+
+  describe('filtering', function () {
+    it('matches a finalized event before a timestamp', function () {
+      const evt = new Event('yes', 'yes')
+      evt.proposeDate(ts.tomorrow)
+      evt.finalize(0)
+
+      assert.isFalse(evt.matches({before: ts.now}))
+      assert.isTrue(evt.matches({before: ts.tomorrow}))
+      assert.isTrue(evt.matches({before: ts.nextWeek}))
+    })
+
+    it('matches an unfinalized event before a timestamp', function () {
+      const evt = new Event('yes', 'yes')
+      evt.proposeDate(ts.nextMonth)
+      evt.proposeDate(ts.tomorrow)
+
+      assert.isFalse(evt.matches({before: ts.now}))
+      assert.isTrue(evt.matches({before: ts.tomorrow}))
+      assert.isTrue(evt.matches({before: ts.nextWeek}))
+    })
+
+    it('matches a finalized event after a timestamp', function () {
+      const evt = new Event('yes', 'yes')
+      evt.proposeDate(ts.tomorrow)
+      evt.finalize(0)
+
+      assert.isTrue(evt.matches({after: ts.now}))
+      assert.isTrue(evt.matches({after: ts.tomorrow}))
+      assert.isFalse(evt.matches({after: ts.nextWeek}))
+    })
+
+    it('matches an unfinalized event after a timestamp', function () {
+      const evt = new Event('yes', 'yes')
+      evt.proposeDate(ts.nextWeek)
+      evt.proposeDate(ts.tomorrow)
+
+      console.log(evt.latest)
+
+      assert.isTrue(evt.matches({after: ts.now}))
+      assert.isTrue(evt.matches({after: ts.nextWeek}))
+      assert.isFalse(evt.matches({after: ts.nextMonth}))
+    })
+
+    it('matches by finalized status', function () {
+      const yes = new Event('yes', 'yes')
+      yes.proposeDate(ts.now)
+      yes.proposeDate(ts.nextMonth)
+      yes.finalize(0)
+
+      const no = new Event('no', 'no')
+      no.proposeDate(ts.tomorrow)
+      no.proposeDate(ts.nextWeek)
+
+      assert.isTrue(yes.matches({finalized: true}))
+      assert.isFalse(no.matches({finalized: true}))
+    })
+
+    it('matches by unfinalized status', function () {
+      const yes = new Event('yes', 'yes')
+      yes.proposeDate(ts.now)
+      yes.proposeDate(ts.nextMonth)
+
+      const no = new Event('no', 'no')
+      no.proposeDate(ts.tomorrow)
+      no.proposeDate(ts.nextWeek)
+      no.finalize(1)
+
+      assert.isTrue(yes.matches({unfinalized: true}))
+      assert.isFalse(no.matches({unfinalized: true}))
+    })
+
+    it('matches by invite list', function () {
+      const yes = new Event('yes', 'yes')
+      yes.invite('u0')
+      yes.invite('u1')
+
+      const no = new Event('no', 'no')
+      no.invite('u1')
+
+      assert.isTrue(yes.matches({invited: 'u0'}))
+      assert.isFalse(no.matches({invited: 'u0'}))
+    })
+
+    it('always matches the empty filter', function () {
+      const empty = new Event('empty', 'empty')
+
+      const proposed = new Event('proposed', 'proposed')
+      proposed.proposeDate(ts.now)
+      proposed.proposeDate(ts.tomorrow)
+
+      const finalized = new Event('finalized', 'finalized')
+      finalized.proposeDate(ts.now)
+      finalized.finalize(0)
+
+      assert.isTrue(empty.matches({}))
+      assert.isTrue(proposed.matches({}))
+      assert.isTrue(finalized.matches({}))
+    })
+  })
 })
