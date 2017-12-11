@@ -252,4 +252,69 @@ describe('Event', function () {
     assert.equal(evt1.proposal(1).date().valueOf(), ts.nextWeek.valueOf())
     assert.deepEqual(evt1.getInvitees(), ['<@U123>', '<@U456>', '<@U789>', '<@U111>'])
   })
+
+  describe('comparison', function () {
+    it('orders finalized events by chosen date', function () {
+      const evt = new Event('AAA', 'Event A')
+      evt.proposeDate(ts.tomorrow)
+      evt.finalize(0)
+
+      const before = new Event('BBB', 'Event B')
+      before.proposeDate(ts.now)
+      before.finalize(0)
+
+      const equal = new Event('CCC', 'Event C')
+      equal.proposeDate(ts.tomorrow)
+      equal.finalize(0)
+
+      const after = new Event('DDD', 'Event D')
+      after.proposeDate(ts.nextWeek)
+      after.finalize(0)
+
+      assert.isAbove(evt.compareTo(before), 0)
+      assert.equal(evt.compareTo(equal), 0)
+      assert.isBelow(evt.compareTo(after), 0)
+    })
+
+    it('orders unfinalized events by earliest proposed date', function () {
+      const evt = new Event('AAA', 'Event A')
+      evt.proposeDate(ts.tomorrow)
+      evt.proposeDate(ts.nextWeek)
+      evt.proposeDate(ts.nextMonth)
+
+      const before = new Event('BBB', 'Event B')
+      before.proposeDate(ts.now)
+      before.proposeDate(ts.nextWeek)
+
+      const equal = new Event('CCC', 'Event C')
+      equal.proposeDate(ts.nextMonth)
+      equal.proposeDate(ts.tomorrow)
+
+      const after = new Event('DDD', 'Event D')
+      after.proposeDate(ts.nextWeek)
+      after.proposeDate(ts.nextMonth)
+
+      assert.isAbove(evt.compareTo(before), 0)
+      assert.equal(evt.compareTo(equal), 0)
+      assert.isBelow(evt.compareTo(after), 0)
+    })
+
+    it('orders events with no proposed dates before everything else', function () {
+      const evt = new Event('AAA', 'Event A')
+
+      const proposed = new Event('BBB', 'Event B')
+      proposed.proposeDate(ts.now)
+      proposed.proposeDate(ts.tomorrow)
+
+      const finalized = new Event('CCC', 'Event C')
+      finalized.proposeDate(ts.nextWeek)
+      finalized.finalize(0)
+
+      const equal = new Event('DDD', 'Event D')
+
+      assert.isBelow(evt.compareTo(proposed), 0)
+      assert.isBelow(evt.compareTo(finalized), 0)
+      assert.equal(evt.compareTo(equal), 0)
+    })
+  })
 })
