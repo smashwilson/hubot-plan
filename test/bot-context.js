@@ -8,6 +8,7 @@ const now = moment.tz('2017-11-18', moment.ISO_8601, 'America/New_York')
 const tomorrow = moment.tz('2017-11-19', moment.ISO_8601, 'America/New_York')
 const nextWeek = moment.tz('2017-11-25', moment.ISO_8601, 'America/New_York')
 const nextMonth = moment.tz('2017-12-16', moment.ISO_8601, 'America/New_York')
+const nextYear = moment.tz('2018-01-10', moment.ISO_8601, 'America/New_York')
 
 class BotContext {
   constructor () {
@@ -40,5 +41,5 @@ class BotContext {
 
 module.exports = {
   BotContext,
-  ts: {now, tomorrow, nextWeek, nextMonth}
+  ts: {now, tomorrow, nextWeek, nextMonth, nextYear}
 }

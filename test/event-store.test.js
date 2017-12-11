@@ -3,6 +3,7 @@
 const assert = require('chai').assert
 
 const {EventStore} = require('../lib/event-store')
+const {ts} = require('./bot-context')
 
 describe('EventStore', function () {
   let store
@@ -60,5 +61,42 @@ describe('EventStore', function () {
     assert.equal(a1.getName(), 'A')
     assert.equal(b1.getName(), 'B')
     assert.equal(c1.getName(), 'C')
+  })
+
+  it('produces an EventSet of Events matching a filter', function () {
+    // Defeated by "after" filter
+    const no0 = store.create('1', 'A')
+    no0.proposeDate(ts.now)
+    no0.proposeDate(ts.tomorrow)
+    no0.invite('u0')
+
+    // Defeated by invitation filter
+    const no1 = store.create('2', 'B')
+    no1.proposeDate(ts.nextWeek)
+    no1.invite('u1')
+
+    // Included
+    const yes0 = store.create('3', 'C')
+    yes0.proposeDate(ts.nextMonth)
+    yes0.invite('u0')
+
+    // Included
+    const yes1 = store.create('4', 'D')
+    yes1.proposeDate(ts.nextWeek)
+    yes1.invite('u0')
+
+    // Defaulted by "before" filter
+    const no2 = store.create('5', 'E')
+    no2.proposeDate(ts.nextYear)
+    no2.invite('u0')
+
+    const results = store.search({
+      after: ts.nextWeek,
+      before: ts.nextMonth,
+      invited: 'u0'
+    })
+    assert.equal(results.size(), 2)
+    assert.equal(results.at(0), yes1)
+    assert.equal(results.at(1), yes0)
   })
 })
