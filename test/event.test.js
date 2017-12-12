@@ -18,8 +18,8 @@ describe('Event', function () {
       evt.proposeDate(ts.nextWeek)
 
       assert.deepEqual(evt.proposalKeys(), [0, 1])
-      assert.equal(evt.proposal(0).date(), ts.tomorrow)
-      assert.equal(evt.proposal(1).date(), ts.nextWeek)
+      assert.equal(evt.proposal(0).startDate(), ts.tomorrow)
+      assert.equal(evt.proposal(1).startDate(), ts.nextWeek)
     })
 
     it('removes proposed dates', function () {
@@ -28,7 +28,7 @@ describe('Event', function () {
       evt.unpropose(0)
 
       assert.deepEqual(evt.proposalKeys(), [1])
-      assert.equal(evt.proposal(1).date(), ts.nextMonth)
+      assert.equal(evt.proposal(1).startDate(), ts.nextMonth)
       assert.throws(() => evt.proposal(0), 'Invalid proposed date')
     })
 
@@ -57,13 +57,13 @@ describe('Event', function () {
       evt.proposeDate(ts.nextWeek)
       evt.proposeDate(ts.nextMonth)
 
-      assert.equal(evt.proposal(0).date(), ts.tomorrow)
+      assert.equal(evt.proposal(0).startDate(), ts.tomorrow)
       assert.equal(evt.proposal(0).yesCount(), 0)
       assert.isFalse(evt.proposal(0).isLeading())
-      assert.equal(evt.proposal(1).date(), ts.nextWeek)
+      assert.equal(evt.proposal(1).startDate(), ts.nextWeek)
       assert.equal(evt.proposal(1).yesCount(), 0)
       assert.isFalse(evt.proposal(1).isLeading())
-      assert.equal(evt.proposal(2).date(), ts.nextMonth)
+      assert.equal(evt.proposal(2).startDate(), ts.nextMonth)
       assert.equal(evt.proposal(2).yesCount(), 0)
       assert.isFalse(evt.proposal(2).isLeading())
 
@@ -74,13 +74,13 @@ describe('Event', function () {
       evt.acceptProposal('reostra', 1)
       evt.acceptProposal('reostra', 2)
 
-      assert.equal(evt.proposal(0).date(), ts.tomorrow)
+      assert.equal(evt.proposal(0).startDate(), ts.tomorrow)
       assert.equal(evt.proposal(0).yesCount(), 3)
       assert.isTrue(evt.proposal(0).isLeading())
-      assert.equal(evt.proposal(1).date(), ts.nextWeek)
+      assert.equal(evt.proposal(1).startDate(), ts.nextWeek)
       assert.equal(evt.proposal(1).yesCount(), 2)
       assert.isFalse(evt.proposal(1).isLeading())
-      assert.equal(evt.proposal(2).date(), ts.nextMonth)
+      assert.equal(evt.proposal(2).startDate(), ts.nextMonth)
       assert.equal(evt.proposal(2).yesCount(), 1)
       assert.isFalse(evt.proposal(2).isLeading())
     })
@@ -248,8 +248,8 @@ describe('Event', function () {
 
     assert.equal(evt1.getName(), "Party at Frey's House")
     assert.deepEqual(evt1.proposalKeys(), [0, 1])
-    assert.equal(evt1.proposal(0).date().valueOf(), ts.tomorrow.valueOf())
-    assert.equal(evt1.proposal(1).date().valueOf(), ts.nextWeek.valueOf())
+    assert.equal(evt1.proposal(0).startDate().valueOf(), ts.tomorrow.valueOf())
+    assert.equal(evt1.proposal(1).startDate().valueOf(), ts.nextWeek.valueOf())
     assert.deepEqual(evt1.getInvitees(), ['<@U123>', '<@U456>', '<@U789>', '<@U111>'])
   })
 
