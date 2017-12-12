@@ -354,8 +354,6 @@ describe('Event', function () {
       evt.proposeDate(ts.nextWeek)
       evt.proposeDate(ts.tomorrow)
 
-      console.log(evt.latest)
-
       assert.isTrue(evt.matches({after: ts.now}))
       assert.isTrue(evt.matches({after: ts.nextWeek}))
       assert.isFalse(evt.matches({after: ts.nextMonth}))
