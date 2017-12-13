@@ -72,7 +72,7 @@ describe('Timespan', function () {
     })
 
     it('becomes invalid on an invalid time', function () {
-      assert.isFalse(Timespan.parse('2017-33-76').isValid())
+      assert.isFalse(Timespan.parse('2017-33-76', TZ).isValid())
     })
 
     it('becomes invalid on an invalid duration', function () {
