@@ -84,7 +84,7 @@ describe('event create', function () {
           title: 'Unable to parse proposed dates',
           text:
             'Please use <ISO 8601|https://en.wikipedia.org/wiki/ISO_8601> to format date arguments. ' +
-            'For example, right now is `2017-11-18T05:00:00.000Z`. The time bit may be omitted for whole-day events.' +
+            'For example, right now is `2017-11-18T08:00:00.000Z`. The time bit may be omitted for whole-day events.' +
             '\n\nI couldn\'t parse: `2017-12-36`, `february`.',
           color: 'danger',
           mrkdwn_in: ['text']

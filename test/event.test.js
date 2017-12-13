@@ -18,8 +18,8 @@ describe('Event', function () {
       evt.proposeDate(ts.nextWeek)
 
       assert.deepEqual(evt.proposalKeys(), [0, 1])
-      assert.equal(evt.proposal(0).startDate(), ts.tomorrow)
-      assert.equal(evt.proposal(1).startDate(), ts.nextWeek)
+      assert.equal(evt.proposal(0).startDate(), ts.tomorrow.getStart())
+      assert.equal(evt.proposal(1).startDate(), ts.nextWeek.getStart())
     })
 
     it('removes proposed dates', function () {
@@ -28,7 +28,7 @@ describe('Event', function () {
       evt.unpropose(0)
 
       assert.deepEqual(evt.proposalKeys(), [1])
-      assert.equal(evt.proposal(1).startDate(), ts.nextMonth)
+      assert.equal(evt.proposal(1).startDate(), ts.nextMonth.getStart())
       assert.throws(() => evt.proposal(0), 'Invalid proposed date')
     })
 
@@ -57,13 +57,13 @@ describe('Event', function () {
       evt.proposeDate(ts.nextWeek)
       evt.proposeDate(ts.nextMonth)
 
-      assert.equal(evt.proposal(0).startDate(), ts.tomorrow)
+      assert.equal(evt.proposal(0).getTimespan(), ts.tomorrow)
       assert.equal(evt.proposal(0).yesCount(), 0)
       assert.isFalse(evt.proposal(0).isLeading())
-      assert.equal(evt.proposal(1).startDate(), ts.nextWeek)
+      assert.equal(evt.proposal(1).getTimespan(), ts.nextWeek)
       assert.equal(evt.proposal(1).yesCount(), 0)
       assert.isFalse(evt.proposal(1).isLeading())
-      assert.equal(evt.proposal(2).startDate(), ts.nextMonth)
+      assert.equal(evt.proposal(2).getTimespan(), ts.nextMonth)
       assert.equal(evt.proposal(2).yesCount(), 0)
       assert.isFalse(evt.proposal(2).isLeading())
 
@@ -74,13 +74,13 @@ describe('Event', function () {
       evt.acceptProposal('reostra', 1)
       evt.acceptProposal('reostra', 2)
 
-      assert.equal(evt.proposal(0).startDate(), ts.tomorrow)
+      assert.equal(evt.proposal(0).getTimespan(), ts.tomorrow)
       assert.equal(evt.proposal(0).yesCount(), 3)
       assert.isTrue(evt.proposal(0).isLeading())
-      assert.equal(evt.proposal(1).startDate(), ts.nextWeek)
+      assert.equal(evt.proposal(1).getTimespan(), ts.nextWeek)
       assert.equal(evt.proposal(1).yesCount(), 2)
       assert.isFalse(evt.proposal(1).isLeading())
-      assert.equal(evt.proposal(2).startDate(), ts.nextMonth)
+      assert.equal(evt.proposal(2).getTimespan(), ts.nextMonth)
       assert.equal(evt.proposal(2).yesCount(), 1)
       assert.isFalse(evt.proposal(2).isLeading())
     })
@@ -182,7 +182,7 @@ describe('Event', function () {
       evt.proposeDate(ts.tomorrow)
       evt.proposeDate(ts.nextWeek)
 
-      const a = evt.asAttachment(ts.now)
+      const a = evt.asAttachment(ts.now.getStart())
       assert.deepEqual(a.fields, [{
         title: 'Proposed Dates',
         value: '[0] 19 November 2017 _in a day_\n[1] 25 November 2017 _in 7 days_'
@@ -210,7 +210,7 @@ describe('Event', function () {
       // U111 can make it, but wasn't on the initial invite list
       evt.acceptProposal('<@U111>', 1)
 
-      const a = evt.asAttachment(ts.now)
+      const a = evt.asAttachment(ts.now.getStart())
       assert.deepEqual(a.fields, [
         {
           title: 'Proposed Dates',
@@ -248,8 +248,8 @@ describe('Event', function () {
 
     assert.equal(evt1.getName(), "Party at Frey's House")
     assert.deepEqual(evt1.proposalKeys(), [0, 1])
-    assert.equal(evt1.proposal(0).startDate().valueOf(), ts.tomorrow.valueOf())
-    assert.equal(evt1.proposal(1).startDate().valueOf(), ts.nextWeek.valueOf())
+    assert.equal(evt1.proposal(0).startDate().valueOf(), ts.tomorrow.getStart().valueOf())
+    assert.equal(evt1.proposal(1).startDate().valueOf(), ts.nextWeek.getStart().valueOf())
     assert.deepEqual(evt1.getInvitees(), ['<@U123>', '<@U456>', '<@U789>', '<@U111>'])
   })
 
@@ -324,9 +324,9 @@ describe('Event', function () {
       evt.proposeDate(ts.tomorrow)
       evt.finalize(0)
 
-      assert.isFalse(evt.matches({before: ts.now}))
-      assert.isTrue(evt.matches({before: ts.tomorrow}))
-      assert.isTrue(evt.matches({before: ts.nextWeek}))
+      assert.isFalse(evt.matches({before: ts.now.getStart()}))
+      assert.isTrue(evt.matches({before: ts.tomorrow.getStart()}))
+      assert.isTrue(evt.matches({before: ts.nextWeek.getStart()}))
     })
 
     it('matches an unfinalized event before a timestamp', function () {
@@ -334,9 +334,9 @@ describe('Event', function () {
       evt.proposeDate(ts.nextMonth)
       evt.proposeDate(ts.tomorrow)
 
-      assert.isFalse(evt.matches({before: ts.now}))
-      assert.isTrue(evt.matches({before: ts.tomorrow}))
-      assert.isTrue(evt.matches({before: ts.nextWeek}))
+      assert.isFalse(evt.matches({before: ts.now.getStart()}))
+      assert.isTrue(evt.matches({before: ts.tomorrow.getStart()}))
+      assert.isTrue(evt.matches({before: ts.nextWeek.getStart()}))
     })
 
     it('matches a finalized event after a timestamp', function () {
@@ -344,9 +344,9 @@ describe('Event', function () {
       evt.proposeDate(ts.tomorrow)
       evt.finalize(0)
 
-      assert.isTrue(evt.matches({after: ts.now}))
-      assert.isTrue(evt.matches({after: ts.tomorrow}))
-      assert.isFalse(evt.matches({after: ts.nextWeek}))
+      assert.isTrue(evt.matches({after: ts.now.getStart()}))
+      assert.isTrue(evt.matches({after: ts.tomorrow.getStart()}))
+      assert.isFalse(evt.matches({after: ts.nextWeek.getStart()}))
     })
 
     it('matches an unfinalized event after a timestamp', function () {
@@ -354,9 +354,9 @@ describe('Event', function () {
       evt.proposeDate(ts.nextWeek)
       evt.proposeDate(ts.tomorrow)
 
-      assert.isTrue(evt.matches({after: ts.now}))
-      assert.isTrue(evt.matches({after: ts.nextWeek}))
-      assert.isFalse(evt.matches({after: ts.nextMonth}))
+      assert.isTrue(evt.matches({after: ts.now.getStart()}))
+      assert.isTrue(evt.matches({after: ts.nextWeek.getStart()}))
+      assert.isFalse(evt.matches({after: ts.nextMonth.getStart()}))
     })
 
     it('matches by finalized status', function () {
