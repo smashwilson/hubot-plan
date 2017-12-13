@@ -185,7 +185,9 @@ describe('Event', function () {
       const a = evt.asAttachment(ts.now.getStart())
       assert.deepEqual(a.fields, [{
         title: 'Proposed Dates',
-        value: '[0] 19 November 2017 _in a day_\n[1] 25 November 2017 _in 7 days_'
+        value:
+          '[0] <!date^1511078400^{date}^19 November 2017> _in a day_\n' +
+          '[1] <!date^1511596800^{date}^25 November 2017> _in 7 days_'
       }])
     })
 
@@ -215,8 +217,8 @@ describe('Event', function () {
         {
           title: 'Proposed Dates',
           value:
-            '[0] 19 November 2017 _in a day_ :medal: x2\n' +
-            '[1] 25 November 2017 _in 7 days_ x1'
+            '[0] <!date^1511078400^{date}^19 November 2017> _in a day_ :medal: x2\n' +
+            '[1] <!date^1511596800^{date}^25 November 2017> _in 7 days_ x1'
         },
         {
           title: 'Who',
