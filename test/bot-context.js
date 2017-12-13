@@ -10,11 +10,14 @@ const tomorrow = moment.tz('2017-11-19', moment.ISO_8601, 'America/New_York')
 const nextWeek = moment.tz('2017-11-25', moment.ISO_8601, 'America/New_York')
 const nextMonth = moment.tz('2017-12-16', moment.ISO_8601, 'America/New_York')
 const nextYear = moment.tz('2018-01-10', moment.ISO_8601, 'America/New_York')
+const TZ = 'America/Los_Angeles'
+
 
 class BotContext {
   constructor () {
     this.room = helper.createRoom({httpd: false})
     this.room.robot['hubot-events'].now = userTz => now.clone().tz(userTz)
+    this.room.robot['hubot-events'].getUserTz = () => TZ
   }
 
   createUser (uid, username) {
