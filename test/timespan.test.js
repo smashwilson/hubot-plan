@@ -3,7 +3,7 @@
 const {Timespan} = require('../lib/timespan')
 const assert = require('chai').assert
 
-const TZ = 'America/New_York'
+const TZ = 'America/Los_Angeles'
 
 describe('Timespan', function () {
   describe('parsing', function () {
