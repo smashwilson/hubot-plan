@@ -1,23 +1,23 @@
 const Helper = require('hubot-test-helper')
-const moment = require('moment-timezone')
+const {Timespan} = require('../lib/timespan')
 
 const helper = new Helper('../lib/index.js')
 
-const lastWeek = moment.tz('2017-11-10', moment.ISO_8601, 'America/New_York')
-const yesterday = moment.tz('2017-11-17', moment.ISO_8601, 'America/New_York')
-const now = moment.tz('2017-11-18', moment.ISO_8601, 'America/New_York')
-const tomorrow = moment.tz('2017-11-19', moment.ISO_8601, 'America/New_York')
-const nextWeek = moment.tz('2017-11-25', moment.ISO_8601, 'America/New_York')
-const nextMonth = moment.tz('2017-12-16', moment.ISO_8601, 'America/New_York')
-const nextYear = moment.tz('2018-01-10', moment.ISO_8601, 'America/New_York')
 const TZ = 'America/Los_Angeles'
 
+const lastWeek = Timespan.parse('2017-11-10', TZ)
+const yesterday = Timespan.parse('2017-11-17', TZ)
+const now = Timespan.parse('2017-11-18', TZ)
+const tomorrow = Timespan.parse('2017-11-19', TZ)
+const nextWeek = Timespan.parse('2017-11-25', TZ)
+const nextMonth = Timespan.parse('2017-12-16', TZ)
+const nextYear = Timespan.parse('2018-01-10', TZ)
 
 class BotContext {
   constructor () {
     this.room = helper.createRoom({httpd: false})
-    this.room.robot['hubot-events'].now = userTz => now.clone().tz(userTz)
     this.room.robot['hubot-events'].getUserTz = () => TZ
+    this.room.robot['hubot-events'].now = userTz => now.getStart().clone().tz(userTz)
   }
 
   createUser (uid, username) {
