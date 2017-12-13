@@ -91,8 +91,8 @@ describe('EventStore', function () {
     no2.invite('u0')
 
     const results = store.search({
-      after: ts.nextWeek,
-      before: ts.nextMonth,
+      after: ts.nextWeek.getStart(),
+      before: ts.nextMonth.getStart(),
       invited: 'u0'
     })
     assert.equal(results.size(), 2)

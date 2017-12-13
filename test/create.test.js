@@ -43,7 +43,9 @@ describe('event create', function () {
         fields: [
           {
             title: 'Proposed Dates',
-            value: '[0] 10 December 2017 _in 22 days_ x1\n[1] 11 December 2017 _in 23 days_ x1'
+            value:
+              '[0] <!date^1512892800^{date}^10 December 2017> _in 22 days_ x1\n' +
+              '[1] <!date^1512979200^{date}^11 December 2017> _in 23 days_ x1'
           },
           {
             title: 'Who',
@@ -70,7 +72,7 @@ describe('event create', function () {
           fields: [
             {
               title: 'Proposed Dates',
-              value: '[0] 12 December 2017 _in 24 days_ x1'
+              value: '[0] <!date^1513065600^{date}^12 December 2017> _in 24 days_ x1'
             },
             {
               title: 'Who',
@@ -84,7 +86,7 @@ describe('event create', function () {
           title: 'Unable to parse proposed dates',
           text:
             'Please use <ISO 8601|https://en.wikipedia.org/wiki/ISO_8601> to format date arguments. ' +
-            'For example, right now is `2017-11-18T05:00:00.000Z`. The time bit may be omitted for whole-day events.' +
+            'For example, right now is `2017-11-18T08:00:00.000Z`. The time bit may be omitted for whole-day events.' +
             '\n\nI couldn\'t parse: `2017-12-36`, `february`.',
           color: 'danger',
           mrkdwn_in: ['text']
@@ -129,7 +131,7 @@ describe('event create', function () {
         fallback: 'XYZ: Bar',
         title: '`XYZ` :calendar: Bar',
         fields: [
-          {title: 'When', value: '19 November 2017 _in a day_'},
+          {title: 'When', value: '<!date^1511078400^{date}^19 November 2017> _in a day_'},
           {title: 'Who', value: '_Attendees_\n:white_check_mark: <@U1> | :grey_question: <@U2>'}
         ],
         mrkdwn_in: ['fields']
