@@ -321,6 +321,13 @@ describe('Event', function () {
   })
 
   describe('filtering', function () {
+    it('matches by name', function () {
+      const evt = new Event('ABC', 'aaa bbb ccc')
+
+      assert.isTrue(evt.matches({name: 'bB'}))
+      assert.isFalse(evt.matches({name: 'qqq'}))
+    })
+
     it('matches a finalized event before a timestamp', function () {
       const evt = new Event('yes', 'yes')
       evt.proposeDate(ts.tomorrow)
