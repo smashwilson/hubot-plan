@@ -20,8 +20,8 @@ class BotContext {
     this.room.robot['hubot-events'].now = userTz => now.getStart().clone().tz(userTz)
   }
 
-  createUser (uid, username) {
-    this.room.robot.brain.userForId(uid, {name: username})
+  createUser (uid, username, email) {
+    this.room.robot.brain.userForId(uid, {name: username, email_address: email})
   }
 
   withStore (cb) {

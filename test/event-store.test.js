@@ -3,13 +3,18 @@
 const assert = require('chai').assert
 
 const {EventStore} = require('../lib/event-store')
-const {ts} = require('./bot-context')
+const {ts, BotContext} = require('./bot-context')
 
 describe('EventStore', function () {
-  let store
+  let store, bot
 
   beforeEach(function () {
-    store = new EventStore()
+    bot = new BotContext()
+    store = new EventStore(bot.room.robot)
+  })
+
+  afterEach(function () {
+    bot.cleanup()
   })
 
   it('assigns each event a unique ID on insertion', function () {
@@ -52,7 +57,8 @@ describe('EventStore', function () {
     store.create('333', 'C')
 
     const payload = store.serialize()
-    const store1 = EventStore.deserialize(payload)
+    const t = JSON.parse(JSON.stringify(payload))
+    const store1 = EventStore.deserialize(bot.robot, t)
 
     const a1 = store1.lookup('111')
     const b1 = store1.lookup('222')
@@ -98,5 +104,44 @@ describe('EventStore', function () {
     assert.equal(results.size(), 2)
     assert.equal(results.at(0), yes1)
     assert.equal(results.at(1), yes0)
+  })
+
+  it('renders an EventSet as an iCal feed', function () {
+    bot.createUser('u1', 'user1', 'user1@gmail.com')
+    bot.createUser('u2', 'user2', 'user2@gmail.com')
+    bot.createUser('u3', 'user3', 'user3@gmail.com')
+
+    const e0 = store.create('ABC', 'Set In Stone')
+    e0.proposeDate(ts.tomorrow)
+    e0.proposeDate(ts.nextWeek)
+    e0.invite('<@u1>')
+    e0.invite('<@u2>')
+    e0.invite('<@u3>')
+    e0.acceptProposal('<@u1>', 0)
+    e0.acceptProposal('<@u1>', 1)
+    e0.acceptProposal('<@u2>', 0)
+    e0.acceptProposal('<@u3>', 1)
+    e0.finalize(1)
+
+    const e1 = store.create('DEF', 'Planned')
+    e1.proposeDate(ts.nextWeek)
+    e1.proposeDate(ts.nextMonth)
+    e1.proposeDate(ts.nextYear)
+    e1.invite('<@u1>')
+    e1.invite('<@u2>')
+    e1.invite('<@u3>')
+    e1.acceptProposal('<@u1>', 0)
+    e1.acceptProposal('<@u1>', 2)
+    e1.acceptProposal('<@u2>', 0)
+    e1.acceptProposal('<@u2>', 1)
+    e1.acceptProposal('<@u2>', 2)
+    e1.acceptProposal('<@u3>', 1)
+    e1.acceptProposal('<@u3>', 2)
+
+    // Render iCal feed
+    const ical = store.search({}).renderICal('Upcoming Events', 'America/Los_Angeles')
+
+    assert.match(ical, /SUMMARY:Set In Stone/)
+    assert.match(ical, /SUMMARY:Planned/)
   })
 })
