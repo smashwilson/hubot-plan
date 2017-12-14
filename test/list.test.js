@@ -51,10 +51,10 @@ describe('event list', function () {
       bot.response(),
       '_Showing 5 of 7 events_\n' +
       '`6` _G_\n' +
-      '`2` C <!date^1510992000^{date}^18 November 2017>\n' +
-      '`3` _D_ <!date^1511078400^{date}^19 November 2017>\n' +
-      '`4` _E boo_ <!date^1511596800^{date}^25 November 2017>, <!date^1513411200^{date}^16 December 2017>\n' +
-      '`5` F <!date^1515571200^{date}^10 January 2018>'
+      '`2` C <!date^1510992000^{date}|18 November 2017>\n' +
+      '`3` _D_ <!date^1511078400^{date}|19 November 2017>\n' +
+      '`4` _E boo_ <!date^1511596800^{date}|25 November 2017>, <!date^1513411200^{date}|16 December 2017>\n' +
+      '`5` F <!date^1515571200^{date}|10 January 2018>'
     )
   })
 
@@ -63,8 +63,8 @@ describe('event list', function () {
     assert.equal(
       bot.response(),
       '_Showing 2 of 7 events_\n' +
-      '`1` _B boo_ <!date^1510905600^{date}^17 November 2017>\n' +
-      '`4` _E boo_ <!date^1511596800^{date}^25 November 2017>, <!date^1513411200^{date}^16 December 2017>'
+      '`1` _B boo_ <!date^1510905600^{date}|17 November 2017>\n' +
+      '`4` _E boo_ <!date^1511596800^{date}|25 November 2017>, <!date^1513411200^{date}|16 December 2017>'
     )
   })
 
@@ -74,11 +74,11 @@ describe('event list', function () {
       bot.response(),
       '_Showing 6 of 7 events_\n' +
       '`6` _G_\n' +
-      '`0` A <!date^1510300800^{date}^10 November 2017>\n' +
-      '`1` _B boo_ <!date^1510905600^{date}^17 November 2017>\n' +
-      '`2` C <!date^1510992000^{date}^18 November 2017>\n' +
-      '`3` _D_ <!date^1511078400^{date}^19 November 2017>\n' +
-      '`4` _E boo_ <!date^1511596800^{date}^25 November 2017>, <!date^1513411200^{date}^16 December 2017>'
+      '`0` A <!date^1510300800^{date}|10 November 2017>\n' +
+      '`1` _B boo_ <!date^1510905600^{date}|17 November 2017>\n' +
+      '`2` C <!date^1510992000^{date}|18 November 2017>\n' +
+      '`3` _D_ <!date^1511078400^{date}|19 November 2017>\n' +
+      '`4` _E boo_ <!date^1511596800^{date}|25 November 2017>, <!date^1513411200^{date}|16 December 2017>'
     )
   })
 
@@ -88,9 +88,9 @@ describe('event list', function () {
       bot.response(),
       '_Showing 4 of 7 events_\n' +
       '`6` _G_\n' +
-      '`0` A <!date^1510300800^{date}^10 November 2017>\n' +
-      '`1` _B boo_ <!date^1510905600^{date}^17 November 2017>\n' +
-      '`2` C <!date^1510992000^{date}^18 November 2017>'
+      '`0` A <!date^1510300800^{date}|10 November 2017>\n' +
+      '`1` _B boo_ <!date^1510905600^{date}|17 November 2017>\n' +
+      '`2` C <!date^1510992000^{date}|18 November 2017>'
     )
   })
 
@@ -100,9 +100,9 @@ describe('event list', function () {
       bot.response(),
       '_Showing 4 of 7 events_\n' +
       '`6` _G_\n' +
-      '`3` _D_ <!date^1511078400^{date}^19 November 2017>\n' +
-      '`4` _E boo_ <!date^1511596800^{date}^25 November 2017>, <!date^1513411200^{date}^16 December 2017>\n' +
-      '`5` F <!date^1515571200^{date}^10 January 2018>'
+      '`3` _D_ <!date^1511078400^{date}|19 November 2017>\n' +
+      '`4` _E boo_ <!date^1511596800^{date}|25 November 2017>, <!date^1513411200^{date}|16 December 2017>\n' +
+      '`5` F <!date^1515571200^{date}|10 January 2018>'
     )
   })
 
@@ -112,10 +112,10 @@ describe('event list', function () {
       bot.response(),
       '_Showing 5 of 7 events_\n' +
       '`6` _G_\n' +
-      '`2` C <!date^1510992000^{date}^18 November 2017>\n' +
-      '`3` _D_ <!date^1511078400^{date}^19 November 2017>\n' +
-      '`4` _E boo_ <!date^1511596800^{date}^25 November 2017>, <!date^1513411200^{date}^16 December 2017>\n' +
-      '`5` F <!date^1515571200^{date}^10 January 2018>'
+      '`2` C <!date^1510992000^{date}|18 November 2017>\n' +
+      '`3` _D_ <!date^1511078400^{date}|19 November 2017>\n' +
+      '`4` _E boo_ <!date^1511596800^{date}|25 November 2017>, <!date^1513411200^{date}|16 December 2017>\n' +
+      '`5` F <!date^1515571200^{date}|10 January 2018>'
     )
   })
 
@@ -124,9 +124,9 @@ describe('event list', function () {
     assert.equal(
       bot.response(),
       '_Showing 3 of 7 events_\n' +
-      '`0` A <!date^1510300800^{date}^10 November 2017>\n' +
-      '`2` C <!date^1510992000^{date}^18 November 2017>\n' +
-      '`5` F <!date^1515571200^{date}^10 January 2018>'
+      '`0` A <!date^1510300800^{date}|10 November 2017>\n' +
+      '`2` C <!date^1510992000^{date}|18 November 2017>\n' +
+      '`5` F <!date^1515571200^{date}|10 January 2018>'
     )
   })
 
@@ -136,9 +136,9 @@ describe('event list', function () {
       bot.response(),
       '_Showing 4 of 7 events_\n' +
       '`6` _G_\n' +
-      '`1` _B boo_ <!date^1510905600^{date}^17 November 2017>\n' +
-      '`3` _D_ <!date^1511078400^{date}^19 November 2017>\n' +
-      '`4` _E boo_ <!date^1511596800^{date}^25 November 2017>, <!date^1513411200^{date}^16 December 2017>'
+      '`1` _B boo_ <!date^1510905600^{date}|17 November 2017>\n' +
+      '`3` _D_ <!date^1511078400^{date}|19 November 2017>\n' +
+      '`4` _E boo_ <!date^1511596800^{date}|25 November 2017>, <!date^1513411200^{date}|16 December 2017>'
     )
   })
 
@@ -156,7 +156,7 @@ describe('event list', function () {
     assert.equal(
       bot.response(),
       '_Showing 1 of 7 events_\n' +
-      '`4` _E boo_ <!date^1511596800^{date}^25 November 2017>, <!date^1513411200^{date}^16 December 2017>'
+      '`4` _E boo_ <!date^1511596800^{date}|25 November 2017>, <!date^1513411200^{date}|16 December 2017>'
     )
   })
 
@@ -166,12 +166,12 @@ describe('event list', function () {
       bot.response(),
       '_Showing 7 of 7 events_\n' +
       '`6` _G_\n' +
-      '`0` A <!date^1510300800^{date}^10 November 2017>\n' +
-      '`1` _B boo_ <!date^1510905600^{date}^17 November 2017>\n' +
-      '`2` C <!date^1510992000^{date}^18 November 2017>\n' +
-      '`3` _D_ <!date^1511078400^{date}^19 November 2017>\n' +
-      '`4` _E boo_ <!date^1511596800^{date}^25 November 2017>, <!date^1513411200^{date}^16 December 2017>\n' +
-      '`5` F <!date^1515571200^{date}^10 January 2018>'
+      '`0` A <!date^1510300800^{date}|10 November 2017>\n' +
+      '`1` _B boo_ <!date^1510905600^{date}|17 November 2017>\n' +
+      '`2` C <!date^1510992000^{date}|18 November 2017>\n' +
+      '`3` _D_ <!date^1511078400^{date}|19 November 2017>\n' +
+      '`4` _E boo_ <!date^1511596800^{date}|25 November 2017>, <!date^1513411200^{date}|16 December 2017>\n' +
+      '`5` F <!date^1515571200^{date}|10 January 2018>'
     )
   })
 })

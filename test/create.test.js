@@ -44,8 +44,8 @@ describe('event create', function () {
           {
             title: 'Proposed Dates',
             value:
-              '[0] <!date^1512892800^{date}^10 December 2017> _in 22 days_ x1\n' +
-              '[1] <!date^1512979200^{date}^11 December 2017> _in 23 days_ x1'
+              '[0] <!date^1512892800^{date}|10 December 2017> _in 22 days_ x1\n' +
+              '[1] <!date^1512979200^{date}|11 December 2017> _in 23 days_ x1'
           },
           {
             title: 'Who',
@@ -72,7 +72,7 @@ describe('event create', function () {
           fields: [
             {
               title: 'Proposed Dates',
-              value: '[0] <!date^1513065600^{date}^12 December 2017> _in 24 days_ x1'
+              value: '[0] <!date^1513065600^{date}|12 December 2017> _in 24 days_ x1'
             },
             {
               title: 'Who',
@@ -131,7 +131,7 @@ describe('event create', function () {
         fallback: 'XYZ: Bar',
         title: 'XYZ :calendar: Bar',
         fields: [
-          {title: 'When', value: '<!date^1511078400^{date}^19 November 2017> _in a day_'},
+          {title: 'When', value: '<!date^1511078400^{date}|19 November 2017> _in a day_'},
           {title: 'Who', value: '_Attendees_\n:white_check_mark: <@U1> | :grey_question: <@U2>'}
         ],
         mrkdwn_in: ['fields']

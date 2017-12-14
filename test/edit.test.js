@@ -35,8 +35,8 @@ describe('event edit', function () {
           {
             title: 'Proposed Dates',
             value:
-              '[0] <!date^1511078400^{date}^19 November 2017> _in a day_\n' +
-              '[1] <!date^1511596800^{date}^25 November 2017> _in 7 days_'
+              '[0] <!date^1511078400^{date}|19 November 2017> _in a day_\n' +
+              '[1] <!date^1511596800^{date}|25 November 2017> _in 7 days_'
           },
           {
             title: 'Who',
@@ -58,9 +58,9 @@ describe('event edit', function () {
           {
             title: 'Proposed Dates',
             value:
-              '[0] <!date^1511078400^{date}^19 November 2017> _in a day_\n' +
-              '[1] <!date^1511596800^{date}^25 November 2017> _in 7 days_\n' +
-              '[2] <!date^1511164800^{date}^20 November 2017> _in 2 days_ x1'
+              '[0] <!date^1511078400^{date}|19 November 2017> _in a day_\n' +
+              '[1] <!date^1511596800^{date}|25 November 2017> _in 7 days_\n' +
+              '[2] <!date^1511164800^{date}|20 November 2017> _in 2 days_ x1'
           },
           {
             title: 'Who',
@@ -81,7 +81,7 @@ describe('event edit', function () {
         fields: [
           {
             title: 'Proposed Dates',
-            value: '[1] <!date^1511596800^{date}^25 November 2017> _in 7 days_'
+            value: '[1] <!date^1511596800^{date}|25 November 2017> _in 7 days_'
           },
           {
             title: 'Who',
@@ -103,8 +103,8 @@ describe('event edit', function () {
           {
             title: 'Proposed Dates',
             value:
-              '[0] <!date^1511078400^{date}^19 November 2017> _in a day_\n' +
-              '[1] <!date^1511596800^{date}^25 November 2017> _in 7 days_'
+              '[0] <!date^1511078400^{date}|19 November 2017> _in a day_\n' +
+              '[1] <!date^1511596800^{date}|25 November 2017> _in 7 days_'
           },
           {
             title: 'Who',
@@ -126,8 +126,8 @@ describe('event edit', function () {
           {
             title: 'Proposed Dates',
             value:
-              '[0] <!date^1511078400^{date}^19 November 2017> _in a day_\n' +
-              '[1] <!date^1511596800^{date}^25 November 2017> _in 7 days_'
+              '[0] <!date^1511078400^{date}|19 November 2017> _in a day_\n' +
+              '[1] <!date^1511596800^{date}|25 November 2017> _in 7 days_'
           },
           {
             title: 'Who',
@@ -149,8 +149,8 @@ describe('event edit', function () {
           {
             title: 'Proposed Dates',
             value:
-              '[0] <!date^1511078400^{date}^19 November 2017> _in a day_\n' +
-              '[1] <!date^1511596800^{date}^25 November 2017> _in 7 days_'
+              '[0] <!date^1511078400^{date}|19 November 2017> _in a day_\n' +
+              '[1] <!date^1511596800^{date}|25 November 2017> _in 7 days_'
           },
           {
             title: 'Who',
@@ -217,7 +217,7 @@ describe('event edit', function () {
         fields: [
           {
             title: 'When',
-            value: '<!date^1511078400^{date}^19 November 2017> _in a day_'
+            value: '<!date^1511078400^{date}|19 November 2017> _in a day_'
           },
           {
             title: 'Who',
@@ -285,8 +285,8 @@ describe('event edit', function () {
             {
               title: 'Proposed Dates',
               value:
-                '[0] <!date^1511078400^{date}^19 November 2017> _in a day_\n' +
-                '[1] <!date^1511596800^{date}^25 November 2017> _in 7 days_'
+                '[0] <!date^1511078400^{date}|19 November 2017> _in a day_\n' +
+                '[1] <!date^1511596800^{date}|25 November 2017> _in 7 days_'
             },
             {
               title: 'Who',

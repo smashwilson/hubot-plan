@@ -98,27 +98,27 @@ describe('Timespan', function () {
     it('prints a full-day span as a Slack timestamp', function () {
       const ts = Timespan.parse('2017-11-17', TZ)
 
-      assert.equal(ts.renderStart(), '<!date^1510905600^{date}^17 November 2017>')
-      assert.equal(ts.renderRange(), '<!date^1510905600^{date}^17 November 2017>')
+      assert.equal(ts.renderStart(), '<!date^1510905600^{date}|17 November 2017>')
+      assert.equal(ts.renderRange(), '<!date^1510905600^{date}|17 November 2017>')
     })
 
     it('prints a multi-day span as a Slack timestamp', function () {
       const ts = Timespan.parse('2017-11-17..2017-11-19', TZ)
 
-      assert.equal(ts.renderStart(), '<!date^1510905600^{date}^17 November 2017>')
+      assert.equal(ts.renderStart(), '<!date^1510905600^{date}|17 November 2017>')
       assert.equal(
         ts.renderRange(),
-        '<!date^1510905600^{date}^17 November 2017> to <!date^1511164799^{date}^19 November 2017>'
+        '<!date^1510905600^{date}|17 November 2017> to <!date^1511164799^{date}|19 November 2017>'
       )
     })
 
     it('prints a timestamp as a Slack timestamp', function () {
       const ts = Timespan.parse('2017-11-17 11:30', TZ)
 
-      assert.equal(ts.renderStart(), '<!date^1510947000^{date_short} {time}^17 Nov 2017 11:30am>')
+      assert.equal(ts.renderStart(), '<!date^1510947000^{date_short} {time}|17 Nov 2017 11:30am>')
       assert.equal(
         ts.renderRange(),
-        '<!date^1510947000^{date_short} {time}^17 Nov 2017 11:30am> to <!date^1510950600^{time}^12:30pm>'
+        '<!date^1510947000^{date_short} {time}|17 Nov 2017 11:30am> to <!date^1510950600^{time}|12:30pm>'
       )
     })
 
@@ -127,8 +127,8 @@ describe('Timespan', function () {
 
       assert.equal(
         ts.renderRange(),
-        '<!date^1510956000^{date_short} {time}^17 Nov 2017 2:00pm> to ' +
-        '<!date^1511013600^{date_short} {time}^18 Nov 2017 6:00am>'
+        '<!date^1510956000^{date_short} {time}|17 Nov 2017 2:00pm> to ' +
+        '<!date^1511013600^{date_short} {time}|18 Nov 2017 6:00am>'
       )
     })
   })
