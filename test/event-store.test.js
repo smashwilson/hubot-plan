@@ -3,13 +3,18 @@
 const assert = require('chai').assert
 
 const {EventStore} = require('../lib/event-store')
-const {ts} = require('./bot-context')
+const {ts, BotContext} = require('./bot-context')
 
 describe('EventStore', function () {
-  let store
+  let store, bot
 
   beforeEach(function () {
-    store = new EventStore()
+    bot = new BotContext()
+    store = new EventStore(bot.robot)
+  })
+
+  afterEach(function () {
+    bot.cleanup()
   })
 
   it('assigns each event a unique ID on insertion', function () {
@@ -52,7 +57,8 @@ describe('EventStore', function () {
     store.create('333', 'C')
 
     const payload = store.serialize()
-    const store1 = EventStore.deserialize(payload)
+    const t = JSON.parse(JSON.stringify(payload))
+    const store1 = EventStore.deserialize(bot.robot, t)
 
     const a1 = store1.lookup('111')
     const b1 = store1.lookup('222')
