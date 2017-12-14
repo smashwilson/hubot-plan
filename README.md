@@ -1,6 +1,6 @@
-# hubot-events
+# hubot-plan
 
-Plan events with chatops :sparkles: :robot_face:
+Plan events with chatops :sparkles: :calendar:
 
 ## Installation
 

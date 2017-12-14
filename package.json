@@ -1,5 +1,5 @@
 {
-  "name": "hubot-events",
+  "name": "hubot-plan",
   "version": "0.0.1",
   "description": "Plan get-togethers with chatops",
   "main": "lib/index.js",
@@ -9,7 +9,9 @@
   },
   "keywords": [
     "hubot",
-    "events"
+    "events",
+    "calendar",
+    "planning"
   ],
   "author": "Ash Wilson <smashwilson@gmail.com>",
   "license": "MIT",
