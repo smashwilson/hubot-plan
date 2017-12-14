@@ -30,7 +30,7 @@ describe('event edit', function () {
     assert.deepEqual(bot.response(), {
       attachments: [{
         fallback: 'AAA111: Something Cool',
-        title: '`AAA111` :calendar: Something Cool',
+        title: 'AAA111 :calendar: Something Cool',
         fields: [
           {
             title: 'Proposed Dates',
@@ -53,7 +53,7 @@ describe('event edit', function () {
     assert.deepEqual(bot.response(), {
       attachments: [{
         fallback: 'AAA111: Something Cool',
-        title: '`AAA111` :calendar: Something Cool',
+        title: 'AAA111 :calendar: Something Cool',
         fields: [
           {
             title: 'Proposed Dates',
@@ -77,7 +77,7 @@ describe('event edit', function () {
     assert.deepEqual(bot.response(), {
       attachments: [{
         fallback: 'AAA111: Something Cool',
-        title: '`AAA111` :calendar: Something Cool',
+        title: 'AAA111 :calendar: Something Cool',
         fields: [
           {
             title: 'Proposed Dates',
@@ -98,7 +98,7 @@ describe('event edit', function () {
     assert.deepEqual(bot.response(), {
       attachments: [{
         fallback: 'AAA111: Something Cool',
-        title: '`AAA111` :calendar: Something Cool',
+        title: 'AAA111 :calendar: Something Cool',
         fields: [
           {
             title: 'Proposed Dates',
@@ -121,7 +121,7 @@ describe('event edit', function () {
     assert.deepEqual(bot.response(), {
       attachments: [{
         fallback: 'AAA111: Something Cool',
-        title: '`AAA111` :calendar: Something Cool',
+        title: 'AAA111 :calendar: Something Cool',
         fields: [
           {
             title: 'Proposed Dates',
@@ -144,7 +144,7 @@ describe('event edit', function () {
     assert.deepEqual(bot.response(), {
       attachments: [{
         fallback: 'AAA111: Something Less Cool',
-        title: '`AAA111` :calendar: Something Less Cool',
+        title: 'AAA111 :calendar: Something Less Cool',
         fields: [
           {
             title: 'Proposed Dates',
@@ -213,7 +213,7 @@ describe('event edit', function () {
     assert.deepEqual(bot.response(), {
       attachments: [{
         fallback: 'AAA111: Something Cool',
-        title: '`AAA111` :calendar: Something Cool',
+        title: 'AAA111 :calendar: Something Cool',
         fields: [
           {
             title: 'When',
@@ -280,7 +280,7 @@ describe('event edit', function () {
         text: 'The event "Something Cool" may now have its final date reassigned.',
         attachments: [{
           fallback: 'AAA111: Something Cool',
-          title: '`AAA111` :calendar: Something Cool',
+          title: 'AAA111 :calendar: Something Cool',
           fields: [
             {
               title: 'Proposed Dates',

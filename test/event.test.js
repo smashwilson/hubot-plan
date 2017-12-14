@@ -173,7 +173,7 @@ describe('Event', function () {
       const a = evt.asAttachment(ts.now)
 
       assert.equal(a.fallback, "BBB: Party at Frey's House")
-      assert.equal(a.title, "`BBB` :calendar: Party at Frey's House")
+      assert.equal(a.title, "BBB :calendar: Party at Frey's House")
       assert.deepEqual(a.fields, [{title: 'Proposed Dates', value: '_none yet_'}])
       assert.deepEqual(a.mrkdwn_in, ['fields'])
     })

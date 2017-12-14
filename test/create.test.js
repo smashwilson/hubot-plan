@@ -23,7 +23,7 @@ describe('event create', function () {
       text: 'The event "Wizard People" has been created with id *ABC*.',
       attachments: [{
         fallback: 'ABC: Wizard People',
-        title: '`ABC` :calendar: Wizard People',
+        title: 'ABC :calendar: Wizard People',
         fields: [
           {title: 'Proposed Dates', value: '_none yet_'},
           {title: 'Who', value: '_Responses_\n:white_square_button: <@U1>'}
@@ -39,7 +39,7 @@ describe('event create', function () {
       text: 'The event "Wizard People" has been created with id *ABC*.',
       attachments: [{
         fallback: 'ABC: Wizard People',
-        title: '`ABC` :calendar: Wizard People',
+        title: 'ABC :calendar: Wizard People',
         fields: [
           {
             title: 'Proposed Dates',
@@ -68,7 +68,7 @@ describe('event create', function () {
       attachments: [
         {
           fallback: 'ABC: Wizard People',
-          title: '`ABC` :calendar: Wizard People',
+          title: 'ABC :calendar: Wizard People',
           fields: [
             {
               title: 'Proposed Dates',
@@ -105,7 +105,7 @@ describe('event create', function () {
       text: 'The event "Foo" has been created with id *CBA*.',
       attachments: [{
         fallback: 'CBA: Foo',
-        title: '`CBA` :calendar: Foo',
+        title: 'CBA :calendar: Foo',
         fields: [
           {
             title: 'Proposed Dates',
@@ -129,7 +129,7 @@ describe('event create', function () {
       text: 'The event "Bar" has been created with id *XYZ*.',
       attachments: [{
         fallback: 'XYZ: Bar',
-        title: '`XYZ` :calendar: Bar',
+        title: 'XYZ :calendar: Bar',
         fields: [
           {title: 'When', value: '<!date^1511078400^{date}^19 November 2017> _in a day_'},
           {title: 'Who', value: '_Attendees_\n:white_check_mark: <@U1> | :grey_question: <@U2>'}
