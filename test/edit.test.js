@@ -168,6 +168,27 @@ describe('event edit', function () {
       bot.response(),
       'You have confirmed that you would be able to attend "Something Cool" on *19 November 2017*.'
     )
+
+    await bot.say('user0', 'hubot: event AAA111')
+    assert.deepEqual(bot.response(), {
+      attachments: [{
+        fallback: 'AAA111: Something Cool',
+        title: 'AAA111 :calendar: Something Cool',
+        fields: [
+          {
+            title: 'Proposed Dates',
+            value:
+              '[0] <!date^1511078400^{date}|19 November 2017> _in a day_ x1\n' +
+              '[1] <!date^1511596800^{date}|25 November 2017> _in 7 days_'
+          },
+          {
+            title: 'Who',
+            value: '_Responses_\n:white_square_button: <@U0> | :white_square: <@U1>'
+          }
+        ],
+        mrkdwn_in: ['fields']
+      }]
+    })
   })
 
   it('complains if the proposed date index is omitted', async function () {
@@ -181,6 +202,27 @@ describe('event edit', function () {
       bot.response(),
       'You have confirmed that you would not be able to attend "Something Cool" on *25 November 2017*.'
     )
+
+    await bot.say('user0', 'hubot: event AAA111')
+    assert.deepEqual(bot.response(), {
+      attachments: [{
+        fallback: 'AAA111: Something Cool',
+        title: 'AAA111 :calendar: Something Cool',
+        fields: [
+          {
+            title: 'Proposed Dates',
+            value:
+              '[0] <!date^1511078400^{date}|19 November 2017> _in a day_\n' +
+              '[1] <!date^1511596800^{date}|25 November 2017> _in 7 days_'
+          },
+          {
+            title: 'Who',
+            value: '_Responses_\n:white_square_button: <@U0> | :white_square: <@U1>'
+          }
+        ],
+        mrkdwn_in: ['fields']
+      }]
+    })
   })
 
   it('rejects all proposed dates at once', async function () {
@@ -190,6 +232,27 @@ describe('event edit', function () {
       'You have confirmed that you would not be able to attend "Something Cool"' +
       ' on *19 November 2017* or *25 November 2017*.'
     )
+
+    await bot.say('user0', 'hubot: event AAA111')
+    assert.deepEqual(bot.response(), {
+      attachments: [{
+        fallback: 'AAA111: Something Cool',
+        title: 'AAA111 :calendar: Something Cool',
+        fields: [
+          {
+            title: 'Proposed Dates',
+            value:
+              '[0] <!date^1511078400^{date}|19 November 2017> _in a day_\n' +
+              '[1] <!date^1511596800^{date}|25 November 2017> _in 7 days_'
+          },
+          {
+            title: 'Who',
+            value: '_Responses_\n:white_square_button: <@U0> | :white_square: <@U1>'
+          }
+        ],
+        mrkdwn_in: ['fields']
+      }]
+    })
   })
 
   it('confirms proposed dates on behalf of someone else', async function () {
@@ -198,6 +261,27 @@ describe('event edit', function () {
       bot.response(),
       'You have confirmed that <@U1> would be able to attend "Something Cool" on *25 November 2017*.'
     )
+
+    await bot.say('user0', 'hubot: event AAA111')
+    assert.deepEqual(bot.response(), {
+      attachments: [{
+        fallback: 'AAA111: Something Cool',
+        title: 'AAA111 :calendar: Something Cool',
+        fields: [
+          {
+            title: 'Proposed Dates',
+            value:
+              '[0] <!date^1511078400^{date}|19 November 2017> _in a day_\n' +
+              '[1] <!date^1511596800^{date}|25 November 2017> _in 7 days_ x1'
+          },
+          {
+            title: 'Who',
+            value: '_Responses_\n:white_square: <@U0> | :white_square_button: <@U1>'
+          }
+        ],
+        mrkdwn_in: ['fields']
+      }]
+    })
   })
 
   it('rejects proposed dates on behalf of someone else', async function () {
@@ -206,6 +290,27 @@ describe('event edit', function () {
       bot.response(),
       'You have confirmed that <@U1> would not be able to attend "Something Cool" on *25 November 2017*.'
     )
+
+    await bot.say('user0', 'hubot: event AAA111')
+    assert.deepEqual(bot.response(), {
+      attachments: [{
+        fallback: 'AAA111: Something Cool',
+        title: 'AAA111 :calendar: Something Cool',
+        fields: [
+          {
+            title: 'Proposed Dates',
+            value:
+              '[0] <!date^1511078400^{date}|19 November 2017> _in a day_\n' +
+              '[1] <!date^1511596800^{date}|25 November 2017> _in 7 days_'
+          },
+          {
+            title: 'Who',
+            value: '_Responses_\n:white_square: <@U0> | :white_square_button: <@U1>'
+          }
+        ],
+        mrkdwn_in: ['fields']
+      }]
+    })
   })
 
   it('finalizes an unfinalized event', async function () {
@@ -243,6 +348,28 @@ describe('event edit', function () {
         bot.response(),
         'You have confirmed that you will be able to attend "Something Cool" on *25 November 2017*.'
       )
+
+      await bot.say('user0', 'hubot: event AAA111')
+      assert.deepEqual(
+        bot.response(),
+        {attachments: [
+          {
+            fallback: 'AAA111: Something Cool',
+            title: 'AAA111 :calendar: Something Cool',
+            fields: [
+              {
+                title: 'When',
+                value: '<!date^1511596800^{date}|25 November 2017> _in 7 days_'
+              },
+              {
+                title: 'Who',
+                value: '_Attendees_\n:white_check_mark: <@U0> | :grey_question: <@U1>'
+              }
+            ],
+            mrkdwn_in: ['fields']
+          }
+        ]}
+      )
     })
 
     it('rejects attendance', async function () {
@@ -250,6 +377,28 @@ describe('event edit', function () {
       assert.equal(
         bot.response(),
         'You have confirmed that you will not be able to attend "Something Cool" on *25 November 2017*.'
+      )
+
+      await bot.say('user0', 'hubot: event AAA111')
+      assert.deepEqual(
+        bot.response(),
+        {attachments: [
+          {
+            fallback: 'AAA111: Something Cool',
+            title: 'AAA111 :calendar: Something Cool',
+            fields: [
+              {
+                title: 'When',
+                value: '<!date^1511596800^{date}|25 November 2017> _in 7 days_'
+              },
+              {
+                title: 'Who',
+                value: '_Attendees_\n:red_circle: <@U0> | :grey_question: <@U1>'
+              }
+            ],
+            mrkdwn_in: ['fields']
+          }
+        ]}
       )
     })
 
@@ -259,6 +408,28 @@ describe('event edit', function () {
         bot.response(),
         'You have confirmed that <@U1> will be able to attend "Something Cool" on *25 November 2017*.'
       )
+
+      await bot.say('user0', 'hubot: event AAA111')
+      assert.deepEqual(
+        bot.response(),
+        {attachments: [
+          {
+            fallback: 'AAA111: Something Cool',
+            title: 'AAA111 :calendar: Something Cool',
+            fields: [
+              {
+                title: 'When',
+                value: '<!date^1511596800^{date}|25 November 2017> _in 7 days_'
+              },
+              {
+                title: 'Who',
+                value: '_Attendees_\n:grey_question: <@U0> | :white_check_mark: <@U1>'
+              }
+            ],
+            mrkdwn_in: ['fields']
+          }
+        ]}
+      )
     })
 
     it('rejects on behalf of someone else', async function () {
@@ -266,6 +437,28 @@ describe('event edit', function () {
       assert.equal(
         bot.response(),
         'You have confirmed that <@U1> will not be able to attend "Something Cool" on *25 November 2017*.'
+      )
+
+      await bot.say('user0', 'hubot: event AAA111')
+      assert.deepEqual(
+        bot.response(),
+        {attachments: [
+          {
+            fallback: 'AAA111: Something Cool',
+            title: 'AAA111 :calendar: Something Cool',
+            fields: [
+              {
+                title: 'When',
+                value: '<!date^1511596800^{date}|25 November 2017> _in 7 days_'
+              },
+              {
+                title: 'Who',
+                value: '_Attendees_\n:grey_question: <@U0> | :red_circle: <@U1>'
+              }
+            ],
+            mrkdwn_in: ['fields']
+          }
+        ]}
       )
     })
 
