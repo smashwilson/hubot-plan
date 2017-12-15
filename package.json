@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "ical-toolkit": "^1.0.9",
+    "moment": "^2.19.4",
     "moment-timezone": "^0.5.14",
     "yargs": "^10.0.3"
   }
