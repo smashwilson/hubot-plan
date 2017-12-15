@@ -85,6 +85,16 @@ describe('Event', function () {
       assert.isFalse(evt.proposal(2).isLeading())
     })
 
+    it('accepts proposed dates after proposals have been unproposed', function () {
+      evt.unpropose(0)
+      evt.proposeDate(ts.nextMonth)
+      evt.acceptProposal('frey', 1)
+
+      assert.deepEqual(evt.proposalKeys(), [1])
+      assert.equal(evt.proposal(1).getTimespan(), ts.nextMonth)
+      assert.equal(evt.proposal(1).yesCount(), 1)
+    })
+
     describe('becoming finalized', function () {
       beforeEach(function () {
         evt.invite('frey')
