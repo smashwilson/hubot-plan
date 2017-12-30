@@ -284,6 +284,35 @@ describe('event edit', function () {
     })
   })
 
+  it('automatically invites someone when they accept or reject a proposed date', async function () {
+    await bot.say('user2', 'hubot: event AAA111 --yes 0')
+    assert.equal(
+      bot.response(),
+      'You have confirmed that you would be able to attend "Something Cool" on *19 November 2017*.'
+    )
+
+    await bot.say('user0', 'hubot: event AAA111')
+    assert.deepEqual(bot.response(), {
+      attachments: [{
+        fallback: 'AAA111: Something Cool',
+        title: 'AAA111 :calendar: Something Cool',
+        fields: [
+          {
+            title: 'Proposed Dates',
+            value:
+              '[0] <!date^1511078400^{date}|19 November 2017> _in a day_ x1\n' +
+              '[1] <!date^1511596800^{date}|25 November 2017> _in 7 days_'
+          },
+          {
+            title: 'Who',
+            value: '_Responses_\n:white_square: <@U0> | :white_square: <@U1> | :white_square_button: <@U2>'
+          }
+        ],
+        mrkdwn_in: ['fields']
+      }]
+    })
+  })
+
   it('rejects proposed dates on behalf of someone else', async function () {
     await bot.say('user0', 'hubot: event AAA111 --for @user1 --no 1')
     assert.equal(
@@ -454,6 +483,36 @@ describe('event edit', function () {
               {
                 title: 'Who',
                 value: '_Attendees_\n:grey_question: <@U0> | :red_circle: <@U1>'
+              }
+            ],
+            mrkdwn_in: ['fields']
+          }
+        ]}
+      )
+    })
+
+    it('automatically invites a user when confirming attendance', async function () {
+      await bot.say('user2', 'hubot: event AAA111 --yes')
+      assert.equal(
+        bot.response(),
+        'You have confirmed that you will be able to attend "Something Cool" on *25 November 2017*.'
+      )
+
+      await bot.say('user0', 'hubot: event AAA111')
+      assert.deepEqual(
+        bot.response(),
+        {attachments: [
+          {
+            fallback: 'AAA111: Something Cool',
+            title: 'AAA111 :calendar: Something Cool',
+            fields: [
+              {
+                title: 'When',
+                value: '<!date^1511596800^{date}|25 November 2017> _in 7 days_'
+              },
+              {
+                title: 'Who',
+                value: '_Attendees_\n:grey_question: <@U0> | :grey_question: <@U1> | :white_check_mark: <@U2>'
               }
             ],
             mrkdwn_in: ['fields']
