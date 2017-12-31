@@ -355,7 +355,7 @@ describe('event edit', function () {
           },
           {
             title: 'Who',
-            value: '_Attendees_\n:grey_question: <@U0> | :grey_question: <@U1>'
+            value: '_Attendees (0 confirmed)_\n:grey_question: <@U0> | :grey_question: <@U1>'
           }
         ],
         mrkdwn_in: ['fields']
@@ -392,7 +392,7 @@ describe('event edit', function () {
               },
               {
                 title: 'Who',
-                value: '_Attendees_\n:white_check_mark: <@U0> | :grey_question: <@U1>'
+                value: '_Attendees (1 confirmed)_\n:white_check_mark: <@U0> | :grey_question: <@U1>'
               }
             ],
             mrkdwn_in: ['fields']
@@ -422,7 +422,7 @@ describe('event edit', function () {
               },
               {
                 title: 'Who',
-                value: '_Attendees_\n:red_circle: <@U0> | :grey_question: <@U1>'
+                value: '_Attendees (0 confirmed)_\n:red_circle: <@U0> | :grey_question: <@U1>'
               }
             ],
             mrkdwn_in: ['fields']
@@ -452,7 +452,7 @@ describe('event edit', function () {
               },
               {
                 title: 'Who',
-                value: '_Attendees_\n:grey_question: <@U0> | :white_check_mark: <@U1>'
+                value: '_Attendees (1 confirmed)_\n:grey_question: <@U0> | :white_check_mark: <@U1>'
               }
             ],
             mrkdwn_in: ['fields']
@@ -482,7 +482,7 @@ describe('event edit', function () {
               },
               {
                 title: 'Who',
-                value: '_Attendees_\n:grey_question: <@U0> | :red_circle: <@U1>'
+                value: '_Attendees (0 confirmed)_\n:grey_question: <@U0> | :red_circle: <@U1>'
               }
             ],
             mrkdwn_in: ['fields']
@@ -512,7 +512,7 @@ describe('event edit', function () {
               },
               {
                 title: 'Who',
-                value: '_Attendees_\n:grey_question: <@U0> | :grey_question: <@U1> | :white_check_mark: <@U2>'
+                value: '_Attendees (1 confirmed)_\n:grey_question: <@U0> | :grey_question: <@U1> | :white_check_mark: <@U2>'
               }
             ],
             mrkdwn_in: ['fields']
