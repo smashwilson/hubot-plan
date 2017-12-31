@@ -132,7 +132,7 @@ describe('event create', function () {
         title: 'XYZ :calendar: Bar',
         fields: [
           {title: 'When', value: '<!date^1511078400^{date}|19 November 2017> _in a day_'},
-          {title: 'Who', value: '_Attendees_\n:white_check_mark: <@U1> | :grey_question: <@U2>'}
+          {title: 'Who', value: '_Attendees (1 confirmed)_\n:white_check_mark: <@U1> | :grey_question: <@U2>'}
         ],
         mrkdwn_in: ['fields']
       }]
