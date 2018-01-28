@@ -34,21 +34,27 @@ describe('EventStore', function () {
     assert.equal(out.getName(), 'B')
   })
 
+  it('is case-insensitive for IDs', function () {
+    store.create('AAA', 'the event')
+    const out = store.lookup('aaa')
+    assert.equal(out.getName(), 'the event')
+  })
+
   it('throws an error for invalid IDs', function () {
     assert.throws(() => store.lookup('NOPENO00'), 'Invalid event ID')
   })
 
-  it('deletes events by ID', function () {
-    const e1 = store.create('111', 'A')
-    const e2 = store.create('222', 'B')
+  it('deletes events by case-insensitive ID', function () {
+    const e1 = store.create('111X', 'A')
+    const e2 = store.create('222Y', 'B')
 
-    assert.equal(store.lookup('111'), e1)
-    assert.equal(store.lookup('222'), e2)
+    assert.equal(store.lookup('111X'), e1)
+    assert.equal(store.lookup('222Y'), e2)
 
-    store.delete('222')
+    store.delete('222y')
 
-    assert.equal(store.lookup('111'), e1)
-    assert.throws(() => store.lookup('222'), 'Invalid event ID')
+    assert.equal(store.lookup('111X'), e1)
+    assert.throws(() => store.lookup('222Y'), 'Invalid event ID')
   })
 
   it('serializes and deserializes itself', function () {
