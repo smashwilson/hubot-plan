@@ -95,48 +95,12 @@ describe('event edit', function () {
 
   it('invites someone new', async function () {
     await bot.say('user0', 'hubot: event AAA111 --invite @user2')
-    assert.deepEqual(bot.response(), {
-      attachments: [{
-        fallback: 'AAA111: Something Cool',
-        title: 'AAA111 :calendar: Something Cool',
-        fields: [
-          {
-            title: 'Proposed Dates',
-            value:
-              '[0] <!date^1511078400^{date}|19 November 2017> _in a day_\n' +
-              '[1] <!date^1511596800^{date}|25 November 2017> _in 7 days_'
-          },
-          {
-            title: 'Who',
-            value: '_Responses_\n:white_square: <@U0> | :white_square: <@U1> | :white_square: <@U2>'
-          }
-        ],
-        mrkdwn_in: ['fields']
-      }]
-    })
+    assert.deepEqual(bot.response(), '<@U2> has been invited to the event "Something Cool".')
   })
 
   it('uninvites someone', async function () {
     await bot.say('user0', 'hubot: event AAA111 --uninvite @user1')
-    assert.deepEqual(bot.response(), {
-      attachments: [{
-        fallback: 'AAA111: Something Cool',
-        title: 'AAA111 :calendar: Something Cool',
-        fields: [
-          {
-            title: 'Proposed Dates',
-            value:
-              '[0] <!date^1511078400^{date}|19 November 2017> _in a day_\n' +
-              '[1] <!date^1511596800^{date}|25 November 2017> _in 7 days_'
-          },
-          {
-            title: 'Who',
-            value: '_Responses_\n:white_square: <@U0>'
-          }
-        ],
-        mrkdwn_in: ['fields']
-      }]
-    })
+    assert.deepEqual(bot.response(), '<@U1> has been uninvited from the event "Something Cool".')
   })
 
   it('changes its name', async function () {
