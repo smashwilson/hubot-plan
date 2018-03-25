@@ -71,6 +71,8 @@ To modify an event after it's created, call `hubot: event` with the ID it's been
 
 * `hubot: event ABC123 --finalize 1`. Choose one of the event's proposed dates as its final date. Everyone who previously replied with `--yes 1` will automatically be converted to a "yes" for that date; everyone who responded with a different date will be converted to a "no".
 
+* `hubot: event ABC123 --finalize`. Choose the _only_ proposed date as its final one.
+
 * `hubot: event ABC123 --at 2018-04-01`. Propose and finalize a new date for the event at the same time.
 
 * `hubot: event ABC123 --unfinalize`. Reverse a finalization to allow you to pick a different date.
