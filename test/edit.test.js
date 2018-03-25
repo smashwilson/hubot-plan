@@ -327,6 +327,27 @@ describe('event edit', function () {
     })
   })
 
+  it('finalizes an unfinalized event at a new date', async function () {
+    await bot.say('user0', 'hubot: event AAA111 --at 2017-11-20')
+    assert.deepEqual(bot.response(), {
+      attachments: [{
+        fallback: 'AAA111: Something Cool',
+        title: 'AAA111 :calendar: Something Cool',
+        fields: [
+          {
+            title: 'When',
+            value: '<!date^1511164800^{date}|20 November 2017> _in 2 days_'
+          },
+          {
+            title: 'Who',
+            value: '_Attendees (1 confirmed)_\n:white_check_mark: <@U0> | :grey_question: <@U1>'
+          }
+        ],
+        mrkdwn_in: ['fields']
+      }]
+    })
+  })
+
   describe('on a finalized event', function () {
     beforeEach(async function () {
       await bot.withStore(store => {
@@ -488,6 +509,27 @@ describe('event edit', function () {
     it('cannot be re-finalized without being unfinalized first', async function () {
       await bot.say('user0', 'hubot: event AAA111 --finalize 0')
       assert.equal(bot.response(), ':rotating_light: Event "Something Cool" has already had a final date chosen.')
+    })
+
+    it('can be finalized with a new date', async function () {
+      await bot.say('user0', 'hubot: event AAA111 --at 2017-11-20')
+      assert.deepEqual(bot.response(), {
+        attachments: [{
+          fallback: 'AAA111: Something Cool',
+          title: 'AAA111 :calendar: Something Cool',
+          fields: [
+            {
+              title: 'When',
+              value: '<!date^1511164800^{date}|20 November 2017> _in 2 days_'
+            },
+            {
+              title: 'Who',
+              value: '_Attendees (1 confirmed)_\n:white_check_mark: <@U0> | :grey_question: <@U1>'
+            }
+          ],
+          mrkdwn_in: ['fields']
+        }]
+      })
     })
 
     it('may be unfinalized', async function () {
