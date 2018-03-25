@@ -327,6 +327,36 @@ describe('event edit', function () {
     })
   })
 
+  it('finalizes an unfinalized event with a single proposed date', async function () {
+    await bot.say('user0', 'hubot: event AAA111 --unpropose 0')
+    await bot.say('user0', 'hubot: event AAA111 --finalize')
+    assert.deepEqual(bot.response(), {
+      attachments: [{
+        fallback: 'AAA111: Something Cool',
+        title: 'AAA111 :calendar: Something Cool',
+        fields: [
+          {
+            title: 'When',
+            value: '<!date^1511596800^{date}|25 November 2017> _in 7 days_'
+          },
+          {
+            title: 'Who',
+            value: '_Attendees (0 confirmed)_\n:grey_question: <@U0> | :grey_question: <@U1>'
+          }
+        ],
+        mrkdwn_in: ['fields']
+      }]
+    })
+  })
+
+  it('requires an explicit finalization index with multiple proposed dates', async function () {
+    await bot.say('user0', 'hubot: event AAA111 --finalize')
+    assert.equal(
+      bot.response(),
+      ':rotating_light: Event "Something Cool" has 2 proposed dates, so you must specify one to finalize the event.'
+    )
+  })
+
   it('finalizes an unfinalized event at a new date', async function () {
     await bot.say('user0', 'hubot: event AAA111 --at 2017-11-20')
     assert.deepEqual(bot.response(), {
