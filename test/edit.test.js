@@ -1,6 +1,7 @@
 /* eslint-env mocha */
 
 const {BotContext, ts} = require('./bot-context')
+const {Invitee} = require('../lib/invitee')
 const assert = require('chai').assert
 
 describe('event edit', function () {
@@ -16,8 +17,8 @@ describe('event edit', function () {
       const e = store.create('AAA111', 'Something Cool')
       e.proposeDate(ts.tomorrow)
       e.proposeDate(ts.nextWeek)
-      e.invite('<@U0>')
-      e.invite('<@U1>')
+      e.invite(Invitee.withUID('U0'))
+      e.invite(Invitee.withUID('U1'))
     })
   })
 
@@ -40,7 +41,7 @@ describe('event edit', function () {
           },
           {
             title: 'Who',
-            value: '_Responses_\n:white_square: <@U0> | :white_square: <@U1>'
+            value: '_Responses_\n:white_square: user0 | :white_square: user1'
           }
         ],
         mrkdwn_in: ['fields']
@@ -64,7 +65,7 @@ describe('event edit', function () {
           },
           {
             title: 'Who',
-            value: '_Responses_\n:white_square_button: <@U0> | :white_square: <@U1>'
+            value: '_Responses_\n:white_square_button: user0 | :white_square: user1'
           }
         ],
         mrkdwn_in: ['fields']
@@ -85,7 +86,7 @@ describe('event edit', function () {
           },
           {
             title: 'Who',
-            value: '_Responses_\n:white_square: <@U0> | :white_square: <@U1>'
+            value: '_Responses_\n:white_square: user0 | :white_square: user1'
           }
         ],
         mrkdwn_in: ['fields']
@@ -95,12 +96,12 @@ describe('event edit', function () {
 
   it('invites someone new', async function () {
     await bot.say('user0', 'hubot: event AAA111 --invite @user2')
-    assert.deepEqual(bot.response(), '<@U2> has been invited to the event "Something Cool".')
+    assert.deepEqual(bot.response(), 'user2 has been invited to the event "Something Cool".')
   })
 
   it('uninvites someone', async function () {
     await bot.say('user0', 'hubot: event AAA111 --uninvite @user1')
-    assert.deepEqual(bot.response(), '<@U1> has been uninvited from the event "Something Cool".')
+    assert.deepEqual(bot.response(), 'user1 has been uninvited from the event "Something Cool".')
   })
 
   it('changes its name', async function () {
@@ -118,7 +119,7 @@ describe('event edit', function () {
           },
           {
             title: 'Who',
-            value: '_Responses_\n:white_square: <@U0> | :white_square: <@U1>'
+            value: '_Responses_\n:white_square: user0 | :white_square: user1'
           }
         ],
         mrkdwn_in: ['fields']
@@ -147,7 +148,7 @@ describe('event edit', function () {
           },
           {
             title: 'Who',
-            value: '_Responses_\n:white_square_button: <@U0> | :white_square: <@U1>'
+            value: '_Responses_\n:white_square_button: user0 | :white_square: user1'
           }
         ],
         mrkdwn_in: ['fields']
@@ -181,7 +182,7 @@ describe('event edit', function () {
           },
           {
             title: 'Who',
-            value: '_Responses_\n:white_square_button: <@U0> | :white_square: <@U1>'
+            value: '_Responses_\n:white_square_button: user0 | :white_square: user1'
           }
         ],
         mrkdwn_in: ['fields']
@@ -211,7 +212,7 @@ describe('event edit', function () {
           },
           {
             title: 'Who',
-            value: '_Responses_\n:white_square_button: <@U0> | :white_square: <@U1>'
+            value: '_Responses_\n:white_square_button: user0 | :white_square: user1'
           }
         ],
         mrkdwn_in: ['fields']
@@ -223,7 +224,7 @@ describe('event edit', function () {
     await bot.say('user0', 'hubot: event AAA111 --for @user1 --yes 1')
     assert.equal(
       bot.response(),
-      'You have confirmed that <@U1> would be able to attend "Something Cool" on *25 November 2017*.'
+      'You have confirmed that user1 would be able to attend "Something Cool" on *25 November 2017*.'
     )
 
     await bot.say('user0', 'hubot: event AAA111')
@@ -240,7 +241,7 @@ describe('event edit', function () {
           },
           {
             title: 'Who',
-            value: '_Responses_\n:white_square: <@U0> | :white_square_button: <@U1>'
+            value: '_Responses_\n:white_square: user0 | :white_square_button: user1'
           }
         ],
         mrkdwn_in: ['fields']
@@ -269,7 +270,7 @@ describe('event edit', function () {
           },
           {
             title: 'Who',
-            value: '_Responses_\n:white_square: <@U0> | :white_square: <@U1> | :white_square_button: <@U2>'
+            value: '_Responses_\n:white_square: user0 | :white_square: user1 | :white_square_button: user2'
           }
         ],
         mrkdwn_in: ['fields']
@@ -281,7 +282,7 @@ describe('event edit', function () {
     await bot.say('user0', 'hubot: event AAA111 --for @user1 --no 1')
     assert.equal(
       bot.response(),
-      'You have confirmed that <@U1> would not be able to attend "Something Cool" on *25 November 2017*.'
+      'You have confirmed that user1 would not be able to attend "Something Cool" on *25 November 2017*.'
     )
 
     await bot.say('user0', 'hubot: event AAA111')
@@ -298,7 +299,7 @@ describe('event edit', function () {
           },
           {
             title: 'Who',
-            value: '_Responses_\n:white_square: <@U0> | :white_square_button: <@U1>'
+            value: '_Responses_\n:white_square: user0 | :white_square_button: user1'
           }
         ],
         mrkdwn_in: ['fields']
@@ -319,7 +320,7 @@ describe('event edit', function () {
           },
           {
             title: 'Who',
-            value: '_Attendees (0 confirmed)_\n:grey_question: <@U0> | :grey_question: <@U1>'
+            value: '_Attendees (0 confirmed)_\n:grey_question: user0 | :grey_question: user1'
           }
         ],
         mrkdwn_in: ['fields']
@@ -341,7 +342,7 @@ describe('event edit', function () {
           },
           {
             title: 'Who',
-            value: '_Attendees (0 confirmed)_\n:grey_question: <@U0> | :grey_question: <@U1>'
+            value: '_Attendees (0 confirmed)_\n:grey_question: user0 | :grey_question: user1'
           }
         ],
         mrkdwn_in: ['fields']
@@ -370,7 +371,7 @@ describe('event edit', function () {
           },
           {
             title: 'Who',
-            value: '_Attendees (1 confirmed)_\n:white_check_mark: <@U0> | :grey_question: <@U1>'
+            value: '_Attendees (1 confirmed)_\n:white_check_mark: user0 | :grey_question: user1'
           }
         ],
         mrkdwn_in: ['fields']
@@ -407,7 +408,7 @@ describe('event edit', function () {
               },
               {
                 title: 'Who',
-                value: '_Attendees (1 confirmed)_\n:white_check_mark: <@U0> | :grey_question: <@U1>'
+                value: '_Attendees (1 confirmed)_\n:white_check_mark: user0 | :grey_question: user1'
               }
             ],
             mrkdwn_in: ['fields']
@@ -437,7 +438,7 @@ describe('event edit', function () {
               },
               {
                 title: 'Who',
-                value: '_Attendees (0 confirmed)_\n:red_circle: <@U0> | :grey_question: <@U1>'
+                value: '_Attendees (0 confirmed)_\n:red_circle: user0 | :grey_question: user1'
               }
             ],
             mrkdwn_in: ['fields']
@@ -450,7 +451,7 @@ describe('event edit', function () {
       await bot.say('user0', 'hubot: event AAA111 --for user1 --yes')
       assert.equal(
         bot.response(),
-        'You have confirmed that <@U1> will be able to attend "Something Cool" on *25 November 2017*.'
+        'You have confirmed that user1 will be able to attend "Something Cool" on *25 November 2017*.'
       )
 
       await bot.say('user0', 'hubot: event AAA111')
@@ -467,7 +468,7 @@ describe('event edit', function () {
               },
               {
                 title: 'Who',
-                value: '_Attendees (1 confirmed)_\n:grey_question: <@U0> | :white_check_mark: <@U1>'
+                value: '_Attendees (1 confirmed)_\n:grey_question: user0 | :white_check_mark: user1'
               }
             ],
             mrkdwn_in: ['fields']
@@ -480,7 +481,7 @@ describe('event edit', function () {
       await bot.say('user0', 'hubot: event AAA111 --for user1 --no')
       assert.equal(
         bot.response(),
-        'You have confirmed that <@U1> will not be able to attend "Something Cool" on *25 November 2017*.'
+        'You have confirmed that user1 will not be able to attend "Something Cool" on *25 November 2017*.'
       )
 
       await bot.say('user0', 'hubot: event AAA111')
@@ -497,7 +498,7 @@ describe('event edit', function () {
               },
               {
                 title: 'Who',
-                value: '_Attendees (0 confirmed)_\n:grey_question: <@U0> | :red_circle: <@U1>'
+                value: '_Attendees (0 confirmed)_\n:grey_question: user0 | :red_circle: user1'
               }
             ],
             mrkdwn_in: ['fields']
@@ -527,7 +528,7 @@ describe('event edit', function () {
               },
               {
                 title: 'Who',
-                value: '_Attendees (1 confirmed)_\n:grey_question: <@U0> | :grey_question: <@U1> | :white_check_mark: <@U2>'
+                value: '_Attendees (1 confirmed)_\n:grey_question: user0 | :grey_question: user1 | :white_check_mark: user2'
               }
             ],
             mrkdwn_in: ['fields']
@@ -554,7 +555,7 @@ describe('event edit', function () {
             },
             {
               title: 'Who',
-              value: '_Attendees (1 confirmed)_\n:white_check_mark: <@U0> | :grey_question: <@U1>'
+              value: '_Attendees (1 confirmed)_\n:white_check_mark: user0 | :grey_question: user1'
             }
           ],
           mrkdwn_in: ['fields']
@@ -578,7 +579,7 @@ describe('event edit', function () {
             },
             {
               title: 'Who',
-              value: '_Responses_\n:white_square: <@U0> | :white_square: <@U1>'
+              value: '_Responses_\n:white_square: user0 | :white_square: user1'
             }
           ],
           mrkdwn_in: ['fields']

@@ -26,7 +26,7 @@ describe('event create', function () {
         title: 'ABC :calendar: Wizard People',
         fields: [
           {title: 'Proposed Dates', value: '_none yet_'},
-          {title: 'Who', value: '_Responses_\n:white_square_button: <@U1>'}
+          {title: 'Who', value: '_Responses_\n:white_square_button: user1'}
         ],
         mrkdwn_in: ['fields']
       }]
@@ -49,7 +49,7 @@ describe('event create', function () {
           },
           {
             title: 'Who',
-            value: '_Responses_\n:white_square_button: <@U1>'
+            value: '_Responses_\n:white_square_button: user1'
           }
         ],
         mrkdwn_in: ['fields']
@@ -76,7 +76,7 @@ describe('event create', function () {
             },
             {
               title: 'Who',
-              value: '_Responses_\n:white_square_button: <@U1>'
+              value: '_Responses_\n:white_square_button: user1'
             }
           ],
           mrkdwn_in: ['fields']
@@ -115,7 +115,7 @@ describe('event create', function () {
             title: 'Who',
             value:
               '_Responses_\n' +
-              ':white_square_button: <@U1> | :white_square: <@U2> | :white_square: <@U3> | :white_square: unknown'
+              ':white_square_button: user1 | :white_square: user2 | :white_square: user3 | :white_square: unknown'
           }
         ],
         mrkdwn_in: ['fields']
@@ -132,7 +132,7 @@ describe('event create', function () {
         title: 'XYZ :calendar: Bar',
         fields: [
           {title: 'When', value: '<!date^1511078400^{date}|19 November 2017> _in a day_'},
-          {title: 'Who', value: '_Attendees (1 confirmed)_\n:white_check_mark: <@U1> | :grey_question: <@U2>'}
+          {title: 'Who', value: '_Attendees (1 confirmed)_\n:white_check_mark: user1 | :grey_question: user2'}
         ],
         mrkdwn_in: ['fields']
       }]
