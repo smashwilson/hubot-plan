@@ -4,8 +4,16 @@ const assert = require('chai').assert
 
 const {ts} = require('./bot-context')
 const {Event} = require('../lib/event')
+const {Invitee} = require('../lib/invitee')
 
 describe('Event', function () {
+  const u = {
+    frey: Invitee.free('frey'),
+    fenris: Invitee.free('fenris'),
+    reostra: Invitee.free('reostra'),
+    hubot: Invitee.free('hubot')
+  }
+
   describe('in the proposed state', function () {
     let evt
 
@@ -33,26 +41,26 @@ describe('Event', function () {
     })
 
     it('adds invitees', function () {
-      evt.invite('frey')
-      evt.invite('fenris')
+      evt.invite(u.frey)
+      evt.invite(u.fenris)
 
-      assert.deepEqual(evt.getInvitees(), ['frey', 'fenris'])
+      assert.deepEqual(evt.getInvitees(), [u.frey, u.fenris])
     })
 
     it('removes invitees', function () {
-      evt.invite('frey')
-      evt.invite('hubot')
-      evt.invite('fenris')
+      evt.invite(u.frey)
+      evt.invite(u.hubot)
+      evt.invite(u.fenris)
 
-      evt.uninvite('hubot')
+      evt.uninvite(Invitee.free('hubot'))
 
-      assert.deepEqual(evt.getInvitees(), ['frey', 'fenris'])
+      assert.deepEqual(evt.getInvitees(), [u.frey, u.fenris])
     })
 
     it('tracks which invitees accept or reject proposed dates', function () {
-      evt.invite('frey')
-      evt.invite('fenris')
-      evt.invite('reostra')
+      evt.invite(u.frey)
+      evt.invite(u.fenris)
+      evt.invite(u.reostra)
 
       evt.proposeDate(ts.nextWeek)
       evt.proposeDate(ts.nextMonth)
@@ -67,12 +75,12 @@ describe('Event', function () {
       assert.equal(evt.proposal(2).yesCount(), 0)
       assert.isFalse(evt.proposal(2).isLeading())
 
-      evt.acceptProposal('frey', 0)
-      evt.acceptProposal('fenris', 0)
-      evt.acceptProposal('fenris', 1)
-      evt.acceptProposal('reostra', 0)
-      evt.acceptProposal('reostra', 1)
-      evt.acceptProposal('reostra', 2)
+      evt.acceptProposal(u.frey, 0)
+      evt.acceptProposal(u.fenris, 0)
+      evt.acceptProposal(u.fenris, 1)
+      evt.acceptProposal(u.reostra, 0)
+      evt.acceptProposal(u.reostra, 1)
+      evt.acceptProposal(u.reostra, 2)
 
       assert.equal(evt.proposal(0).getTimespan(), ts.tomorrow)
       assert.equal(evt.proposal(0).yesCount(), 3)
@@ -88,7 +96,7 @@ describe('Event', function () {
     it('accepts proposed dates after proposals have been unproposed', function () {
       evt.unpropose(0)
       evt.proposeDate(ts.nextMonth)
-      evt.acceptProposal('frey', 1)
+      evt.acceptProposal(u.frey, 1)
 
       assert.deepEqual(evt.proposalKeys(), [1])
       assert.equal(evt.proposal(1).getTimespan(), ts.nextMonth)
@@ -97,27 +105,27 @@ describe('Event', function () {
 
     describe('becoming finalized', function () {
       beforeEach(function () {
-        evt.invite('frey')
-        evt.invite('fenris')
-        evt.invite('reostra')
+        evt.invite(u.frey)
+        evt.invite(u.fenris)
+        evt.invite(u.reostra)
 
         evt.proposeDate(ts.nextWeek)
         evt.proposeDate(ts.nextMonth)
 
-        evt.acceptProposal('frey', 0)
-        evt.acceptProposal('fenris', 0)
-        evt.acceptProposal('fenris', 1)
-        evt.acceptProposal('reostra', 0)
-        evt.acceptProposal('reostra', 1)
-        evt.acceptProposal('reostra', 2)
+        evt.acceptProposal(u.frey, 0)
+        evt.acceptProposal(u.fenris, 0)
+        evt.acceptProposal(u.fenris, 1)
+        evt.acceptProposal(u.reostra, 0)
+        evt.acceptProposal(u.reostra, 1)
+        evt.acceptProposal(u.reostra, 2)
       })
 
       it('transitions invitees to yes or no based on their response to the final date', function () {
         evt.finalize(1)
 
-        assert.isFalse(evt.finalProposal().isAttending('frey'))
-        assert.isTrue(evt.finalProposal().isAttending('fenris'))
-        assert.isTrue(evt.finalProposal().isAttending('reostra'))
+        assert.isFalse(evt.finalProposal().isAttending(u.frey))
+        assert.isTrue(evt.finalProposal().isAttending(u.fenris))
+        assert.isTrue(evt.finalProposal().isAttending(u.reostra))
       })
     })
   })
@@ -130,37 +138,37 @@ describe('Event', function () {
       evt.proposeDate(ts.tomorrow)
       evt.proposeDate(ts.nextWeek)
       evt.proposeDate(ts.nextMonth)
-      evt.invite('frey')
-      evt.invite('fenris')
+      evt.invite(u.frey)
+      evt.invite(u.fenris)
 
-      evt.acceptProposal('fenris', 2)
+      evt.acceptProposal(u.fenris, 2)
 
       evt.finalize(0)
     })
 
     it('adds invitees', function () {
-      evt.invite('reostra')
+      evt.invite(u.reostra)
 
-      assert.deepEqual(evt.getInvitees(), ['frey', 'fenris', 'reostra'])
+      assert.deepEqual(evt.getInvitees(), [u.frey, u.fenris, u.reostra])
     })
 
     it('removes invitees', function () {
-      evt.uninvite('fenris')
+      evt.uninvite(u.fenris)
 
-      assert.deepEqual(evt.getInvitees(), ['frey'])
+      assert.deepEqual(evt.getInvitees(), [u.frey])
     })
 
     it('tracks which invitees confirm or deny', function () {
-      assert.isFalse(evt.finalProposal().isAttending('frey'))
-      assert.isFalse(evt.finalProposal().isAttending('fenris'))
-      assert.isFalse(evt.finalProposal().isAttending('reostra'))
+      assert.isFalse(evt.finalProposal().isAttending(u.frey))
+      assert.isFalse(evt.finalProposal().isAttending(u.fenris))
+      assert.isFalse(evt.finalProposal().isAttending(u.reostra))
 
-      evt.finalProposal().yes('fenris')
-      evt.finalProposal().yes('reostra')
+      evt.finalProposal().yes(u.fenris)
+      evt.finalProposal().yes(u.reostra)
 
-      assert.isFalse(evt.finalProposal().isAttending('frey'))
-      assert.isTrue(evt.finalProposal().isAttending('fenris'))
-      assert.isTrue(evt.finalProposal().isAttending('reostra'))
+      assert.isFalse(evt.finalProposal().isAttending(u.frey))
+      assert.isTrue(evt.finalProposal().isAttending(u.fenris))
+      assert.isTrue(evt.finalProposal().isAttending(u.reostra))
     })
 
     it('cannot be re-finalized', function () {
@@ -172,88 +180,18 @@ describe('Event', function () {
     })
   })
 
-  describe('asAttachment', function () {
-    let evt
-
-    beforeEach(function () {
-      evt = new Event('BBB', "Party at Frey's House")
-    })
-
-    it('always includes the title and empty proposed dates field', function () {
-      const a = evt.asAttachment(ts.now)
-
-      assert.equal(a.fallback, "BBB: Party at Frey's House")
-      assert.equal(a.title, "BBB :calendar: Party at Frey's House")
-      assert.deepEqual(a.fields, [{title: 'Proposed Dates', value: '_none yet_'}])
-      assert.deepEqual(a.mrkdwn_in, ['fields'])
-    })
-
-    it('lists proposed dates', function () {
-      evt.proposeDate(ts.tomorrow)
-      evt.proposeDate(ts.nextWeek)
-
-      const a = evt.asAttachment(ts.now.getStart())
-      assert.deepEqual(a.fields, [{
-        title: 'Proposed Dates',
-        value:
-          '[0] <!date^1511078400^{date}|19 November 2017> _in a day_\n' +
-          '[1] <!date^1511596800^{date}|25 November 2017> _in 7 days_'
-      }])
-    })
-
-    it('lists attendees and current response status', function () {
-      evt.proposeDate(ts.tomorrow)
-      evt.proposeDate(ts.nextWeek)
-
-      // U123 has not responded yet
-      evt.invite('<@U123>')
-
-      // U456 and U789 can make tomorrow
-      evt.invite('<@U456>')
-      evt.acceptProposal('<@U456>', 0)
-      evt.invite('<@U789>')
-      evt.acceptProposal('<@U789>', 0)
-
-      // U000 can't make it
-      evt.invite('<@U000>')
-      evt.rejectProposal('<@U000>', 0)
-      evt.rejectProposal('<@U000>', 1)
-
-      // U111 can make it, but wasn't on the initial invite list
-      evt.acceptProposal('<@U111>', 1)
-
-      const a = evt.asAttachment(ts.now.getStart())
-      assert.deepEqual(a.fields, [
-        {
-          title: 'Proposed Dates',
-          value:
-            '[0] <!date^1511078400^{date}|19 November 2017> _in a day_ :medal: x2\n' +
-            '[1] <!date^1511596800^{date}|25 November 2017> _in 7 days_ x1'
-        },
-        {
-          title: 'Who',
-          value:
-            '_Responses_\n' +
-            ':white_square: <@U123> | :white_square_button: <@U456> | ' +
-            ':white_square_button: <@U789> | :white_square_button: <@U000> | ' +
-            ':white_square_button: <@U111>'
-        }
-      ])
-    })
-  })
-
   it('serializes and deserializes itself', function () {
     const evt0 = new Event('BBB', "Party at Frey's House")
 
     evt0.proposeDate(ts.tomorrow)
     evt0.proposeDate(ts.nextWeek)
-    evt0.invite('<@U123>')
-    evt0.invite('<@U456>')
-    evt0.acceptProposal('<@U456>', 0)
-    evt0.invite('<@U789>')
-    evt0.rejectProposal('<@U789>', 0)
-    evt0.rejectProposal('<@U789>', 1)
-    evt0.acceptProposal('<@U111>', 1)
+    evt0.invite(u.frey)
+    evt0.invite(u.fenris)
+    evt0.acceptProposal(u.fenris, 0)
+    evt0.invite(u.reostra)
+    evt0.rejectProposal(u.reostra, 0)
+    evt0.rejectProposal(u.reostra, 1)
+    evt0.acceptProposal(u.hubot, 1)
 
     const payload = evt0.serialize()
     const evt1 = Event.deserialize(payload)
@@ -262,7 +200,7 @@ describe('Event', function () {
     assert.deepEqual(evt1.proposalKeys(), [0, 1])
     assert.equal(evt1.proposal(0).startDate().valueOf(), ts.tomorrow.getStart().valueOf())
     assert.equal(evt1.proposal(1).startDate().valueOf(), ts.nextWeek.getStart().valueOf())
-    assert.deepEqual(evt1.getInvitees(), ['<@U123>', '<@U456>', '<@U789>', '<@U111>'])
+    assert.deepEqual(evt1.getInvitees(), [u.frey, u.fenris, u.reostra, u.hubot])
   })
 
   describe('comparison', function () {
@@ -408,14 +346,14 @@ describe('Event', function () {
 
     it('matches by invite list', function () {
       const yes = new Event('yes', 'yes')
-      yes.invite('u0')
-      yes.invite('u1')
+      yes.invite(u.frey)
+      yes.invite(u.fenris)
 
       const no = new Event('no', 'no')
-      no.invite('u1')
+      no.invite(u.fenris)
 
-      assert.isTrue(yes.matches({invited: 'u0'}))
-      assert.isFalse(no.matches({invited: 'u0'}))
+      assert.isTrue(yes.matches({invited: u.frey}))
+      assert.isFalse(no.matches({invited: u.frey}))
     })
 
     it('always matches the empty filter', function () {

@@ -1,6 +1,7 @@
 /* eslint-env mocha */
 
 const {BotContext, ts} = require('./bot-context')
+const {Invitee} = require('../lib/invitee')
 const assert = require('chai').assert
 
 describe('event list', function () {
@@ -30,14 +31,14 @@ describe('event list', function () {
       const e4 = store.create('4', 'E boo')
       e4.proposeDate(ts.nextWeek)
       e4.proposeDate(ts.nextMonth)
-      e4.invite('<@U0>')
+      e4.invite(Invitee.withUID('U0'))
 
       const e5 = store.create('5', 'F')
       e5.proposeDate(ts.nextYear)
       e5.finalize(0)
 
       const e6 = store.create('6', 'G')
-      e6.invite('<@U1>')
+      e6.invite(Invitee.withUID('U1'))
     })
   })
 

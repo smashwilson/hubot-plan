@@ -3,6 +3,7 @@
 const assert = require('chai').assert
 
 const {EventStore} = require('../lib/event-store')
+const {Invitee} = require('../lib/invitee')
 const {ts, BotContext} = require('./bot-context')
 
 describe('EventStore', function () {
@@ -10,6 +11,12 @@ describe('EventStore', function () {
 
   beforeEach(function () {
     bot = new BotContext()
+
+    bot.createUser('u0', 'user0', 'user0@gmail.com')
+    bot.createUser('u1', 'user1', 'user1@gmail.com')
+    bot.createUser('u2', 'user2', 'user2@gmail.com')
+    bot.createUser('u3', 'user3', 'user3@gmail.com')
+
     store = new EventStore(bot.room.robot)
   })
 
@@ -80,32 +87,32 @@ describe('EventStore', function () {
     const no0 = store.create('1', 'A')
     no0.proposeDate(ts.now)
     no0.proposeDate(ts.tomorrow)
-    no0.invite('u0')
+    no0.invite(Invitee.withUID('u0'))
 
     // Defeated by invitation filter
     const no1 = store.create('2', 'B')
     no1.proposeDate(ts.nextWeek)
-    no1.invite('u1')
+    no1.invite(Invitee.withUID('u1'))
 
     // Included
     const yes0 = store.create('3', 'C')
     yes0.proposeDate(ts.nextMonth)
-    yes0.invite('u0')
+    yes0.invite(Invitee.withUID('u0'))
 
     // Included
     const yes1 = store.create('4', 'D')
     yes1.proposeDate(ts.nextWeek)
-    yes1.invite('u0')
+    yes1.invite(Invitee.withUID('u0'))
 
     // Defaulted by "before" filter
     const no2 = store.create('5', 'E')
     no2.proposeDate(ts.nextYear)
-    no2.invite('u0')
+    no2.invite(Invitee.withUID('u0'))
 
     const results = store.search({
       after: ts.nextWeek.getStart(),
       before: ts.nextMonth.getStart(),
-      invited: 'u0'
+      invited: Invitee.withUID('u0')
     })
     assert.equal(results.size(), 2)
     assert.equal(results.at(0), yes1)
@@ -113,36 +120,32 @@ describe('EventStore', function () {
   })
 
   it('renders an EventSet as an iCal feed', function () {
-    bot.createUser('u1', 'user1', 'user1@gmail.com')
-    bot.createUser('u2', 'user2', 'user2@gmail.com')
-    bot.createUser('u3', 'user3', 'user3@gmail.com')
-
     const e0 = store.create('ABC', 'Set In Stone')
     e0.proposeDate(ts.tomorrow)
     e0.proposeDate(ts.nextWeek)
-    e0.invite('<@u1>')
-    e0.invite('<@u2>')
-    e0.invite('<@u3>')
-    e0.acceptProposal('<@u1>', 0)
-    e0.acceptProposal('<@u1>', 1)
-    e0.acceptProposal('<@u2>', 0)
-    e0.acceptProposal('<@u3>', 1)
+    e0.invite(Invitee.withUID('u1'))
+    e0.invite(Invitee.withUID('u2'))
+    e0.invite(Invitee.withUID('u3'))
+    e0.acceptProposal(Invitee.withUID('u1'), 0)
+    e0.acceptProposal(Invitee.withUID('u1'), 1)
+    e0.acceptProposal(Invitee.withUID('u2'), 0)
+    e0.acceptProposal(Invitee.withUID('u3'), 1)
     e0.finalize(1)
 
     const e1 = store.create('DEF', 'Planned')
     e1.proposeDate(ts.nextWeek)
     e1.proposeDate(ts.nextMonth)
     e1.proposeDate(ts.nextYear)
-    e1.invite('<@u1>')
-    e1.invite('<@u2>')
-    e1.invite('<@u3>')
-    e1.acceptProposal('<@u1>', 0)
-    e1.acceptProposal('<@u1>', 2)
-    e1.acceptProposal('<@u2>', 0)
-    e1.acceptProposal('<@u2>', 1)
-    e1.acceptProposal('<@u2>', 2)
-    e1.acceptProposal('<@u3>', 1)
-    e1.acceptProposal('<@u3>', 2)
+    e1.invite(Invitee.withUID('u1'))
+    e1.invite(Invitee.withUID('u2'))
+    e1.invite(Invitee.withUID('u3'))
+    e1.acceptProposal(Invitee.withUID('u1'), 0)
+    e1.acceptProposal(Invitee.withUID('u1'), 2)
+    e1.acceptProposal(Invitee.withUID('u2'), 0)
+    e1.acceptProposal(Invitee.withUID('u2'), 1)
+    e1.acceptProposal(Invitee.withUID('u2'), 2)
+    e1.acceptProposal(Invitee.withUID('u3'), 1)
+    e1.acceptProposal(Invitee.withUID('u3'), 2)
 
     // Render iCal feed
     const ical = store.search({}).renderICal('Upcoming Events', 'America/Los_Angeles')
