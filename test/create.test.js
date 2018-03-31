@@ -123,6 +123,34 @@ describe('event create', function () {
     })
   })
 
+  it('pings initial invitees if requested', async function () {
+    await bot.say(
+      'user1',
+      'hubot: event create --name "Foo" --id CBA --invite @user2 --invite user3 --invite unknown --ping'
+    )
+
+    assert.deepEqual(bot.response(), {
+      text: 'The event "Foo" has been created with id *CBA*.',
+      attachments: [{
+        fallback: 'CBA: Foo',
+        title: 'CBA :calendar: Foo',
+        fields: [
+          {
+            title: 'Proposed Dates',
+            value: '_none yet_'
+          },
+          {
+            title: 'Who',
+            value:
+              '_Responses_\n' +
+              ':white_square_button: <@U1> | :white_square: <@U2> | :white_square: <@U3> | :white_square: unknown'
+          }
+        ],
+        mrkdwn_in: ['fields']
+      }]
+    })
+  })
+
   it('creates an immediately finalized event', async function () {
     await bot.say('user1', 'hubot: event create --name "Bar" --id XYZ --at 2017-11-19 --invite user2')
     assert.deepEqual(bot.response(), {
