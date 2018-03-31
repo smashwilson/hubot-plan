@@ -49,6 +49,29 @@ describe('event edit', function () {
     })
   })
 
+  it('pings invitees when requested', async function () {
+    await bot.say('user0', 'hubot: event AAA111 --ping')
+    assert.deepEqual(bot.response(), {
+      attachments: [{
+        fallback: 'AAA111: Something Cool',
+        title: 'AAA111 :calendar: Something Cool',
+        fields: [
+          {
+            title: 'Proposed Dates',
+            value:
+              '[0] <!date^1511078400^{date}|19 November 2017> _in a day_\n' +
+              '[1] <!date^1511596800^{date}|25 November 2017> _in 7 days_'
+          },
+          {
+            title: 'Who',
+            value: '_Responses_\n:white_square: <@U0> | :white_square: <@U1>'
+          }
+        ],
+        mrkdwn_in: ['fields']
+      }]
+    })
+  })
+
   it('adds a new proposed date to an event', async function () {
     await bot.say('user0', 'hubot: event AAA111 --propose 2017-11-20')
     assert.deepEqual(bot.response(), {
