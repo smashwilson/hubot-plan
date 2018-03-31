@@ -23,6 +23,10 @@ $ cat external-scripts.json
 
 Note that your hubot may have a different name or an alias. Commands are shown with a "hubot:" prefix for consistency. This package uses an [argument name parser for command-line tools](https://www.npmjs.com/package/yargs) so it obeys many of the same conventions from shells like bash - double-dash `--arg`, quoting multi-word arguments with double-quotes or single-quotes.
 
+### @-mentions
+
+By default, commands that list event attendees will list users by their chosen display names, but _not_ [@-mention them and generate a notification](https://api.slack.com/docs/message-formatting#linking_to_channels_and_users). This prevents users from being pinged every time the event is listed. If you _do_ want to notify an event's attendees, add the `--ping` argument.
+
 ### Specifying dates
 
 Event dates can be specified in [ISO-8601 format](https://en.wikipedia.org/wiki/ISO_8601). You can specify only dates for full-day events (`2018-01-27`) or exact times (`2018-01-27T17:30`).
