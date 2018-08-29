@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 
-const {BotContext} = require('./bot-context')
+const { BotContext } = require('./bot-context')
 const assert = require('chai').assert
 
 describe('event delete', function () {

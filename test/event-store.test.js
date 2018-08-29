@@ -2,9 +2,9 @@
 
 const assert = require('chai').assert
 
-const {EventStore} = require('../lib/event-store')
-const {Invitee} = require('../lib/invitee')
-const {ts, BotContext} = require('./bot-context')
+const { EventStore } = require('../lib/event-store')
+const { Invitee } = require('../lib/invitee')
+const { ts, BotContext } = require('./bot-context')
 
 describe('EventStore', function () {
   let store, bot

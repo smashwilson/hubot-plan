@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 
-const {BotContext, ts} = require('./bot-context')
-const {Invitee} = require('../lib/invitee')
+const { BotContext, ts } = require('./bot-context')
+const { Invitee } = require('../lib/invitee')
 const assert = require('chai').assert
 
 describe('event list', function () {

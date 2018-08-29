@@ -2,18 +2,18 @@
 
 const assert = require('chai').assert
 
-const {Invitee} = require('../lib/invitee')
+const { Invitee } = require('../lib/invitee')
 
 describe('Invitee', function () {
   let inv
 
   const userSource = {
     nameForID: uid => {
-      return {U1234: 'user0'}[uid]
+      return { U1234: 'user0' }[uid]
     },
 
     emailForID: uid => {
-      return {U1234: 'foo@bar.com'}[uid]
+      return { U1234: 'foo@bar.com' }[uid]
     }
   }
 

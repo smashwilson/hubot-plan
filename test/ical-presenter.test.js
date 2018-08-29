@@ -1,12 +1,12 @@
 /* eslint-env mocha */
 
 const assert = require('chai').assert
-const {ts} = require('./bot-context')
+const { ts } = require('./bot-context')
 
-const {Event} = require('../lib/event')
-const {EventSet} = require('../lib/event-set')
-const {Invitee} = require('../lib/invitee')
-const {ICalPresenter} = require('../lib/ical-presenter')
+const { Event } = require('../lib/event')
+const { EventSet } = require('../lib/event-set')
+const { Invitee } = require('../lib/invitee')
+const { ICalPresenter } = require('../lib/ical-presenter')
 
 describe('ICalPresenter', function () {
   let evt
@@ -68,7 +68,7 @@ describe('ICalPresenter', function () {
     })
 
     it('includes the attendees from each proposed date', function () {
-      const p = new ICalPresenter({userSource})
+      const p = new ICalPresenter({ userSource })
       const ical = p.present(evt)
 
       assert.lengthOf(
@@ -108,7 +108,7 @@ describe('ICalPresenter', function () {
     })
 
     it('includes attendees', function () {
-      const p = new ICalPresenter({userSource})
+      const p = new ICalPresenter({ userSource })
       const ical = p.present(evt)
 
       assert.match(
@@ -148,7 +148,7 @@ describe('ICalPresenter', function () {
     })
 
     it('renders all events to a single feed', function () {
-      const p = new ICalPresenter({userSource})
+      const p = new ICalPresenter({ userSource })
       const ical = p.present(set)
 
       assert.match(ical, /^SUMMARY:Zero$/m)
@@ -157,7 +157,7 @@ describe('ICalPresenter', function () {
     })
 
     it('includes the calendar name', function () {
-      const p = new ICalPresenter({userSource, calendarName: 'Stuff'})
+      const p = new ICalPresenter({ userSource, calendarName: 'Stuff' })
       const ical = p.present(set)
 
       assert.match(ical, /^X-WR-CALNAME:Stuff$/m)
