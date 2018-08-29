@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 
-const {BotContext} = require('./bot-context')
+const { BotContext } = require('./bot-context')
 const assert = require('chai').assert
 
 describe('event create', function () {
@@ -25,8 +25,8 @@ describe('event create', function () {
         fallback: 'ABC: Wizard People',
         title: 'ABC :calendar: Wizard People',
         fields: [
-          {title: 'Proposed Dates', value: '_none yet_'},
-          {title: 'Who', value: '_Responses_\n:white_square_button: user1'}
+          { title: 'Proposed Dates', value: '_none yet_' },
+          { title: 'Who', value: '_Responses_\n:white_square_button: user1' }
         ],
         mrkdwn_in: ['fields']
       }]
@@ -159,8 +159,8 @@ describe('event create', function () {
         fallback: 'XYZ: Bar',
         title: 'XYZ :calendar: Bar',
         fields: [
-          {title: 'When', value: '<!date^1511078400^{date}|19 November 2017> _in a day_'},
-          {title: 'Who', value: '_Attendees (1 confirmed)_\n:white_check_mark: user1 | :grey_question: user2'}
+          { title: 'When', value: '<!date^1511078400^{date}|19 November 2017> _in a day_' },
+          { title: 'Who', value: '_Attendees (1 confirmed)_\n:white_check_mark: user1 | :grey_question: user2' }
         ],
         mrkdwn_in: ['fields']
       }]

@@ -1,5 +1,5 @@
 const Helper = require('hubot-test-helper')
-const {Timespan} = require('../lib/timespan')
+const { Timespan } = require('../lib/timespan')
 
 const helper = new Helper('../lib/index.js')
 
@@ -15,13 +15,13 @@ const nextYear = Timespan.parse('2018-01-10', TZ)
 
 class BotContext {
   constructor () {
-    this.room = helper.createRoom({httpd: false})
+    this.room = helper.createRoom({ httpd: false })
     this.room.robot['hubot-events'].getUserTz = () => TZ
     this.room.robot['hubot-events'].now = userTz => now.getStart().clone().tz(userTz)
   }
 
   createUser (uid, username, email) {
-    this.room.robot.brain.userForId(uid, {name: username, email_address: email})
+    this.room.robot.brain.userForId(uid, { name: username, email_address: email })
   }
 
   withStore (cb) {
@@ -45,5 +45,5 @@ class BotContext {
 
 module.exports = {
   BotContext,
-  ts: {lastWeek, yesterday, now, tomorrow, nextWeek, nextMonth, nextYear}
+  ts: { lastWeek, yesterday, now, tomorrow, nextWeek, nextMonth, nextYear }
 }

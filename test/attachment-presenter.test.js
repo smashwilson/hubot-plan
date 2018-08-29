@@ -1,11 +1,11 @@
 /* eslint-env mocha */
 
 const assert = require('chai').assert
-const {ts} = require('./bot-context')
+const { ts } = require('./bot-context')
 
-const {Event} = require('../lib/event')
-const {Invitee} = require('../lib/invitee')
-const {AttachmentPresenter} = require('../lib/attachment-presenter.js')
+const { Event } = require('../lib/event')
+const { Invitee } = require('../lib/invitee')
+const { AttachmentPresenter } = require('../lib/attachment-presenter.js')
 
 describe('AttachmentPresenter', function () {
   let event
@@ -40,12 +40,12 @@ describe('AttachmentPresenter', function () {
 
   describe('with an empty event', function () {
     it('shows the title and an empty proposed dates field', function () {
-      const p = new AttachmentPresenter({userSource})
+      const p = new AttachmentPresenter({ userSource })
       const a = p.present(event)
 
       assert.equal(a.fallback, 'ABC123: Burrito Party')
       assert.equal(a.title, 'ABC123 :calendar: Burrito Party')
-      assert.deepEqual(a.fields, [{title: 'Proposed Dates', value: '_none yet_'}])
+      assert.deepEqual(a.fields, [{ title: 'Proposed Dates', value: '_none yet_' }])
       assert.deepEqual(a.mrkdwn_in, ['fields'])
     })
   })
@@ -57,7 +57,7 @@ describe('AttachmentPresenter', function () {
     })
 
     it('lists proposed dates', function () {
-      const p = new AttachmentPresenter({now: ts.now.getStart(), userSource})
+      const p = new AttachmentPresenter({ now: ts.now.getStart(), userSource })
       const a = p.present(event)
 
       assert.deepEqual(a.fields, [{
@@ -77,7 +77,7 @@ describe('AttachmentPresenter', function () {
 
       event.acceptProposal(u.two, 1)
 
-      const p = new AttachmentPresenter({now: ts.now.getStart(), userSource})
+      const p = new AttachmentPresenter({ now: ts.now.getStart(), userSource })
       const a = p.present(event)
 
       assert.deepEqual(a.fields[0], {
@@ -94,7 +94,7 @@ describe('AttachmentPresenter', function () {
       event.acceptProposal(u.one, 0)
       event.acceptProposal(u.two, 1)
 
-      const p = new AttachmentPresenter({now: ts.now.getStart(), userSource})
+      const p = new AttachmentPresenter({ now: ts.now.getStart(), userSource })
       const a = p.present(event)
 
       assert.deepEqual(a.fields[1], {
@@ -112,7 +112,7 @@ describe('AttachmentPresenter', function () {
       event.acceptProposal(u.one, 0)
       event.acceptProposal(u.two, 1)
 
-      const p = new AttachmentPresenter({now: ts.now.getStart(), userSource, ping: true})
+      const p = new AttachmentPresenter({ now: ts.now.getStart(), userSource, ping: true })
       const a = p.present(event)
 
       assert.deepEqual(a.fields[1], {
@@ -143,7 +143,7 @@ describe('AttachmentPresenter', function () {
     })
 
     it('shows the chosen event date', function () {
-      const p = new AttachmentPresenter({now: ts.now.getStart(), userSource})
+      const p = new AttachmentPresenter({ now: ts.now.getStart(), userSource })
       const a = p.present(event)
 
       assert.deepEqual(a.fields[0], {
@@ -153,7 +153,7 @@ describe('AttachmentPresenter', function () {
     })
 
     it('lists invitees with their response status', function () {
-      const p = new AttachmentPresenter({now: ts.now.getStart(), userSource})
+      const p = new AttachmentPresenter({ now: ts.now.getStart(), userSource })
       const a = p.present(event)
 
       assert.deepEqual(a.fields[1], {
@@ -165,7 +165,7 @@ describe('AttachmentPresenter', function () {
     })
 
     it('@-mentions users when requested', function () {
-      const p = new AttachmentPresenter({now: ts.now.getStart(), userSource, ping: true})
+      const p = new AttachmentPresenter({ now: ts.now.getStart(), userSource, ping: true })
       const a = p.present(event)
 
       assert.deepEqual(a.fields[1], {

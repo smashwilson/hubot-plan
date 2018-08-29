@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 
-const {BotContext, ts} = require('./bot-context')
-const {Invitee} = require('../lib/invitee')
+const { BotContext, ts } = require('./bot-context')
+const { Invitee } = require('../lib/invitee')
 const assert = require('chai').assert
 
 describe('event edit', function () {
@@ -420,7 +420,7 @@ describe('event edit', function () {
       await bot.say('user0', 'hubot: event AAA111')
       assert.deepEqual(
         bot.response(),
-        {attachments: [
+        { attachments: [
           {
             fallback: 'AAA111: Something Cool',
             title: 'AAA111 :calendar: Something Cool',
@@ -436,7 +436,7 @@ describe('event edit', function () {
             ],
             mrkdwn_in: ['fields']
           }
-        ]}
+        ] }
       )
     })
 
@@ -450,7 +450,7 @@ describe('event edit', function () {
       await bot.say('user0', 'hubot: event AAA111')
       assert.deepEqual(
         bot.response(),
-        {attachments: [
+        { attachments: [
           {
             fallback: 'AAA111: Something Cool',
             title: 'AAA111 :calendar: Something Cool',
@@ -466,7 +466,7 @@ describe('event edit', function () {
             ],
             mrkdwn_in: ['fields']
           }
-        ]}
+        ] }
       )
     })
 
@@ -480,7 +480,7 @@ describe('event edit', function () {
       await bot.say('user0', 'hubot: event AAA111')
       assert.deepEqual(
         bot.response(),
-        {attachments: [
+        { attachments: [
           {
             fallback: 'AAA111: Something Cool',
             title: 'AAA111 :calendar: Something Cool',
@@ -496,7 +496,7 @@ describe('event edit', function () {
             ],
             mrkdwn_in: ['fields']
           }
-        ]}
+        ] }
       )
     })
 
@@ -510,7 +510,7 @@ describe('event edit', function () {
       await bot.say('user0', 'hubot: event AAA111')
       assert.deepEqual(
         bot.response(),
-        {attachments: [
+        { attachments: [
           {
             fallback: 'AAA111: Something Cool',
             title: 'AAA111 :calendar: Something Cool',
@@ -526,7 +526,7 @@ describe('event edit', function () {
             ],
             mrkdwn_in: ['fields']
           }
-        ]}
+        ] }
       )
     })
 
@@ -540,7 +540,7 @@ describe('event edit', function () {
       await bot.say('user0', 'hubot: event AAA111')
       assert.deepEqual(
         bot.response(),
-        {attachments: [
+        { attachments: [
           {
             fallback: 'AAA111: Something Cool',
             title: 'AAA111 :calendar: Something Cool',
@@ -556,7 +556,7 @@ describe('event edit', function () {
             ],
             mrkdwn_in: ['fields']
           }
-        ]}
+        ] }
       )
     })
 

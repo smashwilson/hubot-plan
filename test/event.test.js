@@ -2,9 +2,9 @@
 
 const assert = require('chai').assert
 
-const {ts} = require('./bot-context')
-const {Event} = require('../lib/event')
-const {Invitee} = require('../lib/invitee')
+const { ts } = require('./bot-context')
+const { Event } = require('../lib/event')
+const { Invitee } = require('../lib/invitee')
 
 describe('Event', function () {
   const u = {
@@ -272,8 +272,8 @@ describe('Event', function () {
     it('matches by name', function () {
       const evt = new Event('ABC', 'aaa bbb ccc')
 
-      assert.isTrue(evt.matches({name: 'bB'}))
-      assert.isFalse(evt.matches({name: 'qqq'}))
+      assert.isTrue(evt.matches({ name: 'bB' }))
+      assert.isFalse(evt.matches({ name: 'qqq' }))
     })
 
     it('matches a finalized event before a timestamp', function () {
@@ -281,9 +281,9 @@ describe('Event', function () {
       evt.proposeDate(ts.tomorrow)
       evt.finalize(0)
 
-      assert.isFalse(evt.matches({before: ts.now.getStart()}))
-      assert.isTrue(evt.matches({before: ts.tomorrow.getStart()}))
-      assert.isTrue(evt.matches({before: ts.nextWeek.getStart()}))
+      assert.isFalse(evt.matches({ before: ts.now.getStart() }))
+      assert.isTrue(evt.matches({ before: ts.tomorrow.getStart() }))
+      assert.isTrue(evt.matches({ before: ts.nextWeek.getStart() }))
     })
 
     it('matches an unfinalized event before a timestamp', function () {
@@ -291,9 +291,9 @@ describe('Event', function () {
       evt.proposeDate(ts.nextMonth)
       evt.proposeDate(ts.tomorrow)
 
-      assert.isFalse(evt.matches({before: ts.now.getStart()}))
-      assert.isTrue(evt.matches({before: ts.tomorrow.getStart()}))
-      assert.isTrue(evt.matches({before: ts.nextWeek.getStart()}))
+      assert.isFalse(evt.matches({ before: ts.now.getStart() }))
+      assert.isTrue(evt.matches({ before: ts.tomorrow.getStart() }))
+      assert.isTrue(evt.matches({ before: ts.nextWeek.getStart() }))
     })
 
     it('matches a finalized event after a timestamp', function () {
@@ -301,9 +301,9 @@ describe('Event', function () {
       evt.proposeDate(ts.tomorrow)
       evt.finalize(0)
 
-      assert.isTrue(evt.matches({after: ts.now.getStart()}))
-      assert.isTrue(evt.matches({after: ts.tomorrow.getStart()}))
-      assert.isFalse(evt.matches({after: ts.nextWeek.getStart()}))
+      assert.isTrue(evt.matches({ after: ts.now.getStart() }))
+      assert.isTrue(evt.matches({ after: ts.tomorrow.getStart() }))
+      assert.isFalse(evt.matches({ after: ts.nextWeek.getStart() }))
     })
 
     it('matches an unfinalized event after a timestamp', function () {
@@ -311,9 +311,9 @@ describe('Event', function () {
       evt.proposeDate(ts.nextWeek)
       evt.proposeDate(ts.tomorrow)
 
-      assert.isTrue(evt.matches({after: ts.now.getStart()}))
-      assert.isTrue(evt.matches({after: ts.nextWeek.getStart()}))
-      assert.isFalse(evt.matches({after: ts.nextMonth.getStart()}))
+      assert.isTrue(evt.matches({ after: ts.now.getStart() }))
+      assert.isTrue(evt.matches({ after: ts.nextWeek.getStart() }))
+      assert.isFalse(evt.matches({ after: ts.nextMonth.getStart() }))
     })
 
     it('matches by finalized status', function () {
@@ -326,8 +326,8 @@ describe('Event', function () {
       no.proposeDate(ts.tomorrow)
       no.proposeDate(ts.nextWeek)
 
-      assert.isTrue(yes.matches({finalized: true}))
-      assert.isFalse(no.matches({finalized: true}))
+      assert.isTrue(yes.matches({ finalized: true }))
+      assert.isFalse(no.matches({ finalized: true }))
     })
 
     it('matches by unfinalized status', function () {
@@ -340,8 +340,8 @@ describe('Event', function () {
       no.proposeDate(ts.nextWeek)
       no.finalize(1)
 
-      assert.isTrue(yes.matches({unfinalized: true}))
-      assert.isFalse(no.matches({unfinalized: true}))
+      assert.isTrue(yes.matches({ unfinalized: true }))
+      assert.isFalse(no.matches({ unfinalized: true }))
     })
 
     it('matches by invite list', function () {
@@ -352,8 +352,8 @@ describe('Event', function () {
       const no = new Event('no', 'no')
       no.invite(u.fenris)
 
-      assert.isTrue(yes.matches({invited: u.frey}))
-      assert.isFalse(no.matches({invited: u.frey}))
+      assert.isTrue(yes.matches({ invited: u.frey }))
+      assert.isFalse(no.matches({ invited: u.frey }))
     })
 
     it('always matches the empty filter', function () {

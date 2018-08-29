@@ -1,11 +1,11 @@
 /* eslint-env mocha */
 
 const assert = require('chai').assert
-const {ts} = require('./bot-context')
+const { ts } = require('./bot-context')
 
-const {Event} = require('../lib/event')
-const {EventSet} = require('../lib/event-set')
-const {LinePresenter} = require('../lib/line-presenter')
+const { Event } = require('../lib/event')
+const { EventSet } = require('../lib/event-set')
+const { LinePresenter } = require('../lib/line-presenter')
 
 describe('LinePresenter', function () {
   let evt

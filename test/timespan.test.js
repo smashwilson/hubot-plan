@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 
-const {Timespan} = require('../lib/timespan')
+const { Timespan } = require('../lib/timespan')
 const assert = require('chai').assert
 const moment = require('moment-timezone')
 
