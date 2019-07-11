@@ -20,7 +20,7 @@
     "chai-as-promised": "^7.1.1",
     "hubot-test-helper": "^1.8.1",
     "mocha": "^6.0.1",
-    "standard": "^12.0.0"
+    "standard": "^13.0.1"
   },
   "dependencies": {
     "ical-toolkit": "^1.0.9",
