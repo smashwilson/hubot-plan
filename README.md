@@ -1,7 +1,5 @@
 # hubot-plan
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/smashwilson/hubot-plan.svg)](https://greenkeeper.io/)
-
 Plan events with chatops :sparkles: :calendar:
 
 ## Installation
