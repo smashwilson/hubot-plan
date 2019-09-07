@@ -25,6 +25,7 @@
     "prettier": "^1.18.2"
   },
   "dependencies": {
+    "googleapis": "^43.0.0",
     "ical-toolkit": "^1.0.9",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.26",
