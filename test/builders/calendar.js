@@ -1,8 +1,8 @@
-const {createFactory} = require("./factory");
+const {createBuilderClass} = require("nested-builder");
 
 // https://developers.google.com/calendar/v3/reference/calendars
 
-export const CalendarFactory = createFactory("Calendar", {
+export const CalendarFactory = createBuilderClass()({
   kind: {default: "calendar#calendar"},
   etag: {default: "etag"},
   id: {default: "id"},

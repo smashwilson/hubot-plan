@@ -1,21 +1,21 @@
-const {createFactory} = require("./factory");
+const {createBuilderClass} = require("nested-builder");
 
 // https://developers.google.com/calendar/v3/reference/events
 
-export const UserFactory = createFactory("User", {
+export const UserBuilder = createBuilderClass()({
   id: {default: "id"},
   email: {default: "who@example.com"},
   displayName: {default: "Display Name"},
   self: {default: false},
 });
 
-export const TimestampFactory = createFactory("Timestamp", {
+export const TimestampBuilder = createBuilderClass()({
   date: {default: "2019-09-30"},
   dateTime: {default: "2019-09-30T13:22:53.108Z"},
   timeZone: {default: "Europe/Zurich"},
 });
 
-export const AttendeeFactory = createFactory("Attendee", {
+export const AttendeeBuilder = createBuilderClass()({
   id: {default: "id"},
   email: {default: "who@example.com"},
   displayName: {default: "Display Name"},
@@ -28,22 +28,22 @@ export const AttendeeFactory = createFactory("Attendee", {
   additionalGuests: {default: undefined},
 });
 
-export const ExtendedPropertiesFactory = createFactory("ExtendedProperties", {
+export const ExtendedPropertiesBuilder = createBuilderClass()({
   private: {default: {}},
   shared: {default: {}},
 });
 
-export const ReminderOverrideFactory = createFactory("ReminderOverride", {
+export const ReminderOverrideBuilder = createBuilderClass()({
   method: {default: "email"},
   minutes: {default: 5},
 });
 
-export const ReminderFactory = createFactory("Reminder", {
+export const ReminderBuilder = createBuilderClass()({
   useDefault: {default: false},
-  overrides: {plural: true, factory: ReminderOverrideFactory, default: []},
+  overrides: {plural: true, nested: ReminderOverrideBuilder, default: []},
 });
 
-export const EventFactory = createFactory("Event", {
+export const EventFactory = createBuilderClass()({
   kind: {default: "calendar#event"},
   etag: {default: "etag"},
   id: {default: "id"},
@@ -55,27 +55,27 @@ export const EventFactory = createFactory("Event", {
   description: {default: "Description"},
   location: {default: undefined},
   colorId: {default: undefined},
-  creator: {factory: UserFactory},
-  organizer: {factory: UserFactory},
-  start: {factory: TimestampFactory},
-  end: {factory: TimestampFactory},
+  creator: {nested: UserBuilder},
+  organizer: {nested: UserBuilder},
+  start: {nested: TimestampBuilder},
+  end: {nested: TimestampBuilder},
   endTimeUnspecified: {default: false},
   recurrence: {plural: true, default: []},
   recurringEventId: {default: undefined},
-  originalStartTime: {factory: TimestampFactory},
+  originalStartTime: {nested: TimestampBuilder},
   transparency: {default: "opaque"},
   visibility: {default: "default"},
   iCalUID: {default: "icaluid"},
   sequence: {default: 0},
-  attendees: {plural: true, default: [], factory: AttendeeFactory},
+  attendees: {plural: true, default: [], nested: AttendeeBuilder},
   attendeesOmitted: {default: undefined},
-  extendedProperties: {factory: ExtendedPropertiesFactory},
+  extendedProperties: {nested: ExtendedPropertiesBuilder},
   anyoneCanAddSelf: {default: false},
   guestsCanInviteOthers: {default: true},
   guestsCanModify: {default: false},
   privateCopy: {default: false},
   locked: {default: false},
-  reminders: {factory: ReminderFactory},
+  reminders: {nested: ReminderBuilder},
 });
 
 // Intentionally omitted: conferenceData, hangoutLink, source, attachments
