@@ -27,6 +27,6 @@
     "ical-toolkit": "^1.0.9",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.26",
-    "yargs": "^14.0.0"
+    "yargs": "14.1.0"
   }
 }
