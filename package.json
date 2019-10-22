@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "prettier --check lib/**/*.js test/**/*.js",
     "format": "prettier --write lib/**/*.js test/**/*.js",
-    "test": "npm run lint && mocha"
+    "test": "npm run lint && mocha --recursive"
   },
   "keywords": [
     "hubot",
