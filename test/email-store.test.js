@@ -131,5 +131,33 @@ describe("EmailStore", function() {
     assert.throws(() => store.remove("u0", "user0+slack@gmail.com"));
   });
 
-  it("serializes and deserializes itself");
+  it("serializes and deserializes itself", function() {
+    store.add("u0", "user0+manual0@gmail.com", false);
+    store.add("u0", "user0+default@gmail.com", true);
+    store.add("u0", "user0+manual1@gmail.com", false);
+    store.add("u1", "user1+manual@gmail.com", false);
+
+    const payload = store.serialize();
+    const t = JSON.parse(JSON.stringify(payload));
+
+    const bot1 = new BotContext();
+    bot1.createUser("u0", "user0", null);
+    bot1.createUser("u1", "user1", "user1+slack@gmail.com");
+    const store1 = EmailStore.deserialize(bot1.room.robot, t);
+
+    assert.deepEqual(store1.known("u0"), [
+      "user0+manual0@gmail.com",
+      "user0+default@gmail.com",
+      "user0+manual1@gmail.com",
+    ]);
+    assert.strictEqual(store1.getDefault("u0"), "user0+default@gmail.com");
+    assert.isNull(store1.getSlackProvided("u0"));
+
+    assert.deepEqual(store1.known("u1"), [
+      "user1+slack@gmail.com",
+      "user1+manual@gmail.com",
+    ]);
+    assert.strictEqual(store1.getDefault("u1"), "user1+manual@gmail.com");
+    assert.strictEqual(store1.getSlackProvided("u1"), "user1+slack@gmail.com");
+  });
 });
