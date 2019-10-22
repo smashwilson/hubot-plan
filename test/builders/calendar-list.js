@@ -2,17 +2,17 @@ const {createBuilderClass} = require("nested-builder");
 
 // https://developers.google.com/calendar/v3/reference/calendarList
 
-export const ReminderBuilder = createBuilderClass()({
+const ReminderBuilder = createBuilderClass()({
   method: {default: "email"},
   minutes: {default: 10},
 });
 
-export const NotificationBuilder = createBuilderClass()({
+const NotificationBuilder = createBuilderClass()({
   type: {default: "eventCreation"},
   method: {default: "email"},
 });
 
-export const CalendarListEntryBuilder = createBuilderClass()({
+const CalendarListEntryBuilder = createBuilderClass()({
   kind: {default: "calendar#calendarListEntry"},
   etag: {default: "etag"},
   id: {default: "id"},
@@ -27,13 +27,19 @@ export const CalendarListEntryBuilder = createBuilderClass()({
   hidden: {default: false},
   selected: {default: false},
   accessRole: {default: "owner"},
-  defaultReminders: {plural: true, nested: ReminderFactory, default: []},
+  defaultReminders: {plural: true, nested: ReminderBuilder, default: []},
   notificationSettings: {
     plural: true,
-    factory: NotificationFactory,
+    factory: NotificationBuilder,
     default: [],
   },
   primary: {default: false},
   deleted: {default: false},
   conferenceProperties: {default: {allowedConferenceSolutionTypes: []}},
 });
+
+module.exports = {
+  ReminderBuilder,
+  NotificationBuilder,
+  CalendarListEntryBuilder,
+};
