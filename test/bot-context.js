@@ -24,6 +24,10 @@ class BotContext {
         .tz(userTz);
   }
 
+  getRobot() {
+    return this.room.robot;
+  }
+
   createUser(uid, username, email) {
     this.room.robot.brain.userForId(uid, {
       name: username,

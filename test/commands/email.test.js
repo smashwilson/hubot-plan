@@ -13,7 +13,7 @@ describe("event email", function() {
   });
 
   it("summarizes known, default, and Slack-provided email addresses", async function() {
-    bot.robot["hubot-events"].withStore(store => {
+    bot.withStore(store => {
       const emailStore = store.getEmailStore();
       emailStore.add("u0", "user0+manual0@gmail.com", false);
       emailStore.add("u0", "user0+manual1@gmail.com", true);
@@ -52,7 +52,7 @@ describe("event email", function() {
   });
 
   it("removes an existing email address", async function() {
-    bot.robot["hubot-events"].withStore(store => {
+    bot.withStore(store => {
       const emailStore = store.getEmailStore();
       emailStore.add("u0", "user0+manual0@gmail.com", false);
       emailStore.add("u0", "user0+manual1@gmail.com", true);
