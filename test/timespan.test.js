@@ -6,9 +6,9 @@ const moment = require("moment-timezone");
 
 const TZ = "America/Los_Angeles";
 
-describe("Timespan", function() {
-  describe("parsing", function() {
-    it("parses a single day as a full-day span", function() {
+describe("Timespan", function () {
+  describe("parsing", function () {
+    it("parses a single day as a full-day span", function () {
       const t = Timespan.parse("2017-11-17", TZ);
 
       assert.isTrue(t.isFullDay());
@@ -18,7 +18,7 @@ describe("Timespan", function() {
       );
     });
 
-    it("parses a range of full days", function() {
+    it("parses a range of full days", function () {
       const t = Timespan.parse("2017-11-17..2017-11-19", TZ);
 
       assert.isTrue(t.isFullDay());
@@ -28,7 +28,7 @@ describe("Timespan", function() {
       );
     });
 
-    it("parses a full day plus a duration in days", function() {
+    it("parses a full day plus a duration in days", function () {
       const t = Timespan.parse("2017-11-17+2d", TZ);
 
       assert.isTrue(t.isFullDay());
@@ -38,7 +38,7 @@ describe("Timespan", function() {
       );
     });
 
-    it("parses a single time as an hour-long span", function() {
+    it("parses a single time as an hour-long span", function () {
       const t = Timespan.parse("2017-11-17 16:00", TZ);
 
       assert.isFalse(t.isFullDay());
@@ -46,7 +46,7 @@ describe("Timespan", function() {
       assert.isTrue(t.getEnd().isSame(moment.tz("2017-11-17 17:00:00", TZ)));
     });
 
-    it("parses a range of times", function() {
+    it("parses a range of times", function () {
       const t = Timespan.parse("2017-11-17 16:00..2017-11-17 18:00", TZ);
 
       assert.isFalse(t.isFullDay());
@@ -54,7 +54,7 @@ describe("Timespan", function() {
       assert.isTrue(t.getEnd().isSame(moment.tz("2017-11-17 18:00:00", TZ)));
     });
 
-    it("parses a single time and a duration", function() {
+    it("parses a single time and a duration", function () {
       const t = Timespan.parse("2017-11-17 14:00+2h30m", TZ);
 
       assert.isFalse(t.isFullDay());
@@ -62,7 +62,7 @@ describe("Timespan", function() {
       assert.isTrue(t.getEnd().isSame(moment.tz("2017-11-17 16:30:00", TZ)));
     });
 
-    it("parses a day and a time", function() {
+    it("parses a day and a time", function () {
       const t = Timespan.parse("2017-11-17..2017-11-18 11:00", TZ);
 
       assert.isFalse(t.isFullDay());
@@ -70,7 +70,7 @@ describe("Timespan", function() {
       assert.isTrue(t.getEnd().isSame(moment.tz("2017-11-18 11:00:00", TZ)));
     });
 
-    it("parses a day and a sub-day duration", function() {
+    it("parses a day and a sub-day duration", function () {
       const t = Timespan.parse("2017-11-17+2h", TZ);
 
       assert.isFalse(t.isFullDay());
@@ -78,17 +78,17 @@ describe("Timespan", function() {
       assert.isTrue(t.getEnd().isSame(moment.tz("2017-11-17 02:00:00", TZ)));
     });
 
-    it("becomes invalid on an invalid time", function() {
+    it("becomes invalid on an invalid time", function () {
       assert.isFalse(Timespan.parse("2017-33-76", TZ).isValid());
     });
 
-    it("becomes invalid on an invalid duration", function() {
+    it("becomes invalid on an invalid duration", function () {
       assert.isFalse(Timespan.parse("2017-11-17 11:00+2x", TZ).isValid());
     });
   });
 
-  describe("serialization", function() {
-    it("round-trips itself through a JSON-able representation", function() {
+  describe("serialization", function () {
+    it("round-trips itself through a JSON-able representation", function () {
       const ts = Timespan.parse("2017-11-17 11:00:00..2017-11-17 13:00:00", TZ);
       const o = ts.serialize();
       const i = JSON.parse(JSON.stringify(o));
@@ -104,8 +104,8 @@ describe("Timespan", function() {
     });
   });
 
-  describe("printing", function() {
-    it("prints a full-day span as a Slack timestamp", function() {
+  describe("printing", function () {
+    it("prints a full-day span as a Slack timestamp", function () {
       const ts = Timespan.parse("2017-11-17", TZ);
 
       assert.equal(
@@ -118,7 +118,7 @@ describe("Timespan", function() {
       );
     });
 
-    it("prints a multi-day span as a Slack timestamp", function() {
+    it("prints a multi-day span as a Slack timestamp", function () {
       const ts = Timespan.parse("2017-11-17..2017-11-19", TZ);
 
       assert.equal(
@@ -131,7 +131,7 @@ describe("Timespan", function() {
       );
     });
 
-    it("prints a timestamp as a Slack timestamp", function() {
+    it("prints a timestamp as a Slack timestamp", function () {
       const ts = Timespan.parse("2017-11-17 11:30", TZ);
 
       assert.equal(
@@ -144,7 +144,7 @@ describe("Timespan", function() {
       );
     });
 
-    it("prints a multi-day timespan as a Slack timestamp", function() {
+    it("prints a multi-day timespan as a Slack timestamp", function () {
       const ts = Timespan.parse("2017-11-17 14:00..2017-11-18 06:00", TZ);
 
       assert.equal(

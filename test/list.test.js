@@ -4,16 +4,16 @@ const {BotContext, ts} = require("./bot-context");
 const {Invitee} = require("../lib/invitee");
 const assert = require("chai").assert;
 
-describe("event list", function() {
+describe("event list", function () {
   let bot;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     bot = new BotContext();
     bot.createUser("U0", "user0");
     bot.createUser("U1", "user1");
     bot.createUser("U2", "user2");
 
-    await bot.withStore(store => {
+    await bot.withStore((store) => {
       const e0 = store.create("0", "A");
       e0.proposeDate(ts.lastWeek);
       e0.finalize(0);
@@ -42,11 +42,11 @@ describe("event list", function() {
     });
   });
 
-  afterEach(function() {
+  afterEach(function () {
     bot.cleanup();
   });
 
-  it("defaults to showing events after today", async function() {
+  it("defaults to showing events after today", async function () {
     await bot.say("user0", "hubot event list");
     assert.equal(
       bot.response(),
@@ -59,7 +59,7 @@ describe("event list", function() {
     );
   });
 
-  it("shows only events with matching names", async function() {
+  it("shows only events with matching names", async function () {
     await bot.say("user0", "hubot event list --name bO");
     assert.equal(
       bot.response(),
@@ -69,7 +69,7 @@ describe("event list", function() {
     );
   });
 
-  it("shows only events before a timestamp", async function() {
+  it("shows only events before a timestamp", async function () {
     await bot.say("user0", "hubot event list --before 2017-11-25");
     assert.equal(
       bot.response(),
@@ -83,7 +83,7 @@ describe("event list", function() {
     );
   });
 
-  it('shows only events before "now"', async function() {
+  it('shows only events before "now"', async function () {
     await bot.say("user0", "hubot event list --before now");
     assert.equal(
       bot.response(),
@@ -95,7 +95,7 @@ describe("event list", function() {
     );
   });
 
-  it("shows only events after a timestamp", async function() {
+  it("shows only events after a timestamp", async function () {
     await bot.say("user0", "hubot event list --after 2017-11-19");
     assert.equal(
       bot.response(),
@@ -107,7 +107,7 @@ describe("event list", function() {
     );
   });
 
-  it('shows only events after "now"', async function() {
+  it('shows only events after "now"', async function () {
     await bot.say("user0", "hubot event list --after now");
     assert.equal(
       bot.response(),
@@ -120,7 +120,7 @@ describe("event list", function() {
     );
   });
 
-  it("shows only finalized events", async function() {
+  it("shows only finalized events", async function () {
     await bot.say("user0", "hubot event list --finalized");
     assert.equal(
       bot.response(),
@@ -131,7 +131,7 @@ describe("event list", function() {
     );
   });
 
-  it("shows only unfinalized events", async function() {
+  it("shows only unfinalized events", async function () {
     await bot.say("user0", "hubot event list --unfinalized");
     assert.equal(
       bot.response(),
@@ -143,12 +143,12 @@ describe("event list", function() {
     );
   });
 
-  it("shows only events with a specified invitee", async function() {
+  it("shows only events with a specified invitee", async function () {
     await bot.say("user0", "hubot event list --invited @user1");
     assert.equal(bot.response(), "_Showing 1 of 7 events_\n" + "`6` _G_");
   });
 
-  it('shows only events when an invitee of "me"', async function() {
+  it('shows only events when an invitee of "me"', async function () {
     await bot.say("user0", "hubot event list --invited me");
     assert.equal(
       bot.response(),
@@ -157,7 +157,7 @@ describe("event list", function() {
     );
   });
 
-  it("shows all events", async function() {
+  it("shows all events", async function () {
     await bot.say("user0", "hubot event list --all");
     assert.equal(
       bot.response(),

@@ -7,21 +7,21 @@ const {Event} = require("../lib/event");
 const {EventSet} = require("../lib/event-set");
 const {LinePresenter} = require("../lib/line-presenter");
 
-describe("LinePresenter", function() {
+describe("LinePresenter", function () {
   let evt;
 
-  beforeEach(function() {
+  beforeEach(function () {
     evt = new Event("ZZZ999", "Wizard People");
   });
 
-  describe("with an unfinalized event", function() {
-    it("renders no proposed dates", function() {
+  describe("with an unfinalized event", function () {
+    it("renders no proposed dates", function () {
       const p = new LinePresenter({});
       const line = p.present(evt);
       assert.strictEqual(line, "`ZZZ999` _Wizard People_");
     });
 
-    it("renders multiple proposed dates", function() {
+    it("renders multiple proposed dates", function () {
       evt.proposeDate(ts.tomorrow);
       evt.proposeDate(ts.nextWeek);
 
@@ -35,7 +35,7 @@ describe("LinePresenter", function() {
     });
   });
 
-  it("renders a finalized event", function() {
+  it("renders a finalized event", function () {
     evt.proposeDate(ts.tomorrow);
     evt.proposeDate(ts.nextWeek);
     evt.finalize(1);
@@ -48,7 +48,7 @@ describe("LinePresenter", function() {
     );
   });
 
-  it("renders an EventSet", function() {
+  it("renders an EventSet", function () {
     const evt0 = new Event("A0", "Zero");
     evt0.proposeDate(ts.tomorrow);
 
