@@ -8,7 +8,7 @@ const {EventSet} = require("../lib/event-set");
 const {Invitee} = require("../lib/invitee");
 const {ICalPresenter} = require("../lib/ical-presenter");
 
-describe("ICalPresenter", function() {
+describe("ICalPresenter", function () {
   let evt;
 
   const u = {
@@ -18,7 +18,7 @@ describe("ICalPresenter", function() {
   };
 
   const userSource = {
-    nameForID: uid => {
+    nameForID: (uid) => {
       return {
         U0: "user0",
         U1: "user1",
@@ -26,7 +26,7 @@ describe("ICalPresenter", function() {
       }[uid];
     },
 
-    emailForID: uid => {
+    emailForID: (uid) => {
       return {
         U0: "user0@gmail.com",
         U1: "user1@gmail.com",
@@ -35,7 +35,7 @@ describe("ICalPresenter", function() {
     },
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     evt = new Event("AAA111", "Video Games");
 
     evt.invite(u.zero);
@@ -53,8 +53,8 @@ describe("ICalPresenter", function() {
     evt.acceptProposal(u.one, 2);
   });
 
-  describe("with an unfinalized event", function() {
-    it('renders each proposed date as "tentative"', function() {
+  describe("with an unfinalized event", function () {
+    it('renders each proposed date as "tentative"', function () {
       const p = new ICalPresenter({});
       const ical = p.present(evt);
 
@@ -67,7 +67,7 @@ describe("ICalPresenter", function() {
       assert.match(ical, /^DTSTART;VALUE=DATE:20171216$/m);
     });
 
-    it("includes the attendees from each proposed date", function() {
+    it("includes the attendees from each proposed date", function () {
       const p = new ICalPresenter({userSource});
       const ical = p.present(evt);
 
@@ -101,12 +101,12 @@ describe("ICalPresenter", function() {
     });
   });
 
-  describe("with a finalized event", function() {
-    beforeEach(function() {
+  describe("with a finalized event", function () {
+    beforeEach(function () {
       evt.finalize(0);
     });
 
-    it('renders at the chosen date as "confirmed"', function() {
+    it('renders at the chosen date as "confirmed"', function () {
       const p = new ICalPresenter({});
       const ical = p.present(evt);
 
@@ -115,7 +115,7 @@ describe("ICalPresenter", function() {
       assert.match(ical, /^TRANSP:OPAQUE$/m);
     });
 
-    it("includes attendees", function() {
+    it("includes attendees", function () {
       const p = new ICalPresenter({userSource});
       const ical = p.present(evt);
 
@@ -130,10 +130,10 @@ describe("ICalPresenter", function() {
     });
   });
 
-  describe("with an EventSet", function() {
+  describe("with an EventSet", function () {
     let evt0, evt1, evt2, set;
 
-    beforeEach(function() {
+    beforeEach(function () {
       evt0 = new Event("AAA000", "Zero");
       evt0.proposeDate(ts.tomorrow);
       evt0.invite(u.zero);
@@ -155,7 +155,7 @@ describe("ICalPresenter", function() {
       set = new EventSet(null, [evt0, evt1, evt2]);
     });
 
-    it("renders all events to a single feed", function() {
+    it("renders all events to a single feed", function () {
       const p = new ICalPresenter({userSource});
       const ical = p.present(set);
 
@@ -164,7 +164,7 @@ describe("ICalPresenter", function() {
       assert.match(ical, /^SUMMARY:Two$/m);
     });
 
-    it("includes the calendar name", function() {
+    it("includes the calendar name", function () {
       const p = new ICalPresenter({userSource, calendarName: "Stuff"});
       const ical = p.present(set);
 

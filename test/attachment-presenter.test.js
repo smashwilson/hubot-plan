@@ -7,7 +7,7 @@ const {Event} = require("../lib/event");
 const {Invitee} = require("../lib/invitee");
 const {AttachmentPresenter} = require("../lib/attachment-presenter.js");
 
-describe("AttachmentPresenter", function() {
+describe("AttachmentPresenter", function () {
   let event;
 
   const u = {
@@ -17,7 +17,7 @@ describe("AttachmentPresenter", function() {
   };
 
   const userSource = {
-    nameForID: uid => {
+    nameForID: (uid) => {
       return {
         U0: "user0",
         U1: "user1",
@@ -25,7 +25,7 @@ describe("AttachmentPresenter", function() {
       }[uid];
     },
 
-    emailForID: uid => {
+    emailForID: (uid) => {
       return {
         U0: "user0@foo.com",
         U1: "user1@bar.com",
@@ -34,12 +34,12 @@ describe("AttachmentPresenter", function() {
     },
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     event = new Event("ABC123", "Burrito Party");
   });
 
-  describe("with an empty event", function() {
-    it("shows the title and an empty proposed dates field", function() {
+  describe("with an empty event", function () {
+    it("shows the title and an empty proposed dates field", function () {
       const p = new AttachmentPresenter({userSource});
       const a = p.present(event);
 
@@ -52,13 +52,13 @@ describe("AttachmentPresenter", function() {
     });
   });
 
-  describe("with an unfinalized event", function() {
-    beforeEach(function() {
+  describe("with an unfinalized event", function () {
+    beforeEach(function () {
       event.proposeDate(ts.tomorrow);
       event.proposeDate(ts.nextWeek);
     });
 
-    it("lists proposed dates", function() {
+    it("lists proposed dates", function () {
       const p = new AttachmentPresenter({now: ts.now.getStart(), userSource});
       const a = p.present(event);
 
@@ -72,7 +72,7 @@ describe("AttachmentPresenter", function() {
       ]);
     });
 
-    it("lists counts of attendees who have voted for each", function() {
+    it("lists counts of attendees who have voted for each", function () {
       event.acceptProposal(u.zero, 0);
       event.acceptProposal(u.zero, 1);
 
@@ -92,7 +92,7 @@ describe("AttachmentPresenter", function() {
       });
     });
 
-    it("lists invitees with response status", function() {
+    it("lists invitees with response status", function () {
       event.invite(u.zero);
       event.invite(u.one);
       event.acceptProposal(u.one, 0);
@@ -110,7 +110,7 @@ describe("AttachmentPresenter", function() {
       });
     });
 
-    it("@-mentions users when requested", function() {
+    it("@-mentions users when requested", function () {
       event.invite(u.zero);
       event.invite(u.one);
       event.acceptProposal(u.one, 0);
@@ -133,8 +133,8 @@ describe("AttachmentPresenter", function() {
     });
   });
 
-  describe("with a finalized event", function() {
-    beforeEach(function() {
+  describe("with a finalized event", function () {
+    beforeEach(function () {
       event.invite(u.zero);
       event.invite(u.one);
       event.invite(u.two);
@@ -150,7 +150,7 @@ describe("AttachmentPresenter", function() {
       event.finalize(0);
     });
 
-    it("shows the chosen event date", function() {
+    it("shows the chosen event date", function () {
       const p = new AttachmentPresenter({now: ts.now.getStart(), userSource});
       const a = p.present(event);
 
@@ -160,7 +160,7 @@ describe("AttachmentPresenter", function() {
       });
     });
 
-    it("lists invitees with their response status", function() {
+    it("lists invitees with their response status", function () {
       const p = new AttachmentPresenter({now: ts.now.getStart(), userSource});
       const a = p.present(event);
 
@@ -172,7 +172,7 @@ describe("AttachmentPresenter", function() {
       });
     });
 
-    it("@-mentions users when requested", function() {
+    it("@-mentions users when requested", function () {
       const p = new AttachmentPresenter({
         now: ts.now.getStart(),
         userSource,

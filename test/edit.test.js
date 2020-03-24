@@ -4,16 +4,16 @@ const {BotContext, ts} = require("./bot-context");
 const {Invitee} = require("../lib/invitee");
 const assert = require("chai").assert;
 
-describe("event edit", function() {
+describe("event edit", function () {
   let bot;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     bot = new BotContext();
     bot.createUser("U0", "user0");
     bot.createUser("U1", "user1");
     bot.createUser("U2", "user2");
 
-    await bot.withStore(store => {
+    await bot.withStore((store) => {
       const e = store.create("AAA111", "Something Cool");
       e.proposeDate(ts.tomorrow);
       e.proposeDate(ts.nextWeek);
@@ -22,11 +22,11 @@ describe("event edit", function() {
     });
   });
 
-  afterEach(function() {
+  afterEach(function () {
     bot.cleanup();
   });
 
-  it("shows the current state of the event", async function() {
+  it("shows the current state of the event", async function () {
     await bot.say("user0", "hubot: event AAA111");
     assert.deepEqual(bot.response(), {
       attachments: [
@@ -51,7 +51,7 @@ describe("event edit", function() {
     });
   });
 
-  it("pings invitees when requested", async function() {
+  it("pings invitees when requested", async function () {
     await bot.say("user0", "hubot: event AAA111 --ping");
     assert.deepEqual(bot.response(), {
       attachments: [
@@ -76,7 +76,7 @@ describe("event edit", function() {
     });
   });
 
-  it("adds a new proposed date to an event", async function() {
+  it("adds a new proposed date to an event", async function () {
     await bot.say("user0", "hubot: event AAA111 --propose 2017-11-20");
     assert.deepEqual(bot.response(), {
       attachments: [
@@ -103,7 +103,7 @@ describe("event edit", function() {
     });
   });
 
-  it("removes a proposed date from an event", async function() {
+  it("removes a proposed date from an event", async function () {
     await bot.say("user0", "hubot: event AAA111 --unpropose 0");
     assert.deepEqual(bot.response(), {
       attachments: [
@@ -127,7 +127,7 @@ describe("event edit", function() {
     });
   });
 
-  it("invites someone new", async function() {
+  it("invites someone new", async function () {
     await bot.say("user0", "hubot: event AAA111 --invite @user2");
     assert.deepEqual(
       bot.response(),
@@ -135,7 +135,7 @@ describe("event edit", function() {
     );
   });
 
-  it("uninvites someone", async function() {
+  it("uninvites someone", async function () {
     await bot.say("user0", "hubot: event AAA111 --uninvite @user1");
     assert.deepEqual(
       bot.response(),
@@ -143,7 +143,7 @@ describe("event edit", function() {
     );
   });
 
-  it("changes its name", async function() {
+  it("changes its name", async function () {
     await bot.say("user0", 'hubot: event AAA111 --name "Something Less Cool"');
     assert.deepEqual(bot.response(), {
       attachments: [
@@ -168,7 +168,7 @@ describe("event edit", function() {
     });
   });
 
-  it("confirms proposed dates", async function() {
+  it("confirms proposed dates", async function () {
     await bot.say("user0", "hubot: event AAA111 --yes 0");
     assert.equal(
       bot.response(),
@@ -200,7 +200,7 @@ describe("event edit", function() {
     });
   });
 
-  it("complains if the proposed date index is omitted", async function() {
+  it("complains if the proposed date index is omitted", async function () {
     await bot.say("user0", "hubot: event AAA111 --yes");
     assert.equal(
       bot.response(),
@@ -208,7 +208,7 @@ describe("event edit", function() {
     );
   });
 
-  it("rejects proposed dates", async function() {
+  it("rejects proposed dates", async function () {
     await bot.say("user0", "hubot: event AAA111 --no 1");
     assert.equal(
       bot.response(),
@@ -240,7 +240,7 @@ describe("event edit", function() {
     });
   });
 
-  it("rejects all proposed dates at once", async function() {
+  it("rejects all proposed dates at once", async function () {
     await bot.say("user0", "hubot: event AAA111 --no");
     assert.equal(
       bot.response(),
@@ -273,7 +273,7 @@ describe("event edit", function() {
     });
   });
 
-  it("confirms proposed dates on behalf of someone else", async function() {
+  it("confirms proposed dates on behalf of someone else", async function () {
     await bot.say("user0", "hubot: event AAA111 --for @user1 --yes 1");
     assert.equal(
       bot.response(),
@@ -305,7 +305,7 @@ describe("event edit", function() {
     });
   });
 
-  it("automatically invites someone when they accept or reject a proposed date", async function() {
+  it("automatically invites someone when they accept or reject a proposed date", async function () {
     await bot.say("user2", "hubot: event AAA111 --yes 0");
     assert.equal(
       bot.response(),
@@ -337,7 +337,7 @@ describe("event edit", function() {
     });
   });
 
-  it("rejects proposed dates on behalf of someone else", async function() {
+  it("rejects proposed dates on behalf of someone else", async function () {
     await bot.say("user0", "hubot: event AAA111 --for @user1 --no 1");
     assert.equal(
       bot.response(),
@@ -369,7 +369,7 @@ describe("event edit", function() {
     });
   });
 
-  it("finalizes an unfinalized event", async function() {
+  it("finalizes an unfinalized event", async function () {
     await bot.say("user0", "hubot: event AAA111 --finalize 0");
     assert.deepEqual(bot.response(), {
       attachments: [
@@ -393,7 +393,7 @@ describe("event edit", function() {
     });
   });
 
-  it("finalizes an unfinalized event with a single proposed date", async function() {
+  it("finalizes an unfinalized event with a single proposed date", async function () {
     await bot.say("user0", "hubot: event AAA111 --unpropose 0");
     await bot.say("user0", "hubot: event AAA111 --finalize");
     assert.deepEqual(bot.response(), {
@@ -418,7 +418,7 @@ describe("event edit", function() {
     });
   });
 
-  it("requires an explicit finalization index with multiple proposed dates", async function() {
+  it("requires an explicit finalization index with multiple proposed dates", async function () {
     await bot.say("user0", "hubot: event AAA111 --finalize");
     assert.equal(
       bot.response(),
@@ -426,7 +426,7 @@ describe("event edit", function() {
     );
   });
 
-  it("finalizes an unfinalized event at a new date", async function() {
+  it("finalizes an unfinalized event at a new date", async function () {
     await bot.say("user0", "hubot: event AAA111 --at 2017-11-20");
     assert.deepEqual(bot.response(), {
       attachments: [
@@ -450,15 +450,15 @@ describe("event edit", function() {
     });
   });
 
-  describe("on a finalized event", function() {
-    beforeEach(async function() {
-      await bot.withStore(store => {
+  describe("on a finalized event", function () {
+    beforeEach(async function () {
+      await bot.withStore((store) => {
         const e = store.lookup("AAA111");
         e.finalize(1);
       });
     });
 
-    it("confirms attendance", async function() {
+    it("confirms attendance", async function () {
       await bot.say("user0", "hubot: event AAA111 --yes");
       assert.equal(
         bot.response(),
@@ -488,7 +488,7 @@ describe("event edit", function() {
       });
     });
 
-    it("rejects attendance", async function() {
+    it("rejects attendance", async function () {
       await bot.say("user0", "hubot: event AAA111 --no");
       assert.equal(
         bot.response(),
@@ -518,7 +518,7 @@ describe("event edit", function() {
       });
     });
 
-    it("confirms on behalf of someone else", async function() {
+    it("confirms on behalf of someone else", async function () {
       await bot.say("user0", "hubot: event AAA111 --for user1 --yes");
       assert.equal(
         bot.response(),
@@ -548,7 +548,7 @@ describe("event edit", function() {
       });
     });
 
-    it("rejects on behalf of someone else", async function() {
+    it("rejects on behalf of someone else", async function () {
       await bot.say("user0", "hubot: event AAA111 --for user1 --no");
       assert.equal(
         bot.response(),
@@ -578,7 +578,7 @@ describe("event edit", function() {
       });
     });
 
-    it("automatically invites a user when confirming attendance", async function() {
+    it("automatically invites a user when confirming attendance", async function () {
       await bot.say("user2", "hubot: event AAA111 --yes");
       assert.equal(
         bot.response(),
@@ -608,7 +608,7 @@ describe("event edit", function() {
       });
     });
 
-    it("cannot be re-finalized without being unfinalized first", async function() {
+    it("cannot be re-finalized without being unfinalized first", async function () {
       await bot.say("user0", "hubot: event AAA111 --finalize 0");
       assert.equal(
         bot.response(),
@@ -616,7 +616,7 @@ describe("event edit", function() {
       );
     });
 
-    it("can be finalized with a new date", async function() {
+    it("can be finalized with a new date", async function () {
       await bot.say("user0", "hubot: event AAA111 --at 2017-11-20");
       assert.deepEqual(bot.response(), {
         attachments: [
@@ -640,7 +640,7 @@ describe("event edit", function() {
       });
     });
 
-    it("may be unfinalized", async function() {
+    it("may be unfinalized", async function () {
       await bot.say("user0", "hubot: event AAA111 --unfinalize");
       assert.deepEqual(bot.response(), {
         text:

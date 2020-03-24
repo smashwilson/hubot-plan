@@ -3,21 +3,21 @@
 const {BotContext} = require("./bot-context");
 const assert = require("chai").assert;
 
-describe("event create", function() {
+describe("event create", function () {
   let bot;
 
-  beforeEach(function() {
+  beforeEach(function () {
     bot = new BotContext();
     bot.createUser("U1", "user1");
     bot.createUser("U2", "user2");
     bot.createUser("U3", "user3");
   });
 
-  afterEach(function() {
+  afterEach(function () {
     bot.cleanup();
   });
 
-  it("creates an event with a name", async function() {
+  it("creates an event with a name", async function () {
     await bot.say(
       "user1",
       'hubot: event create --name "Wizard People" --id ABC'
@@ -38,7 +38,7 @@ describe("event create", function() {
     });
   });
 
-  it("proposes initial dates", async function() {
+  it("proposes initial dates", async function () {
     await bot.say(
       "user1",
       'hubot: event create --name "Wizard People" --id ABC --propose 2017-12-10 --propose 2017-12-11'
@@ -67,7 +67,7 @@ describe("event create", function() {
     });
   });
 
-  it("reports unparsed dates", async function() {
+  it("reports unparsed dates", async function () {
     await bot.say(
       "user1",
       'hubot: event create --name "Wizard People" --id ABC ' +
@@ -106,7 +106,7 @@ describe("event create", function() {
     });
   });
 
-  it("adds initial invitees", async function() {
+  it("adds initial invitees", async function () {
     await bot.say(
       "user1",
       'hubot: event create --name "Foo" --id CBA --invite @user2 --invite user3 --invite unknown'
@@ -136,7 +136,7 @@ describe("event create", function() {
     });
   });
 
-  it("pings initial invitees if requested", async function() {
+  it("pings initial invitees if requested", async function () {
     await bot.say(
       "user1",
       'hubot: event create --name "Foo" --id CBA --invite @user2 --invite user3 --invite unknown --ping'
@@ -166,7 +166,7 @@ describe("event create", function() {
     });
   });
 
-  it("creates an immediately finalized event", async function() {
+  it("creates an immediately finalized event", async function () {
     await bot.say(
       "user1",
       'hubot: event create --name "Bar" --id XYZ --at 2017-11-19 --invite user2'

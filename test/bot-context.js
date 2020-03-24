@@ -17,11 +17,8 @@ class BotContext {
   constructor() {
     this.room = helper.createRoom({httpd: false});
     this.room.robot["hubot-events"].getUserTz = () => TZ;
-    this.room.robot["hubot-events"].now = userTz =>
-      now
-        .getStart()
-        .clone()
-        .tz(userTz);
+    this.room.robot["hubot-events"].now = (userTz) =>
+      now.getStart().clone().tz(userTz);
   }
 
   createUser(uid, username, email) {

@@ -6,10 +6,10 @@ const {EventStore} = require("../lib/event-store");
 const {Invitee} = require("../lib/invitee");
 const {ts, BotContext} = require("./bot-context");
 
-describe("EventStore", function() {
+describe("EventStore", function () {
   let store, bot;
 
-  beforeEach(function() {
+  beforeEach(function () {
     bot = new BotContext();
 
     bot.createUser("u0", "user0", "user0@gmail.com");
@@ -20,38 +20,38 @@ describe("EventStore", function() {
     store = new EventStore(bot.room.robot);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     bot.cleanup();
   });
 
-  it("assigns each event a unique ID on insertion", function() {
+  it("assigns each event a unique ID on insertion", function () {
     const e = store.create(null, "A");
     assert.equal(e.getName(), "A");
     assert.match(e.getID(), /[A-Z0-9]{8}/);
   });
 
-  it("optionally specifies a fixed ID", function() {
+  it("optionally specifies a fixed ID", function () {
     const e = store.create("123", "A");
     assert.equal(e.getID(), "123");
   });
 
-  it("accesses events by ID", function() {
+  it("accesses events by ID", function () {
     const e = store.create(null, "B");
     const out = store.lookup(e.getID());
     assert.equal(out.getName(), "B");
   });
 
-  it("is case-insensitive for IDs", function() {
+  it("is case-insensitive for IDs", function () {
     store.create("AAA", "the event");
     const out = store.lookup("aaa");
     assert.equal(out.getName(), "the event");
   });
 
-  it("throws an error for invalid IDs", function() {
+  it("throws an error for invalid IDs", function () {
     assert.throws(() => store.lookup("NOPENO00"), "Invalid event ID");
   });
 
-  it("deletes events by case-insensitive ID", function() {
+  it("deletes events by case-insensitive ID", function () {
     const e1 = store.create("111X", "A");
     const e2 = store.create("222Y", "B");
 
@@ -64,7 +64,7 @@ describe("EventStore", function() {
     assert.throws(() => store.lookup("222Y"), "Invalid event ID");
   });
 
-  it("serializes and deserializes itself", function() {
+  it("serializes and deserializes itself", function () {
     store.create("111", "A");
     store.create("222", "B");
     store.create("333", "C");
@@ -82,7 +82,7 @@ describe("EventStore", function() {
     assert.equal(c1.getName(), "C");
   });
 
-  it("produces an EventSet of Events matching a filter", function() {
+  it("produces an EventSet of Events matching a filter", function () {
     // Defeated by "after" filter
     const no0 = store.create("1", "A");
     no0.proposeDate(ts.now);
@@ -119,7 +119,7 @@ describe("EventStore", function() {
     assert.equal(results.at(1), yes0);
   });
 
-  it("renders an EventSet as an iCal feed", function() {
+  it("renders an EventSet as an iCal feed", function () {
     const e0 = store.create("ABC", "Set In Stone");
     e0.proposeDate(ts.tomorrow);
     e0.proposeDate(ts.nextWeek);
