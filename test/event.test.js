@@ -6,7 +6,7 @@ const {ts} = require("./bot-context");
 const {Event} = require("../lib/event");
 const {Invitee} = require("../lib/invitee");
 
-describe("Event", function() {
+describe("Event", function () {
   const u = {
     frey: Invitee.free("frey"),
     fenris: Invitee.free("fenris"),
@@ -14,15 +14,15 @@ describe("Event", function() {
     hubot: Invitee.free("hubot"),
   };
 
-  describe("in the proposed state", function() {
+  describe("in the proposed state", function () {
     let evt;
 
-    beforeEach(function() {
+    beforeEach(function () {
       evt = new Event("AAA", "Party at Frey's House");
       evt.proposeDate(ts.tomorrow);
     });
 
-    it("adds proposed dates", function() {
+    it("adds proposed dates", function () {
       evt.proposeDate(ts.nextWeek);
 
       assert.deepEqual(evt.proposalKeys(), [0, 1]);
@@ -30,7 +30,7 @@ describe("Event", function() {
       assert.equal(evt.proposal(1).startDate(), ts.nextWeek.getStart());
     });
 
-    it("removes proposed dates", function() {
+    it("removes proposed dates", function () {
       evt.proposeDate(ts.nextMonth);
 
       evt.unpropose(0);
@@ -40,14 +40,14 @@ describe("Event", function() {
       assert.throws(() => evt.proposal(0), "Invalid proposed date");
     });
 
-    it("adds invitees", function() {
+    it("adds invitees", function () {
       evt.invite(u.frey);
       evt.invite(u.fenris);
 
       assert.deepEqual(evt.getInvitees(), [u.frey, u.fenris]);
     });
 
-    it("removes invitees", function() {
+    it("removes invitees", function () {
       evt.invite(u.frey);
       evt.invite(u.hubot);
       evt.invite(u.fenris);
@@ -57,7 +57,7 @@ describe("Event", function() {
       assert.deepEqual(evt.getInvitees(), [u.frey, u.fenris]);
     });
 
-    it("tracks which invitees accept or reject proposed dates", function() {
+    it("tracks which invitees accept or reject proposed dates", function () {
       evt.invite(u.frey);
       evt.invite(u.fenris);
       evt.invite(u.reostra);
@@ -93,7 +93,7 @@ describe("Event", function() {
       assert.isFalse(evt.proposal(2).isLeading());
     });
 
-    it("accepts proposed dates after proposals have been unproposed", function() {
+    it("accepts proposed dates after proposals have been unproposed", function () {
       evt.unpropose(0);
       evt.proposeDate(ts.nextMonth);
       evt.acceptProposal(u.frey, 1);
@@ -103,8 +103,8 @@ describe("Event", function() {
       assert.equal(evt.proposal(1).yesCount(), 1);
     });
 
-    describe("becoming finalized", function() {
-      beforeEach(function() {
+    describe("becoming finalized", function () {
+      beforeEach(function () {
         evt.invite(u.frey);
         evt.invite(u.fenris);
         evt.invite(u.reostra);
@@ -120,7 +120,7 @@ describe("Event", function() {
         evt.acceptProposal(u.reostra, 2);
       });
 
-      it("transitions invitees to yes or no based on their response to the final date", function() {
+      it("transitions invitees to yes or no based on their response to the final date", function () {
         evt.finalize(1);
 
         assert.isFalse(evt.finalProposal().isAttending(u.frey));
@@ -130,10 +130,10 @@ describe("Event", function() {
     });
   });
 
-  describe("in the finalized state", function() {
+  describe("in the finalized state", function () {
     let evt;
 
-    beforeEach(function() {
+    beforeEach(function () {
       evt = new Event("BBB", "Party at Frey's House");
       evt.proposeDate(ts.tomorrow);
       evt.proposeDate(ts.nextWeek);
@@ -146,19 +146,19 @@ describe("Event", function() {
       evt.finalize(0);
     });
 
-    it("adds invitees", function() {
+    it("adds invitees", function () {
       evt.invite(u.reostra);
 
       assert.deepEqual(evt.getInvitees(), [u.frey, u.fenris, u.reostra]);
     });
 
-    it("removes invitees", function() {
+    it("removes invitees", function () {
       evt.uninvite(u.fenris);
 
       assert.deepEqual(evt.getInvitees(), [u.frey]);
     });
 
-    it("tracks which invitees confirm or deny", function() {
+    it("tracks which invitees confirm or deny", function () {
       assert.isFalse(evt.finalProposal().isAttending(u.frey));
       assert.isFalse(evt.finalProposal().isAttending(u.fenris));
       assert.isFalse(evt.finalProposal().isAttending(u.reostra));
@@ -171,11 +171,11 @@ describe("Event", function() {
       assert.isTrue(evt.finalProposal().isAttending(u.reostra));
     });
 
-    it("cannot be re-finalized", function() {
+    it("cannot be re-finalized", function () {
       assert.throws(() => evt.finalize(1), /Event already finalized/);
     });
 
-    it("cannot have additional dates proposed", function() {
+    it("cannot have additional dates proposed", function () {
       assert.throws(
         () => evt.proposeDate(ts.nextWeek),
         /Event already finalized/
@@ -183,7 +183,7 @@ describe("Event", function() {
     });
   });
 
-  it("serializes and deserializes itself", function() {
+  it("serializes and deserializes itself", function () {
     const evt0 = new Event("BBB", "Party at Frey's House");
 
     evt0.proposeDate(ts.tomorrow);
@@ -202,17 +202,11 @@ describe("Event", function() {
     assert.equal(evt1.getName(), "Party at Frey's House");
     assert.deepEqual(evt1.proposalKeys(), [0, 1]);
     assert.equal(
-      evt1
-        .proposal(0)
-        .startDate()
-        .valueOf(),
+      evt1.proposal(0).startDate().valueOf(),
       ts.tomorrow.getStart().valueOf()
     );
     assert.equal(
-      evt1
-        .proposal(1)
-        .startDate()
-        .valueOf(),
+      evt1.proposal(1).startDate().valueOf(),
       ts.nextWeek.getStart().valueOf()
     );
     assert.deepEqual(evt1.getInvitees(), [
@@ -223,8 +217,8 @@ describe("Event", function() {
     ]);
   });
 
-  describe("comparison", function() {
-    it("orders finalized events by chosen date", function() {
+  describe("comparison", function () {
+    it("orders finalized events by chosen date", function () {
       const evt = new Event("AAA", "Event A");
       evt.proposeDate(ts.tomorrow);
       evt.finalize(0);
@@ -246,7 +240,7 @@ describe("Event", function() {
       assert.isBelow(evt.compareTo(after), 0);
     });
 
-    it("orders unfinalized events by earliest proposed date", function() {
+    it("orders unfinalized events by earliest proposed date", function () {
       const evt = new Event("AAA", "Event A");
       evt.proposeDate(ts.tomorrow);
       evt.proposeDate(ts.nextWeek);
@@ -269,7 +263,7 @@ describe("Event", function() {
       assert.isBelow(evt.compareTo(after), 0);
     });
 
-    it("orders events with no proposed dates before everything else", function() {
+    it("orders events with no proposed dates before everything else", function () {
       const evt = new Event("AAA", "Event A");
 
       const proposed = new Event("BBB", "Event B");
@@ -288,15 +282,15 @@ describe("Event", function() {
     });
   });
 
-  describe("filtering", function() {
-    it("matches by name", function() {
+  describe("filtering", function () {
+    it("matches by name", function () {
       const evt = new Event("ABC", "aaa bbb ccc");
 
       assert.isTrue(evt.matches({name: "bB"}));
       assert.isFalse(evt.matches({name: "qqq"}));
     });
 
-    it("matches a finalized event before a timestamp", function() {
+    it("matches a finalized event before a timestamp", function () {
       const evt = new Event("yes", "yes");
       evt.proposeDate(ts.tomorrow);
       evt.finalize(0);
@@ -306,7 +300,7 @@ describe("Event", function() {
       assert.isTrue(evt.matches({before: ts.nextWeek.getStart()}));
     });
 
-    it("matches an unfinalized event before a timestamp", function() {
+    it("matches an unfinalized event before a timestamp", function () {
       const evt = new Event("yes", "yes");
       evt.proposeDate(ts.nextMonth);
       evt.proposeDate(ts.tomorrow);
@@ -316,7 +310,7 @@ describe("Event", function() {
       assert.isTrue(evt.matches({before: ts.nextWeek.getStart()}));
     });
 
-    it("matches a finalized event after a timestamp", function() {
+    it("matches a finalized event after a timestamp", function () {
       const evt = new Event("yes", "yes");
       evt.proposeDate(ts.tomorrow);
       evt.finalize(0);
@@ -326,7 +320,7 @@ describe("Event", function() {
       assert.isFalse(evt.matches({after: ts.nextWeek.getStart()}));
     });
 
-    it("matches an unfinalized event after a timestamp", function() {
+    it("matches an unfinalized event after a timestamp", function () {
       const evt = new Event("yes", "yes");
       evt.proposeDate(ts.nextWeek);
       evt.proposeDate(ts.tomorrow);
@@ -336,7 +330,7 @@ describe("Event", function() {
       assert.isFalse(evt.matches({after: ts.nextMonth.getStart()}));
     });
 
-    it("matches by finalized status", function() {
+    it("matches by finalized status", function () {
       const yes = new Event("yes", "yes");
       yes.proposeDate(ts.now);
       yes.proposeDate(ts.nextMonth);
@@ -350,7 +344,7 @@ describe("Event", function() {
       assert.isFalse(no.matches({finalized: true}));
     });
 
-    it("matches by unfinalized status", function() {
+    it("matches by unfinalized status", function () {
       const yes = new Event("yes", "yes");
       yes.proposeDate(ts.now);
       yes.proposeDate(ts.nextMonth);
@@ -364,7 +358,7 @@ describe("Event", function() {
       assert.isFalse(no.matches({unfinalized: true}));
     });
 
-    it("matches by invite list", function() {
+    it("matches by invite list", function () {
       const yes = new Event("yes", "yes");
       yes.invite(u.frey);
       yes.invite(u.fenris);
@@ -376,7 +370,7 @@ describe("Event", function() {
       assert.isFalse(no.matches({invited: u.frey}));
     });
 
-    it("always matches the empty filter", function() {
+    it("always matches the empty filter", function () {
       const empty = new Event("empty", "empty");
 
       const proposed = new Event("proposed", "proposed");

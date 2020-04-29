@@ -1,6 +1,6 @@
 {
   "name": "hubot-plan",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Plan get-togethers with chatops",
   "main": "lib/index.js",
   "scripts": {
@@ -20,16 +20,16 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "hubot-test-helper": "^1.9.0",
-    "mocha": "^6.2.0",
+    "mocha": "^7.0.0",
     "nested-builder": "^1.0.0",
     "nock": "^11.3.3",
-    "prettier": "^1.18.2"
+    "prettier": "^2.0.2"
   },
   "dependencies": {
     "googleapis": "^43.0.0",
     "ical-toolkit": "^1.0.9",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.26",
-    "yargs": "^14.0.0"
+    "yargs": "^15.0.2"
   }
 }
