@@ -14,7 +14,7 @@ describe("event edit", function () {
     bot.createUser("U2", "user2");
 
     await bot.withStore((store) => {
-      const e = store.create("AAA111", "Something Cool");
+      const e = store.getEventStore().create("AAA111", "Something Cool");
       e.proposeDate(ts.tomorrow);
       e.proposeDate(ts.nextWeek);
       e.invite(Invitee.withUID("U0"));
@@ -453,7 +453,7 @@ describe("event edit", function () {
   describe("on a finalized event", function () {
     beforeEach(async function () {
       await bot.withStore((store) => {
-        const e = store.lookup("AAA111");
+        const e = store.getEventStore().lookup("AAA111");
         e.finalize(1);
       });
     });
