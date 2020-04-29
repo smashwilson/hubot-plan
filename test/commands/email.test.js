@@ -3,17 +3,17 @@
 const {BotContext} = require("../bot-context");
 const {assert} = require("chai");
 
-describe("event email", function() {
+describe("event email", function () {
   let bot;
 
-  beforeEach(function() {
+  beforeEach(function () {
     bot = new BotContext();
     bot.createUser("u0", "user0", "user0+slack@gmail.com");
     bot.createUser("u1", "user1", null);
   });
 
-  it("summarizes known, default, and Slack-provided email addresses", async function() {
-    bot.withStore(store => {
+  it("summarizes known, default, and Slack-provided email addresses", async function () {
+    bot.withStore((store) => {
       const emailStore = store.getEmailStore();
       emailStore.add("u0", "user0+manual0@gmail.com", false);
       emailStore.add("u0", "user0+manual1@gmail.com", true);
@@ -32,7 +32,7 @@ describe("event email", function() {
     );
   });
 
-  it("associates a new email address", async function() {
+  it("associates a new email address", async function () {
     await bot.say("user0", "hubot: event email user0+added@gmail.com");
     assert.strictEqual(
       bot.response(),
@@ -40,7 +40,7 @@ describe("event email", function() {
     );
   });
 
-  it("associates a new default email address", async function() {
+  it("associates a new default email address", async function () {
     await bot.say(
       "user0",
       "hubot: event email --default user0+added@gmail.com"
@@ -51,8 +51,8 @@ describe("event email", function() {
     );
   });
 
-  it("removes an existing email address", async function() {
-    bot.withStore(store => {
+  it("removes an existing email address", async function () {
+    bot.withStore((store) => {
       const emailStore = store.getEmailStore();
       emailStore.add("u0", "user0+manual0@gmail.com", false);
       emailStore.add("u0", "user0+manual1@gmail.com", true);
