@@ -14,30 +14,31 @@ describe("event list", function () {
     bot.createUser("U2", "user2");
 
     await bot.withStore((store) => {
-      const e0 = store.create("0", "A");
+      const events = store.getEventStore();
+      const e0 = events.create("0", "A");
       e0.proposeDate(ts.lastWeek);
       e0.finalize(0);
 
-      const e1 = store.create("1", "B boo");
+      const e1 = events.create("1", "B boo");
       e1.proposeDate(ts.yesterday);
 
-      const e2 = store.create("2", "C");
+      const e2 = events.create("2", "C");
       e2.proposeDate(ts.now);
       e2.finalize(0);
 
-      const e3 = store.create("3", "D");
+      const e3 = events.create("3", "D");
       e3.proposeDate(ts.tomorrow);
 
-      const e4 = store.create("4", "E boo");
+      const e4 = events.create("4", "E boo");
       e4.proposeDate(ts.nextWeek);
       e4.proposeDate(ts.nextMonth);
       e4.invite(Invitee.withUID("U0"));
 
-      const e5 = store.create("5", "F");
+      const e5 = events.create("5", "F");
       e5.proposeDate(ts.nextYear);
       e5.finalize(0);
 
-      const e6 = store.create("6", "G");
+      const e6 = events.create("6", "G");
       e6.invite(Invitee.withUID("U1"));
     });
   });
