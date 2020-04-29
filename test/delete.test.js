@@ -10,7 +10,7 @@ describe("event delete", function () {
     bot = new BotContext();
 
     await bot.withStore((store) => {
-      store.create("AAA111", "Something Cool");
+      store.getEventStore().create("AAA111", "Something Cool");
     });
   });
 
@@ -22,7 +22,7 @@ describe("event delete", function () {
     await bot.say("me", "hubot: event delete AAA111");
     assert.equal(bot.response(), 'Event "Something Cool" has been deleted.');
     await bot.withStore((store) => {
-      assert.throws(() => store.lookup("AAA111"), /Invalid event ID/);
+      assert.throws(() => store.getEventStore().lookup("AAA111"), /Invalid event ID/);
     });
   });
 
